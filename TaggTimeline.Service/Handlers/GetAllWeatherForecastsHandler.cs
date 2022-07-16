@@ -1,4 +1,5 @@
 using MediatR;
+using TaggTimeline.ClientModel;
 
 namespace TaggTimeline.Service.Queries;
 
