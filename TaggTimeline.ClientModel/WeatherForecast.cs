@@ -1,4 +1,4 @@
-namespace TaggTimeline.WebApi;
+namespace TaggTimeline.ClientModel;
 
 public class WeatherForecast
 {

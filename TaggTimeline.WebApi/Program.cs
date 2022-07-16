@@ -1,8 +1,13 @@
+using System.Reflection;
+using MediatR;
+using TaggTimeline.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddServiceDependencies();
 
 var app = builder.Build();
 
