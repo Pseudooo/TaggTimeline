@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaggTimeline.WebApi.Queries;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
