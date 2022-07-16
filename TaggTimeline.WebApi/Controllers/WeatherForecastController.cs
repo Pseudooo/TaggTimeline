@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TaggTimeline.WebApi.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
@@ -7,15 +9,19 @@ namespace TaggTimeline.WebApi.Controllers;
 public class WeatherForecastController : ControllerBase
 {
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly IMediator _mediatr;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
     {
         _logger = logger;
+        _mediatr = mediator;
     }
 
     [HttpGet]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IActionResult> Get()
     {
-        return WeatherForecast.GenerateRandom();
+        var query = new GetAllWeatherForecastsQuery();
+        var result = await _mediatr.Send(query);
+        return Ok(result);
     }
 }
