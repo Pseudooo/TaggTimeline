@@ -30,10 +30,6 @@ public class TaggController : ControllerBase
             Id = id,
         };
         var result = await _mediator.Send(query);
-
-        if(result is null)
-            return NotFound();
-
         return Ok(result);
     }
 

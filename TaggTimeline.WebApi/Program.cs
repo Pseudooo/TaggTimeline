@@ -1,6 +1,7 @@
 using TaggTimeline.Domain;
 using TaggTimeline.Domain.Configuration;
 using TaggTimeline.Service;
+using TaggTimeline.WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.MapControllers();
 
