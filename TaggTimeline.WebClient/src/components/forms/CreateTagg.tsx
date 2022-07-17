@@ -2,7 +2,7 @@ import { LoadingButton } from "@mui/lab";
 import { Box, FormControl } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Tagg } from "../../api/generated";
-import { createTagg } from "../../api/wrapped";
+import { useAPI } from "../../contexts/API";
 import TextField from "../io/TextField";
 
 export interface CreateTaggFormProps {
@@ -22,6 +22,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   const [taggName, setTaggName] = useState(placeholder);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const { createTagg } = useAPI();
 
   const handleTaggNameChange = (value: string) => {
     setTaggName(value);

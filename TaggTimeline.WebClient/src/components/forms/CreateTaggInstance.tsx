@@ -8,25 +8,47 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
+import { Tagg } from "../../api/generated";
+import { useAPI } from "../../contexts/API";
 import TextField from "../io/TextField";
 
-const TaggListItem: FunctionComponent = () => {
+const TaggListItem: FunctionComponent<{ tagg: Tagg }> = ({ tagg }) => {
   return (
     <ListItem disablePadding>
       <ListItemButton>
-        <ListItemText primary="Name of Tagg" secondary="## created" />
+        <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItemButton>
     </ListItem>
   );
 };
 
+/**
+ * Form for creating a new Tagg instance
+ */
 export const CreateTaggInstanceForm: FunctionComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { taggs } = useAPI();
+  const [filteredTaggs, setFilteredTaggs] = useState<Tagg[]>(taggs ?? []);
 
-  const handleSearchChange = () => {
-    console.log(1);
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
   };
+
+  /**
+   * Update the filtered list of Taggs
+   */
+  useEffect(() => {
+    if (!taggs) {
+      setFilteredTaggs([]);
+    } else {
+      setFilteredTaggs([
+        ...taggs.filter((tagg) =>
+          tagg.key.toLowerCase().includes(searchTerm.toLowerCase())
+        ),
+      ]);
+    }
+  }, [taggs, searchTerm]);
 
   return (
     <>
@@ -38,8 +60,9 @@ export const CreateTaggInstanceForm: FunctionComponent = () => {
         ></TextField>
       </FormControl>
       <List>
-        <TaggListItem />
-        <TaggListItem />
+        {filteredTaggs.map((tagg) => (
+          <TaggListItem tagg={tagg} key={tagg.id} />
+        ))}
         <Divider />
         <ListItem disablePadding>
           <ListItemButton>
