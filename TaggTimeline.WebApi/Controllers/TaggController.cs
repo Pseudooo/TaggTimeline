@@ -20,13 +20,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllTaggs()
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> SearchForTag()
+    public async Task<IActionResult> GetTagById()
     {
         throw new NotImplementedException();
     }
