@@ -15,6 +15,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         Context = context;
     }
 
+    public Task<List<TEntity>> GetAll()
+    {
+        return Context.Set<TEntity>().ToListAsync();
+    }
+
     public Task<TEntity?> GetById(Guid id)
     {
         return Context.Set<TEntity>().SingleOrDefaultAsync(x => x.Id == id);
