@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggTimeline.WebApi", "TaggTimeline.WebApi\TaggTimeline.WebApi.csproj", "{E1700382-7181-41FF-B3F4-52573C5884A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggTimeline.Domain", "TaggTimeline.Domain\TaggTimeline.Domain.csproj", "{D046A123-5E40-48D8-9BEE-FB6A3D58928F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{E1700382-7181-41FF-B3F4-52573C5884A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1700382-7181-41FF-B3F4-52573C5884A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1700382-7181-41FF-B3F4-52573C5884A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D046A123-5E40-48D8-9BEE-FB6A3D58928F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D046A123-5E40-48D8-9BEE-FB6A3D58928F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D046A123-5E40-48D8-9BEE-FB6A3D58928F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D046A123-5E40-48D8-9BEE-FB6A3D58928F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
