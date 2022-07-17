@@ -13,8 +13,32 @@ export interface CreateTaggCommand {
   key?: string | null;
 }
 
+export interface Instance {
+  /** @format uuid */
+  id?: string;
+
+  /** @format date-time */
+  createdDate: string;
+}
+
 export interface SearchForTaggQuery {
   searchTerm?: string | null;
+}
+
+export interface Tagg {
+  /** @format uuid */
+  id?: string;
+
+  /** @format date-time */
+  createdDate: string;
+
+  /** @format date-time */
+  modifiedDate?: string | null;
+
+  /** @format date-time */
+  deletedDate?: string | null;
+  key: string;
+  instances?: Instance[] | null;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -273,9 +297,10 @@ export class Api<
      * @request GET:/Tagg/{id}
      */
     taggDetail: (id: string, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<Tagg, any>({
         path: `/Tagg/${id}`,
         method: "GET",
+        format: "json",
         ...params,
       }),
 
@@ -287,11 +312,12 @@ export class Api<
      * @request POST:/Tagg
      */
     taggCreate: (data: CreateTaggCommand, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<Tagg, any>({
         path: `/Tagg`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -303,11 +329,12 @@ export class Api<
      * @request POST:/Tagg/search
      */
     searchCreate: (data: SearchForTaggQuery, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<Tagg[], any>({
         path: `/Tagg/search`,
         method: "POST",
         body: data,
         type: ContentType.Json,
+        format: "json",
         ...params,
       }),
 
@@ -319,9 +346,10 @@ export class Api<
      * @request POST:/Tagg/{taggId}/instance
      */
     instanceCreate: (taggId: string, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<Instance, any>({
         path: `/Tagg/${taggId}/instance`,
         method: "POST",
+        format: "json",
         ...params,
       }),
   };
