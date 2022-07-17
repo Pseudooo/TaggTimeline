@@ -10,7 +10,23 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    container: node:latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: taggtimeline
+          POSTGRES_PASSWORD: timeline
+          POSTGRES_PORT: 5432
+          POSTGRES_USER: timeline
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -21,7 +37,9 @@ jobs:
       with:
         files: '**/appsettings.json'
       env:
-        DatabaseMigrationsEnabled: "false"
+        ConnectionString: "postgres://taggtimeline:timeline@postgres:5432/taggtimeline"
+        DatabaseMigrationsEnabled: "true"
+    
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
