@@ -46,8 +46,13 @@ public class TaggController : ControllerBase
     [HttpPost("{taggId:Guid?}/instance")]
     public async Task<IActionResult> CreateTaggInstance(Guid taggId)
     {
-        throw new NotImplementedException();
+        var command = new CreateInstanceCommand()
+        {
+            TaggId = taggId,
+        };
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
 }
-
