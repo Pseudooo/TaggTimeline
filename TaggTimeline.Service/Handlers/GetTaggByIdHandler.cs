@@ -18,6 +18,6 @@ public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, Tagg?>
     
     public Task<Tagg?> Handle(GetTaggByIdQuery request, CancellationToken cancellationToken)
     {
-        return _baseRepository.GetById(request.Id);
+        return _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Instances);
     }
 }
