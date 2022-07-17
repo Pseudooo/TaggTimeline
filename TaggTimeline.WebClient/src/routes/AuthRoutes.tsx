@@ -9,7 +9,7 @@ import AuthLogoutPage from "../views/auth/Logout";
  */
 const AuthRoutes: RouteObject = {
   path: "/",
-  element: <BarebonesLayout />,
+  element: <BarebonesLayout center />,
   children: [
     {
       path: "/login",

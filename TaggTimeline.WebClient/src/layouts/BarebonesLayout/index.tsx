@@ -1,37 +1,31 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Box, Container, SxProps } from "@mui/material";
+import { Theme } from "@mui/system";
 import { FunctionComponent } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Navbar from "../../components/navigation/Navbar";
+
+interface BarebonesLayoutProps {
+  center?: boolean;
+}
 
 /**
  * Barebones layout element.
  * Effectively a blank page with just a navbar back to the homepage.
  * Use for thinks like auth login, where nothing else is needed
  */
-export const BarebonesLayout: FunctionComponent = () => {
+export const BarebonesLayout: FunctionComponent<BarebonesLayoutProps> = ({
+  center = false,
+}) => {
+  const sxProps: SxProps<Theme> = center
+    ? { display: "flex", alignItems: "center", justifyContent: "center" }
+    : {};
+
   return (
-    <Box>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          {/* <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Menu />
-          </IconButton> */}
-          <Typography
-            variant="h6"
-            color="inherit"
-            component={Link}
-            to="/"
-            sx={{ flexGrow: 1 }}
-          >
-            TaggTimeline
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Outlet />
+    <Box height="100vh" display="flex" flexDirection="column">
+      <Navbar />
+      <Container sx={{ flex: 1, ...sxProps }}>
+        <Outlet />
+      </Container>
     </Box>
   );
 };

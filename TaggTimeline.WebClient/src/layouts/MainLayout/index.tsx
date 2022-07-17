@@ -1,8 +1,7 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { FunctionComponent } from "react";
-import { Link, Outlet } from "react-router-dom";
-import LoginButton from "../../components/auth/LoginButton";
-import LogoutButton from "../../components/auth/LogoutButton";
+import { Outlet } from "react-router-dom";
+import Navbar from "../../components/navigation/Navbar";
 
 /**
  * Main layout element.
@@ -10,31 +9,11 @@ import LogoutButton from "../../components/auth/LogoutButton";
  */
 export const MainLayout: FunctionComponent = () => {
   return (
-    <Box>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          {/* <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Menu />
-          </IconButton> */}
-          <Typography
-            variant="h6"
-            color="inherit"
-            component={Link}
-            to="/"
-            sx={{ flexGrow: 1 }}
-          >
-            TaggTimeline
-          </Typography>
-          <LoginButton />
-          <LogoutButton />
-        </Toolbar>
-      </AppBar>
-      <Outlet />
+    <Box height="100vh" display="flex" flexDirection="column">
+      <Navbar />
+      <Container>
+        <Outlet />
+      </Container>
     </Box>
   );
 };
