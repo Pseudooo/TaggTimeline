@@ -1,3 +1,5 @@
+using TaggTimeline.Domain;
+using TaggTimeline.Domain.Configuration;
 using TaggTimeline.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
+
 builder.Services.AddServiceDependencies();
+builder.Services.AddDomainDependencies(dbConfig);
 
 var app = builder.Build();
 
