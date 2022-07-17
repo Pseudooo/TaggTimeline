@@ -12,7 +12,11 @@ internal class Program
             .AddJsonFile("appsettings.json", optional: false);
 
         var configuration = builder.Build().Get<DatabaseConfiguration>();
-        
+
+        // Quit early if migrations disabled
+        if(!configuration.DatabaseMigrationsEnabled)
+            return 0;
+
         EnsureDatabase.For.PostgresqlDatabase(configuration.ConnectionString);
 
         var upgrader = DeployChanges.To
