@@ -10,7 +10,7 @@ export type AuthUser = {
  * @returns The user information if successful
  */
 export async function login(name: string) {
-  const user = await fakeFetch({ name } as AuthUser, 500);
+  const user = await fakeFetch({ name } as AuthUser, 2000);
   return user;
 }
 
@@ -19,6 +19,6 @@ export async function login(name: string) {
  * @returns If the user was successfully logged out
  */
 export async function logout() {
-  const success = await fakeFetch(true, 200);
+  const success = await fakeFetch(true, 2000);
   return success;
 }
