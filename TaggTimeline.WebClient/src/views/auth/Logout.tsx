@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { FunctionComponent, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/Auth";
@@ -17,7 +17,13 @@ export const AuthLogoutPage: FunctionComponent = () => {
     });
   });
 
-  return <Typography>Logging out...</Typography>;
+  return (
+    <Card>
+      <CardContent>
+        <Typography>Logging out...</Typography>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default AuthLogoutPage;
