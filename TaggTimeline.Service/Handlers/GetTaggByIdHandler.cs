@@ -7,7 +7,7 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.Service.Handlers;
 
-public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, Tagg?>
+public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, Tagg>
 {
 
     private readonly IBaseRepository<Tagg> _baseRepository;
@@ -17,13 +17,13 @@ public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, Tagg?>
         _baseRepository = baseRepository;
     }
     
-    public async Task<Tagg?> Handle(GetTaggByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Tagg> Handle(GetTaggByIdQuery request, CancellationToken cancellationToken)
     {
         var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Instances);
 
         if(tagg is null)
             throw new EntityNotFoundException($"Couldn't find Tagg with id:{request.Id}");
 
-        return tagg;
+        return tagg; 
     }
 }
