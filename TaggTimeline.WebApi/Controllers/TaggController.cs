@@ -1,6 +1,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
@@ -36,9 +37,10 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTagg()
+    public async Task<IActionResult> CreateTagg([FromBody] CreateTaggCommand command)
     {
-        throw new NotImplementedException();
+        var result = await _mediator.Send(command);
+        return Created("GetOrder", result);
     }
 
 }
