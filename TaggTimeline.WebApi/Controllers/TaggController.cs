@@ -21,7 +21,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpGet("{id:Guid?}")]
-    public async Task<IActionResult> GetTagById(Guid id)
+    public async Task<IActionResult> GetTagg(Guid id)
     {
         var query = new GetTaggByIdQuery()
         {
@@ -36,7 +36,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateNewTag()
+    public async Task<IActionResult> CreateTagg()
     {
         throw new NotImplementedException();
     }
