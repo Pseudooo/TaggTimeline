@@ -1,8 +1,15 @@
 import { Grid, Paper } from "@mui/material";
 import { FunctionComponent, useState } from "react";
+import { CheckboxDefinition, CheckboxList } from "../../io/CheckboxList";
 import { DateRangePicker } from "../../io/DateRangePicker";
 
+const testItems: CheckboxDefinition[] = [
+  { label: "Item 1", value: "id1", checked: false },
+  { label: "Item 2", value: "id2", checked: true },
+];
+
 export const HorizontalTimeline: FunctionComponent = () => {
+  const [tags, setTags] = useState([...testItems]);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -11,11 +18,19 @@ export const HorizontalTimeline: FunctionComponent = () => {
     setEndDate(newEnd);
   };
 
+  const handleTagsChange = (tag: CheckboxDefinition, checked: boolean) => {
+    setTags(
+      tags.map((item) =>
+        item.value === tag.value ? { ...item, checked } : item
+      )
+    );
+  };
+
   return (
     <Paper>
       <Grid container>
-        <Grid item xs={3}>
-          Left column
+        <Grid item xs={3} padding={1}>
+          <CheckboxList items={tags} onChange={handleTagsChange} />
         </Grid>
         <Grid item xs={9}>
           <Grid
