@@ -5,22 +5,32 @@ import { CssBaseline } from "@mui/material";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Provider as StoreProvider } from "react-redux";
 import store from "./store";
 import { AuthProvider } from "./contexts/Auth";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
+    {/* Create the router for the app */}
     <BrowserRouter>
+      {/* Reset CSS across the board */}
       <CssBaseline />
-      <Provider store={store}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </Provider>
+      {/* Provide the store for the app */}
+      <StoreProvider store={store}>
+        {/* Localization needed for date/time pickers */}
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          {/* Needed for auth across the app */}
+          <AuthProvider>
+            {/* The main app */}
+            <App />
+          </AuthProvider>
+        </LocalizationProvider>
+      </StoreProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
