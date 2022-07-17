@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TaggTimeline.Domain.Entities.Taggs;
 
-public class Tagg : DatedEntity
+public class Tagg : MutableDatedEntity
 {
     [Required]
     [MaxLength(255)]
     public string Key { get; set; }
+    public IEnumerable<Instance> Instances { get; set; }
 }

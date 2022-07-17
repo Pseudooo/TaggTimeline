@@ -13,6 +13,7 @@ public class DataContext : DbContext
         }
 
     public DbSet<Tagg> Taggs { get; set; }
+    public DbSet<Instance> Instances { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken tok)
     {
@@ -41,7 +42,7 @@ public class DataContext : DbContext
                                             .Select(t => t.Entity as BaseEntity);
         foreach(var entity in difEntities)
         {
-            if(entity is DatedEntity datedEntity)
+            if(entity is MutableDatedEntity datedEntity)
             {
                 datedEntity.ModifiedDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
             }
@@ -51,7 +52,7 @@ public class DataContext : DbContext
                                            .Where(t => t.State ==EntityState.Deleted);
         foreach(var entry in delEntries)
         {
-            if(entry.Entity is DatedEntity datedEntity)
+            if(entry.Entity is MutableDatedEntity datedEntity)
             {
                 // Deleted Entities to be soft deleted
                 entry.State = EntityState.Modified;
