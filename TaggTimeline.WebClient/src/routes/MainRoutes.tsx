@@ -11,7 +11,7 @@ const MainRoutes: RouteObject = {
   element: <MainLayout />,
   children: [
     {
-      path: "/home",
+      path: "/",
       element: <Home />,
     },
   ],
