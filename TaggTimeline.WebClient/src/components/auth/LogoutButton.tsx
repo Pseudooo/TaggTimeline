@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { FunctionComponent } from "react";
-import { useAppSelector } from "../../store/helper";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/Auth";
 
 export interface LogoutButtonProps {
   /* If the button should hide when the user is logged in */
@@ -14,9 +15,9 @@ export interface LogoutButtonProps {
 export const LogoutButton: FunctionComponent<LogoutButtonProps> = ({
   autoHide = true,
 }) => {
-  const loggedIn = useAppSelector((state) => state.auth.loggedIn);
+  const { user } = useAuth();
 
-  if (!loggedIn && autoHide) {
+  if (!user && autoHide) {
     return null;
   }
 
