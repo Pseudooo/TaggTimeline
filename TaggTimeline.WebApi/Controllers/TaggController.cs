@@ -1,6 +1,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
@@ -19,10 +20,19 @@ public class TaggController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetTagById()
+    [HttpGet("{id:Guid?}")]
+    public async Task<IActionResult> GetTagById(Guid id)
     {
-        throw new NotImplementedException();
+        var query = new GetTaggByIdQuery()
+        {
+            Id = id,
+        };
+        var result = await _mediator.Send(query);
+
+        if(result is null)
+            return NotFound();
+
+        return Ok(result);
     }
 
     [HttpPost]
