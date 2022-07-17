@@ -8,4 +8,5 @@ public class Tagg : MutableDatedEntity
     [Required]
     [MaxLength(255)]
     public string Key { get; set; }
+    public IEnumerable<Instance> Instances { get; set; }
 }

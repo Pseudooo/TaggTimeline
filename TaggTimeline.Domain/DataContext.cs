@@ -13,6 +13,7 @@ public class DataContext : DbContext
         }
 
     public DbSet<Tagg> Taggs { get; set; }
+    public DbSet<Instance> Instances { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken tok)
     {
