@@ -43,5 +43,11 @@ public class TaggController : ControllerBase
         return Created("GetOrder", result);
     }
 
+    [HttpPost("{taggId:Guid?}/instance")]
+    public async Task<IActionResult> CreateTaggInstance(Guid taggId)
+    {
+        throw new NotImplementedException();
+    }
+
 }
 
