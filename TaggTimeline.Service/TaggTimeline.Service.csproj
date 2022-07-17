@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaggTimeline.Domain\TaggTimeline.Domain.csproj" />
+    <ProjectReference Include="..\TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj" />
   </ItemGroup>
 
 </Project>

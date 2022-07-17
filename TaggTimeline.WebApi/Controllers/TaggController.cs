@@ -1,6 +1,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Queries;
@@ -29,6 +30,14 @@ public class TaggController : ControllerBase
         {
             Id = id,
         };
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("all")]
+    public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> GetAllTaggs()
+    {
+        var query = new GetAllTagsQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
