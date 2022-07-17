@@ -8,21 +8,21 @@ namespace TaggTimeline.Domain.Repository;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    private readonly DataContext _context;
+    internal DataContext Context { get; set; }
 
     public BaseRepository(DataContext context)
     {
-        _context = context;
+        Context = context;
     }
 
     public Task<TEntity?> GetById(Guid id)
     {
-        return _context.Set<TEntity>().SingleOrDefaultAsync(x => x.Id == id);
+        return Context.Set<TEntity>().SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public Task<TEntity?> GetByIdWithNavigationProperties(Guid id, params Expression<Func<TEntity, object>>[] exprs)
     {
-        var query = _context.Set<TEntity>().AsQueryable();
+        var query = Context.Set<TEntity>().AsQueryable();
         query = exprs.Aggregate(query, (current, includes) => current.Include(includes));
 
         return query.SingleOrDefaultAsync(x => x.Id == id);
@@ -30,15 +30,15 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task<TEntity> AddItem(TEntity entity)
     {
-        await _context.AddAsync(entity);
-        await _context.SaveChangesAsync(CancellationToken.None);
+        await Context.AddAsync(entity);
+        await Context.SaveChangesAsync(CancellationToken.None);
 
         return entity;
     }
 
     public Task SaveChanges(CancellationToken tok)
     {
-        return _context.SaveChangesAsync(tok);
+        return Context.SaveChangesAsync(tok);
     }
 
 }
