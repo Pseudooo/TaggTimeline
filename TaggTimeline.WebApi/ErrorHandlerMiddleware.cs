@@ -12,7 +12,7 @@ public class ErrorHandlerMiddleware
     {
         _next = next;
     }
-    
+
     public async Task Invoke(HttpContext context)
     {
         try
@@ -26,8 +26,8 @@ public class ErrorHandlerMiddleware
 
             switch(e)
             {
-                case EntityNotFoundException notFound:
-                    response.StatusCode = (int) HttpStatusCode.NotFound;
+                case ApiException apiException:
+                    response.StatusCode = (int) apiException.HttpStatusCode;
                     break;
 
                 default:

@@ -1,8 +1,10 @@
+using System.Net;
 
 namespace TaggTimeline.Service.Exceptions;
 
-public class EntityNotFoundException : Exception
+public class EntityNotFoundException : ApiException
 {
-    public EntityNotFoundException(string message) : base(message)
-     { }
+    public EntityNotFoundException(string message) 
+        : base(message, HttpStatusCode.NotFound)
+        { }
 }
