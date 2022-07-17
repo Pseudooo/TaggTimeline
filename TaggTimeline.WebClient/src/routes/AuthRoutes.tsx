@@ -1,5 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import BarebonesLayout from "../layouts/BarebonesLayout";
+import AuthLoginPage from "../views/auth/Login";
+import AuthLogoutPage from "../views/auth/Logout";
 
 /**
  * Routes related to user login/logout.
@@ -7,15 +9,15 @@ import MainLayout from "../layouts/MainLayout";
  */
 const AuthRoutes: RouteObject = {
   path: "/",
-  element: <MainLayout />,
+  element: <BarebonesLayout center />,
   children: [
     {
       path: "/login",
-      element: null,
+      element: <AuthLoginPage />,
     },
     {
       path: "/logout",
-      element: null,
+      element: <AuthLogoutPage />,
     },
   ],
 };

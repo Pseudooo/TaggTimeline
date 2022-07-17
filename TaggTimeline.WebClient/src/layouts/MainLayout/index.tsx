@@ -1,6 +1,7 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import { Box, Container } from "@mui/material";
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
+import Navbar from "../../components/navigation/Navbar";
 
 /**
  * Main layout element.
@@ -8,23 +9,11 @@ import { Outlet } from "react-router-dom";
  */
 export const MainLayout: FunctionComponent = () => {
   return (
-    <Box>
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          {/* <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <Menu />
-          </IconButton> */}
-          <Typography variant="h6" color="inherit" component="div">
-            TaggTimeline
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Outlet />
+    <Box height="100vh" display="flex" flexDirection="column">
+      <Navbar />
+      <Container>
+        <Outlet />
+      </Container>
     </Box>
   );
 };
