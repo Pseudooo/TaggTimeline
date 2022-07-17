@@ -38,12 +38,19 @@ function handleResponse<T = any, E = any>(response: HttpResponse<T, E>): T {
 export async function createTagg(name: string) {
   return handleResponse(
     await wrappedFetch((params) =>
-      apiInstace.tagg.taggCreate(
-        {
-          key: name,
-        },
-        params
-      )
+      apiInstace.tagg.taggCreate({ key: name }, params)
+    )
+  );
+}
+
+/**
+ * Gets all the Taggs
+ * @returns A list of Taggs
+ */
+export async function getAllTaggs() {
+  return handleResponse(
+    await wrappedFetch((params) =>
+      apiInstace.tagg.searchCreate({ searchTerm: "" }, params)
     )
   );
 }
