@@ -33,6 +33,14 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("all")]
+    public async Task<ActionResult<IEnumerable<Tagg>>> GetAllTaggs()
+    {
+        var query = new GetAllTagsQuery();
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Tagg>> CreateTagg([FromBody] CreateTaggCommand command)
     {
