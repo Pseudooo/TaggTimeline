@@ -1,4 +1,5 @@
 import { useRoutes } from "react-router-dom";
+import AuthRoutes from "./AuthRoutes";
 import MainRoutes from "./MainRoutes";
 
 /**
@@ -6,5 +7,5 @@ import MainRoutes from "./MainRoutes";
  * @returns All routes for this app
  */
 export default function Routes() {
-  return useRoutes([MainRoutes]);
+  return useRoutes([MainRoutes, AuthRoutes]);
 }
