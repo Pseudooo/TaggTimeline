@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using TaggTimeline.Domain.Configuration;
+using TaggTimeline.Domain.Interface;
+using TaggTimeline.Domain.Repository;
 
 namespace TaggTimeline.Domain;
 
@@ -11,6 +13,8 @@ public static class ServiceCollectionExtensions
     {
         var builder = new NpgsqlConnectionStringBuilder(dbConfig.ConnectionString);
         sc.AddDbContext<DataContext>(opts => opts.UseNpgsql(builder.ConnectionString));
+
+        sc.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
         return sc;
     }
