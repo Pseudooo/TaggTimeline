@@ -1,12 +1,13 @@
 
 using MediatR;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.Service.Handlers;
 
-public class GetAllTagsHandler : IRequestHandler<GetAllTagsQuery, IEnumerable<Tagg>>
+public class GetAllTagsHandler : IRequestHandler<GetAllTagsQuery, IEnumerable<TaggPreviewModel>>
 {
     private readonly IBaseRepository<Tagg> _baseRepository;
 
@@ -15,9 +16,12 @@ public class GetAllTagsHandler : IRequestHandler<GetAllTagsQuery, IEnumerable<Ta
         _baseRepository = baseRepository;
     }
 
-    public async Task<IEnumerable<Tagg>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TaggPreviewModel>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
     {
         var taggs = await _baseRepository.GetAll();
-        return taggs;
+
+        var taggPreviews = taggs.Select(tagg => new TaggPreviewModel() { Id = tagg.Id, Key = tagg.Key }).ToList();
+
+        return taggPreviews;
     }
 }
