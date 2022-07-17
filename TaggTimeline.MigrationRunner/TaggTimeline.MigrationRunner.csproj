@@ -18,4 +18,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts/00/00_CreateTaggTable.sql"/>
+  </ItemGroup>
+
 </Project>
