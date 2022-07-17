@@ -1,6 +1,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Queries;
 
@@ -22,7 +23,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpGet("{id:Guid?}")]
-    public async Task<IActionResult> GetTagg(Guid id)
+    public async Task<ActionResult<Tagg>> GetTagg(Guid id)
     {
         var query = new GetTaggByIdQuery()
         {
@@ -37,21 +38,21 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateTagg([FromBody] CreateTaggCommand command)
+    public async Task<ActionResult<Tagg>> CreateTagg([FromBody] CreateTaggCommand command)
     {
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
     }
 
     [HttpPost("search")]
-    public async Task<IActionResult> SearchForTagg([FromBody] SearchForTaggQuery query)
+    public async Task<ActionResult<IEnumerable<Tagg>>> SearchForTagg([FromBody] SearchForTaggQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
     }
 
     [HttpPost("{taggId:Guid?}/instance")]
-    public async Task<IActionResult> CreateTaggInstance(Guid taggId)
+    public async Task<ActionResult<Instance>> CreateTaggInstance(Guid taggId)
     {
         var command = new CreateInstanceCommand()
         {
