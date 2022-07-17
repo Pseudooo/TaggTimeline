@@ -21,7 +21,7 @@ export const LoginButton: FunctionComponent<LoginButtonProps> = ({
   }
 
   return (
-    <Button href="/login" color="inherit">
+    <Button component={Link} to="/login" color="inherit">
       Login
     </Button>
   );

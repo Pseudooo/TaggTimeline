@@ -21,7 +21,7 @@ export const LogoutButton: FunctionComponent<LogoutButtonProps> = ({
   }
 
   return (
-    <Button href="/login" color="inherit">
+    <Button component={Link} to="/logout" color="inherit">
       Log Out
     </Button>
   );

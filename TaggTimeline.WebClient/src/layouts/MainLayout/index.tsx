@@ -1,6 +1,6 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import LoginButton from "../../components/auth/LoginButton";
 import LogoutButton from "../../components/auth/LogoutButton";
 
@@ -24,8 +24,8 @@ export const MainLayout: FunctionComponent = () => {
           <Typography
             variant="h6"
             color="inherit"
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{ flexGrow: 1 }}
           >
             TaggTimeline

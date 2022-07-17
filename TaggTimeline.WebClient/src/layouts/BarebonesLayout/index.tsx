@@ -1,6 +1,6 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 /**
  * Barebones layout element.
@@ -23,8 +23,8 @@ export const BarebonesLayout: FunctionComponent = () => {
           <Typography
             variant="h6"
             color="inherit"
-            component="a"
-            href="/"
+            component={Link}
+            to="/"
             sx={{ flexGrow: 1 }}
           >
             TaggTimeline
