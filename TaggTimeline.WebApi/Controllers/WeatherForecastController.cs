@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaggTimeline.Service.Queries;
 
@@ -11,13 +11,13 @@ public class WeatherForecastController : ControllerBase
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly IMediator _mediatr;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediator)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IMediator mediatr)
     {
         _logger = logger;
-        _mediatr = mediator;
+        _mediatr = mediatr;
     }
 
-    [HttpGet]
+    [HttpGet(Name = "GetWeatherForecast")]
     public async Task<IActionResult> Get()
     {
         var query = new GetAllWeatherForecastsQuery();
