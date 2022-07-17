@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaggTimeline.Service\TaggTimeline.Service.csproj" />
-    <ProjectReference Include="..\TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj" />
     <ProjectReference Include="..\TaggTimeline.Domain\TaggTimeline.Domain.csproj" />
   </ItemGroup>
 
