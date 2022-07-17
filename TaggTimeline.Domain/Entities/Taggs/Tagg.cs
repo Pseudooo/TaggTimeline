@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TaggTimeline.Domain.Entities.Taggs;
 
-public class Tagg : DatedEntity
+public class Tagg : MutableDatedEntity
 {
     [Required]
     [MaxLength(255)]
