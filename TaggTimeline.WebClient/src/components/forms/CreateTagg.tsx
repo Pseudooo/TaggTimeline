@@ -1,5 +1,11 @@
 import { LoadingButton } from "@mui/lab";
-import { Box, FormControl } from "@mui/material";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  FormControl,
+} from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Tagg } from "../../api/generated";
 import { useAPI } from "../../contexts/API";
@@ -18,6 +24,7 @@ export interface CreateTaggFormProps {
 export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   placeholder = "",
   onSuccess,
+  onCancel,
 }) => {
   const [taggName, setTaggName] = useState(placeholder);
   const [error, setError] = useState("");
@@ -31,7 +38,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   const tryCreateTagg = (name: string) => {
     setLoading(true);
     createTagg(name)
-      .then((tagg) => () => {
+      .then((tagg) => {
         // Tagg was created successfully
         setLoading(false);
         if (onSuccess) {
@@ -54,24 +61,30 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   }, [taggName]);
 
   return (
-    <Box display="flex" flexDirection="column">
-      <FormControl sx={{ padding: 1 }}>
-        <TextField
-          label="Name"
-          value={taggName}
-          onChange={handleTaggNameChange}
-          error={error.length > 0}
-          helperText={error}
-          disabled={loading}
-        />
-      </FormControl>
-      <LoadingButton
-        loading={loading}
-        disabled={error.length > 0}
-        onClick={() => tryCreateTagg(taggName)}
-      >
-        Create
-      </LoadingButton>
-    </Box>
+    <Card>
+      <CardContent>
+        <FormControl fullWidth>
+          <TextField
+            label="Name"
+            value={taggName}
+            onChange={handleTaggNameChange}
+            error={error.length > 0}
+            helperText={error}
+            disabled={loading}
+          />
+        </FormControl>
+      </CardContent>
+      <CardActions>
+        {onCancel && <Button onClick={onCancel}>Cancel</Button>}
+        <LoadingButton
+          loading={loading}
+          disabled={error.length > 0}
+          onClick={() => tryCreateTagg(taggName)}
+          variant="outlined"
+        >
+          Create
+        </LoadingButton>
+      </CardActions>
+    </Card>
   );
 };
