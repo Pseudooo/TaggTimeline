@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
         sc.AddDbContext<DataContext>(opts => opts.UseNpgsql(builder.ConnectionString));
 
         sc.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        sc.AddScoped<ITaggRepository, TaggRepository>();
 
         return sc;
     }
