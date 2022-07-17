@@ -18,7 +18,7 @@ jobs:
           POSTGRES_DB: taggtimeline
           POSTGRES_PASSWORD: timeline
           POSTGRES_PORT: 5432
-          POSTGRES_USER: timeline
+          POSTGRES_USER: taggserver
         ports:
           - 5432:5432
         options: >-
@@ -37,7 +37,7 @@ jobs:
       with:
         files: '**/appsettings.json'
       env:
-        ConnectionString: "Host=postgres://taggtimeline:timeline@postgres:5432/taggtimeline;Database=taggtimeline;"
+        ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
         DatabaseMigrationsEnabled: "true"
     
     - name: Restore dependencies
