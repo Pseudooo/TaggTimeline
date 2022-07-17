@@ -1,6 +1,8 @@
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
 import { Outlet } from "react-router-dom";
+import LoginButton from "../../components/auth/LoginButton";
+import LogoutButton from "../../components/auth/LogoutButton";
 
 /**
  * Main layout element.
@@ -19,9 +21,17 @@ export const MainLayout: FunctionComponent = () => {
           >
             <Menu />
           </IconButton> */}
-          <Typography variant="h6" color="inherit" component="div">
+          <Typography
+            variant="h6"
+            color="inherit"
+            component="a"
+            href="/"
+            sx={{ flexGrow: 1 }}
+          >
             TaggTimeline
           </Typography>
+          <LoginButton />
+          <LogoutButton />
         </Toolbar>
       </AppBar>
       <Outlet />
