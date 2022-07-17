@@ -10,7 +10,10 @@ import store from "./store";
 import { AuthProvider } from "./contexts/Auth";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { APIProvider } from "./contexts/API";
 
+// It's fair to say this nesting is disgusting.
+// TODO: Investigate a better way of doing this
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
@@ -26,8 +29,11 @@ root.render(
         <LocalizationProvider dateAdapter={AdapterMoment}>
           {/* Needed for auth across the app */}
           <AuthProvider>
-            {/* The main app */}
-            <App />
+            {/* Needed for calling the API */}
+            <APIProvider>
+              {/* The main app */}
+              <App />
+            </APIProvider>
           </AuthProvider>
         </LocalizationProvider>
       </StoreProvider>
