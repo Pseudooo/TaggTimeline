@@ -37,7 +37,7 @@ jobs:
       with:
         files: '**/appsettings.json'
       env:
-        ConnectionString: "postgres://taggtimeline:timeline@postgres:5432/taggtimeline"
+        ConnectionString: "Host=postgres://taggtimeline:timeline@postgres:5432/taggtimeline;"
         DatabaseMigrationsEnabled: "true"
     
     - name: Restore dependencies
