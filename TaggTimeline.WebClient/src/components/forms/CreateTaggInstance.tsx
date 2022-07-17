@@ -54,7 +54,7 @@ export const CreateTaggInstanceForm: FunctionComponent = () => {
     <>
       <FormControl fullWidth sx={{ padding: 1 }}>
         <TextField
-          label="Filter..."
+          label="Filter Taggs..."
           value={searchTerm}
           onChange={handleSearchChange}
         ></TextField>
