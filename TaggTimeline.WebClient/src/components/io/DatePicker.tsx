@@ -37,6 +37,7 @@ export const DatePicker: FunctionComponent<DatePickerProps> = ({
       maxDate={maxDate}
       renderInput={(params) => <TextField {...params} />}
       disabled={disabled}
+      inputFormat="DD/MM/yyyy"
     />
   );
 };
