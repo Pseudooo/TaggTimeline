@@ -31,13 +31,17 @@ export const CreateTaggInstanceForm: FunctionComponent<
   const [tagg, setTagg] = useState<TaggPreviewModel>();
   const [loading, setLoading] = useState(false);
   const { createTaggInstance } = useAPI();
+  const [date, setDate] = useState(new Date());
 
   const selectTagg = (tagg: TaggPreviewModel) => {
     setTagg(tagg);
   };
 
-  const handleDateChange = () => {
-    // Do nothing
+  const handleDateChange = (newDate: Date | null) => {
+    if (!newDate) {
+      return;
+    }
+    setDate(newDate);
   };
 
   const tryCreateTaggInstance = (tagg: TaggPreviewModel) => {
@@ -72,7 +76,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
         <FormGroup>
           <DatePicker
             label="Date"
-            value={new Date()}
+            value={date}
             onChange={handleDateChange}
             disabled
           />
