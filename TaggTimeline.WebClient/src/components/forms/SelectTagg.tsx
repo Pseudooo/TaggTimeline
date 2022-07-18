@@ -1,4 +1,4 @@
-import { Add } from "@mui/icons-material";
+import { Add, Circle } from "@mui/icons-material";
 import {
   Alert,
   AlertTitle,
@@ -15,6 +15,7 @@ import {
 import { FunctionComponent, useEffect, useState } from "react";
 import { Tagg } from "../../api/generated";
 import { useAPI } from "../../contexts/API";
+import { stringToColour } from "../../util";
 import TextField from "../io/TextField";
 import { CreateTaggForm } from "./CreateTagg";
 
@@ -28,8 +29,11 @@ const TaggListItem: FunctionComponent<TaggListItemProps> = ({
   onClick,
 }) => {
   return (
-    <ListItem disablePadding>
+    <ListItem disablePadding dense>
       <ListItemButton onClick={() => onClick(tagg)}>
+        <ListItemIcon>
+          <Circle sx={{ color: stringToColour(tagg.id ?? "") }} />
+        </ListItemIcon>
         <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItemButton>
     </ListItem>
