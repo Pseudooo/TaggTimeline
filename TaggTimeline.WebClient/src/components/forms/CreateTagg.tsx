@@ -15,6 +15,7 @@ export interface CreateTaggFormProps {
   placeholder?: string;
   onSuccess?: (tagg: Tagg) => void;
   onCancel?: () => void;
+  cancelText?: string;
 }
 
 /**
@@ -25,6 +26,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   placeholder = "",
   onSuccess,
   onCancel,
+  cancelText = "Cancel",
 }) => {
   const [taggName, setTaggName] = useState(placeholder);
   const [error, setError] = useState("");
@@ -75,7 +77,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
         </FormControl>
       </CardContent>
       <CardActions>
-        {onCancel && <Button onClick={onCancel}>Cancel</Button>}
+        {onCancel && <Button onClick={onCancel}>{cancelText}</Button>}
         <LoadingButton
           loading={loading}
           disabled={error.length > 0}

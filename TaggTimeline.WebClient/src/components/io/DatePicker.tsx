@@ -9,6 +9,7 @@ interface DatePickerProps {
   onChange: (newValue: Date | null) => void;
   minDate?: Date;
   maxDate?: Date;
+  disabled?: boolean;
 }
 
 /**
@@ -20,6 +21,7 @@ export const DatePicker: FunctionComponent<DatePickerProps> = ({
   onChange,
   minDate,
   maxDate,
+  disabled = false,
 }) => {
   const handleChange = (newValue: Date | null) => {
     onChange(newValue);
@@ -34,6 +36,7 @@ export const DatePicker: FunctionComponent<DatePickerProps> = ({
       minDate={minDate}
       maxDate={maxDate}
       renderInput={(params) => <TextField {...params} />}
+      disabled={disabled}
     />
   );
 };

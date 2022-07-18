@@ -50,8 +50,19 @@ export async function createTagg(name: string) {
  */
 export async function getAllTaggs() {
   return handleResponse(
+    await wrappedFetch((params) => apiInstace.tagg.getTagg(params))
+  );
+}
+
+/**
+ * Creates an instance of a tag
+ * @param taggId The id of the tag
+ * @returns The created instance
+ */
+export async function createTaggInstance(taggId: string) {
+  return handleResponse(
     await wrappedFetch((params) =>
-      apiInstace.tagg.searchCreate({ searchTerm: "" }, params)
+      apiInstace.tagg.instanceCreate(taggId, params)
     )
   );
 }
