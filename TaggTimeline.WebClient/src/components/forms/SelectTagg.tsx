@@ -98,6 +98,7 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
     <CreateTaggForm
       onSuccess={handleTaggSelected}
       onCancel={handleCancelCreateTagg}
+      cancelText="Back"
       placeholder={searchTerm}
     />
   ) : (
