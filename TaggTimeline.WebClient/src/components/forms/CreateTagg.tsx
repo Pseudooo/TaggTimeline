@@ -45,7 +45,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
           onSuccess(tagg);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         setLoading(false);
         setError("An error occured");
       })

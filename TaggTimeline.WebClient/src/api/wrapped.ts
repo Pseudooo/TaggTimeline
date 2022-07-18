@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Api, HttpResponse, RequestParams } from "./generated";
 
 const apiInstace = new Api();
