@@ -7,14 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.1.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.1.0" />
     <PackageReference Include="Mediatr" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj" />
     <ProjectReference Include="..\TaggTimeline.Domain\TaggTimeline.Domain.csproj" />
+    <ProjectReference Include="..\TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj" />
   </ItemGroup>
 
 </Project>

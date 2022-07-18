@@ -17,6 +17,8 @@ internal class Program
         if(!configuration.DatabaseMigrationsEnabled)
             return 0;
 
+        EnsureDatabase.For.PostgresqlDatabase(configuration.ConnectionString);
+
         var upgrader = DeployChanges.To
                                     .PostgresqlDatabase(configuration.ConnectionString)
                                     .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
