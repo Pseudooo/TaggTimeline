@@ -27,7 +27,7 @@ export interface CreateTaggInstanceForm {
  */
 export const CreateTaggInstanceForm: FunctionComponent<
   CreateTaggInstanceForm
-> = ({ onCancel, onSuccess }) => {
+> = ({ onSuccess }) => {
   const [tagg, setTagg] = useState<TaggPreviewModel>();
   const [loading, setLoading] = useState(false);
   const { createTaggInstance } = useAPI();
