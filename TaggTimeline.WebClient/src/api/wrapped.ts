@@ -53,3 +53,16 @@ export async function getAllTaggs() {
     await wrappedFetch((params) => apiInstace.tagg.getTagg(params))
   );
 }
+
+/**
+ * Creates an instance of a tag
+ * @param taggId The id of the tag
+ * @returns The created instance
+ */
+export async function createTaggInstance(taggId: string) {
+  return handleResponse(
+    await wrappedFetch((params) =>
+      apiInstace.tagg.instanceCreate(taggId, params)
+    )
+  );
+}

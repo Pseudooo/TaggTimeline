@@ -7,16 +7,18 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Tagg, TaggPreviewModel } from "../api/generated";
+import { Instance, Tagg, TaggPreviewModel } from "../api/generated";
 import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
+  createTaggInstance as createTaggInstanceFromApi,
 } from "../api/wrapped";
 import { useAuth } from "./Auth";
 
 interface APIContextType {
   taggs?: TaggPreviewModel[];
   createTagg(name: string): Promise<Tagg>;
+  createTaggInstance(taggId: string): Promise<Instance>;
   getAllTaggs(): Promise<TaggPreviewModel[]>;
 }
 
@@ -44,6 +46,16 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   }
 
   /**
+   * Creates an instance of a tag
+   * @param taggId The id of the tag
+   * @returns The created instance
+   */
+  async function createTaggInstance(taggId: string) {
+    const instance = await createTaggInstanceFromApi(taggId);
+    return instance;
+  }
+
+  /**
    * Gets all the user's taggs
    * @returns All available taggs
    */
@@ -67,6 +79,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       taggs,
       createTagg,
       getAllTaggs,
+      createTaggInstance,
     }),
     [taggs]
   );
