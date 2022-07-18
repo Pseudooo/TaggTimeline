@@ -101,15 +101,15 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
       placeholder={searchTerm}
     />
   ) : (
-    <Card>
-      <FormControl fullWidth sx={{ padding: 2 }}>
+    <Card sx={{ display: "flex", flexDirection: "column" }}>
+      <FormControl fullWidth sx={{ padding: 2, flex: "0 0 auto" }}>
         <TextField
           label="Filter Taggs..."
           value={searchTerm}
           onChange={handleSearchChange}
         ></TextField>
       </FormControl>
-      <List disablePadding sx={{ overflow: "auto", maxHeight: "50vh" }}>
+      <List disablePadding sx={{ overflow: "auto", flex: "1 1 auto" }}>
         {taggListItems.length > 0 ? (
           taggListItems
         ) : (
