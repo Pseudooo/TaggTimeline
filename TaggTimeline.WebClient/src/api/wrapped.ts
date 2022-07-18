@@ -50,8 +50,6 @@ export async function createTagg(name: string) {
  */
 export async function getAllTaggs() {
   return handleResponse(
-    await wrappedFetch((params) =>
-      apiInstace.tagg.searchCreate({ searchTerm: "" }, params)
-    )
+    await wrappedFetch((params) => apiInstace.tagg.getTagg(params))
   );
 }

@@ -41,6 +41,12 @@ export interface Tagg {
   instances?: Instance[] | null;
 }
 
+export interface TaggPreviewModel {
+  /** @format uuid */
+  id?: string;
+  key?: string | null;
+}
+
 export type QueryParamsType = Record<string | number, any>;
 export type ResponseFormat = keyof Omit<Body, "body" | "bodyUsed">;
 
@@ -299,6 +305,21 @@ export class Api<
     taggDetail: (id: string, params: RequestParams = {}) =>
       this.request<Tagg, any>({
         path: `/Tagg/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Tagg
+     * @name GetTagg
+     * @request GET:/Tagg/all
+     */
+    getTagg: (params: RequestParams = {}) =>
+      this.request<TaggPreviewModel[], any>({
+        path: `/Tagg/all`,
         method: "GET",
         format: "json",
         ...params,

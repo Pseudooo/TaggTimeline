@@ -13,15 +13,15 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
-import { Tagg } from "../../api/generated";
+import { TaggPreviewModel } from "../../api/generated";
 import { useAPI } from "../../contexts/API";
 import { stringToColour } from "../../util";
 import TextField from "../io/TextField";
 import { CreateTaggForm } from "./CreateTagg";
 
 interface TaggListItemProps {
-  tagg: Tagg;
-  onClick(tagg: Tagg): void;
+  tagg: TaggPreviewModel;
+  onClick(tagg: TaggPreviewModel): void;
 }
 
 const TaggListItem: FunctionComponent<TaggListItemProps> = ({
@@ -41,7 +41,7 @@ const TaggListItem: FunctionComponent<TaggListItemProps> = ({
 };
 
 export interface SelectTaggFormProps {
-  onSelected?(tagg: Tagg): void;
+  onSelected?(tagg: TaggPreviewModel): void;
 }
 
 /**
@@ -52,14 +52,16 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
 }) => {
   const { taggs } = useAPI();
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredTaggs, setFilteredTaggs] = useState<Tagg[]>(taggs ?? []);
+  const [filteredTaggs, setFilteredTaggs] = useState<TaggPreviewModel[]>(
+    taggs ?? []
+  );
   const [shouldCreateTagg, setShouldCreateTagg] = useState(false);
 
   const handleSearchChange = (value: string) => {
     setSearchTerm(value);
   };
 
-  const handleTaggSelected = (tagg: Tagg) => {
+  const handleTaggSelected = (tagg: TaggPreviewModel) => {
     if (onSelected) {
       onSelected(tagg);
     }
@@ -82,7 +84,7 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
     } else {
       setFilteredTaggs([
         ...taggs.filter((tagg) =>
-          tagg.key.toLowerCase().includes(searchTerm.toLowerCase())
+          (tagg.key ?? "").toLowerCase().includes(searchTerm.toLowerCase())
         ),
       ]);
     }

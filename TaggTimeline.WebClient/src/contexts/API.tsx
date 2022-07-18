@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Tagg } from "../api/generated";
+import { Tagg, TaggPreviewModel } from "../api/generated";
 import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
@@ -15,9 +15,9 @@ import {
 import { useAuth } from "./Auth";
 
 interface APIContextType {
-  taggs?: Tagg[];
+  taggs?: TaggPreviewModel[];
   createTagg(name: string): Promise<Tagg>;
-  getAllTaggs(): Promise<Tagg[]>;
+  getAllTaggs(): Promise<TaggPreviewModel[]>;
 }
 
 const APIContext = createContext<APIContextType>({} as APIContextType);
@@ -29,7 +29,7 @@ const APIContext = createContext<APIContextType>({} as APIContextType);
 export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [taggs, setTaggs] = useState<Tagg[]>([]);
+  const [taggs, setTaggs] = useState<TaggPreviewModel[]>([]);
   const { user } = useAuth();
 
   /**
