@@ -1,6 +1,7 @@
 
 using Moq;
 using NUnit.Framework;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Handlers;
@@ -29,6 +30,7 @@ public class GetAllTaggsQueryTests
 
         Assert.IsNotNull(result);
         Assert.AreEqual(result.Count(), 3);
+        Assert.IsInstanceOf<IEnumerable<TaggPreviewModel>>(result);
     }
 
 }

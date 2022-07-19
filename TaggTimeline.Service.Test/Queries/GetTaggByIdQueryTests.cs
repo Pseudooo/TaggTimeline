@@ -31,6 +31,7 @@ public class GetTaggByIdQueryTests
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
+        Assert.IsNotEmpty(result.Key);
         Assert.IsInstanceOf<Tagg>(result);
     }
 
