@@ -7,10 +7,10 @@ using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks;
 
-namespace TaggTimeline.Service.Test.Handlers;
+namespace TaggTimeline.Service.Test.Queries;
 
 [TestFixture]
-public class GetAllTaggsHandlersTests
+public class GetAllTaggsQueryTests
 {
 
     public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; }
