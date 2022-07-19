@@ -43,9 +43,9 @@ public static class MockBaseTaggRepository
     public static Mock<IBaseRepository<Tagg>> GetBaseRepository()
     {
         var mockRepo = new Mock<IBaseRepository<Tagg>>();
-        var innerTags = InitialTaggs.ToList();
+        var innerTaggs = InitialTaggs.ToList();
         
-        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTags);
+        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTaggs);
         
         foreach(var tagg in InitialTaggs)
         {
@@ -54,7 +54,7 @@ public static class MockBaseTaggRepository
         }
 
         mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>())).ReturnsAsync((Tagg added) => {
-            innerTags.Add(added);
+            innerTaggs.Add(added);
             return added;
         });
 

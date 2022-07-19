@@ -7,16 +7,16 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.Service.Handlers;
 
-public class GetAllTagsHandler : IRequestHandler<GetAllTagsQuery, IEnumerable<TaggPreviewModel>>
+public class GetAllTaggsHandler : IRequestHandler<GetAllTaggsQuery, IEnumerable<TaggPreviewModel>>
 {
     private readonly IBaseRepository<Tagg> _baseRepository;
 
-    public GetAllTagsHandler(IBaseRepository<Tagg> baseRepository)
+    public GetAllTaggsHandler(IBaseRepository<Tagg> baseRepository)
     {
         _baseRepository = baseRepository;
     }
 
-    public async Task<IEnumerable<TaggPreviewModel>> Handle(GetAllTagsQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<TaggPreviewModel>> Handle(GetAllTaggsQuery request, CancellationToken cancellationToken)
     {
         var taggs = await _baseRepository.GetAll();
 
