@@ -4,5 +4,5 @@ using TaggTimeline.ClientModel.Taggs;
 
 namespace TaggTimeline.Service.Queries;
 
-public class GetAllTagsQuery : IRequest<IEnumerable<TaggPreviewModel>>
+public class GetAllTaggsQuery : IRequest<IEnumerable<TaggPreviewModel>>
     { }

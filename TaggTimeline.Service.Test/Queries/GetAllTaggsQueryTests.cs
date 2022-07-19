@@ -25,8 +25,8 @@ public class GetAllTaggsQueryTests
     [Test]
     public async Task Get_All_Taggs_Should_Return_Taggs()
     {
-        var handler = new GetAllTagsHandler(MockedRepository.Object);
-        var result = await handler.Handle(new GetAllTagsQuery(), CancellationToken.None);
+        var handler = new GetAllTaggsHandler(MockedRepository.Object);
+        var result = await handler.Handle(new GetAllTaggsQuery(), CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.AreEqual(result.Count(), 3);

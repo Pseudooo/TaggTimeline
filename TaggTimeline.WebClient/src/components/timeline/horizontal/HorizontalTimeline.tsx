@@ -9,7 +9,7 @@ const testItems: CheckboxDefinition[] = [
 ];
 
 export const HorizontalTimeline: FunctionComponent = () => {
-  const [tags, setTags] = useState([...testItems]);
+  const [taggs, setTaggs] = useState([...testItems]);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -18,9 +18,9 @@ export const HorizontalTimeline: FunctionComponent = () => {
     setEndDate(newEnd);
   };
 
-  const handleTagsChange = (tag: CheckboxDefinition, checked: boolean) => {
-    setTags(
-      tags.map((item) =>
+  const handleTaggsChange = (tag: CheckboxDefinition, checked: boolean) => {
+    setTaggs(
+      taggs.map((item) =>
         item.value === tag.value ? { ...item, checked } : item
       )
     );
@@ -30,7 +30,7 @@ export const HorizontalTimeline: FunctionComponent = () => {
     <Paper>
       <Grid container>
         <Grid item xs={3} padding={1}>
-          <CheckboxList items={tags} onChange={handleTagsChange} />
+          <CheckboxList items={taggs} onChange={handleTaggsChange} />
         </Grid>
         <Grid item xs={9}>
           <Grid
