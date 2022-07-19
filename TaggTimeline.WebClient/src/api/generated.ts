@@ -15,7 +15,7 @@ export interface CreateTaggCommand {
 
 export interface Instance {
   /** @format uuid */
-  id?: string;
+  id: string;
 
   /** @format date-time */
   createdDate: string;
@@ -27,7 +27,7 @@ export interface SearchForTaggQuery {
 
 export interface Tagg {
   /** @format uuid */
-  id?: string;
+  id: string;
 
   /** @format date-time */
   createdDate: string;
@@ -43,8 +43,8 @@ export interface Tagg {
 
 export interface TaggPreviewModel {
   /** @format uuid */
-  id?: string;
-  key?: string | null;
+  id: string;
+  key: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
