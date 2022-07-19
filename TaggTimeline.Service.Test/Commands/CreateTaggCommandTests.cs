@@ -13,7 +13,7 @@ namespace TaggTimeline.Service.Test.Commands;
 public class CreateTaggCommandTests
 {
 
-    public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; }
+    public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; } = null!;
 
     [SetUp]
     public void SetUp()

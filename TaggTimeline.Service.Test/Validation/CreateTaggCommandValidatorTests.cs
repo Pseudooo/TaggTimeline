@@ -10,7 +10,7 @@ namespace TaggTimeline.Service.Test.Validation;
 public class CreateTaggCommandValidatorTests
 {
     
-    private CreateTaggCommandValidator _validator;
+    private CreateTaggCommandValidator _validator = null!;
 
     [SetUp]
     public void SetUp()

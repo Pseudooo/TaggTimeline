@@ -14,7 +14,7 @@ namespace TaggTimeline.Service.Test.Queries;
 public class SearchForTaggQueryTests
 {
 
-    public Mock<ITaggRepository> MockedRepository { get; private set; }
+    public Mock<ITaggRepository> MockedRepository { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()
