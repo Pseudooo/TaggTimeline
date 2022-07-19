@@ -43,14 +43,20 @@ public static class MockBaseTaggRepository
     public static Mock<IBaseRepository<Tagg>> GetBaseRepository()
     {
         var mockRepo = new Mock<IBaseRepository<Tagg>>();
-
-        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(InitialTaggs);
+        var innerTags = InitialTaggs.ToList();
+        
+        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTags);
         
         foreach(var tagg in InitialTaggs)
         {
             mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>>()))
                     .ReturnsAsync(tagg);
         }
+
+        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>())).ReturnsAsync((Tagg added) => {
+            innerTags.Add(added);
+            return added;
+        });
 
         return mockRepo;
     }
