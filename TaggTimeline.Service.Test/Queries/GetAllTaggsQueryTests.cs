@@ -19,7 +19,7 @@ public class GetAllTaggsQueryTests
     [SetUp]
     public void SetUp()
     {
-        this.MockedRepository = MockTaggRepository.GetBaseRepository();
+        this.MockedRepository = MockBaseTaggRepository.GetBaseRepository();
     }
 
     [Test]

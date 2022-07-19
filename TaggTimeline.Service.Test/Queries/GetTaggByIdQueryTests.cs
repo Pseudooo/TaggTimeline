@@ -19,13 +19,13 @@ public class GetTaggByIdQueryTests
     [SetUp]
     public void SetUp()
     {   
-        MockedRepository = MockTaggRepository.GetBaseRepository();
+        MockedRepository = MockBaseTaggRepository.GetBaseRepository();
     }
 
     [Test]
     public async Task Get_Tagg_By_Id_Should_Return_Tagg()
     {
-        var id = MockTaggRepository.InitialTaggs[0].Id;
+        var id = MockBaseTaggRepository.InitialTaggs[0].Id;
         var query = new GetTaggByIdQuery() { Id = id };
         var handler = new GetTaggByIdHandler(MockedRepository.Object);
         var result = await handler.Handle(query, CancellationToken.None);
