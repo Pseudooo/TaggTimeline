@@ -7,5 +7,5 @@ namespace TaggTimeline.Service.Queries;
 
 public class SearchForTaggQuery : IRequest<IEnumerable<TaggPreviewModel>>
 {
-    public string SearchTerm { get; set; }
+    public string SearchTerm { get; set; } = null!;
 }
