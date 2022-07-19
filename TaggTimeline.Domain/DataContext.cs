@@ -12,8 +12,8 @@ public class DataContext : DbContext
             Database.EnsureCreated();
         }
 
-    public DbSet<Tagg> Taggs { get; set; }
-    public DbSet<Instance> Instances { get; set; }
+    public DbSet<Tagg> Taggs { get; set; } = null!;
+    public DbSet<Instance> Instances { get; set; } = null!;
 
     public override Task<int> SaveChangesAsync(CancellationToken tok)
     {
