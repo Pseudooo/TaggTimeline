@@ -45,9 +45,6 @@ export const CreateTaggInstanceForm: FunctionComponent<
   };
 
   const tryCreateTaggInstance = (tagg: TaggPreviewModel) => {
-    if (!tagg || !tagg.id) {
-      return;
-    }
     setLoading(true);
     createTaggInstance(tagg.id)
       .then((instance) => {
@@ -68,7 +65,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
     <Card>
       <ListItem dense>
         <ListItemIcon>
-          <Circle sx={{ color: stringToColour(tagg.id ?? "") }} />
+          <Circle sx={{ color: stringToColour(tagg.id) }} />
         </ListItemIcon>
         <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItem>
