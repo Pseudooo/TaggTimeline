@@ -10,7 +10,7 @@
  */
 
 export interface CreateTaggCommand {
-  key?: string | null;
+  key: string;
 }
 
 export interface Instance {
