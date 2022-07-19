@@ -32,7 +32,7 @@ const TaggListItem: FunctionComponent<TaggListItemProps> = ({
     <ListItem disablePadding dense>
       <ListItemButton onClick={() => onClick(tagg)}>
         <ListItemIcon>
-          <Circle sx={{ color: stringToColour(tagg.id ?? "") }} />
+          <Circle sx={{ color: stringToColour(tagg.id) }} />
         </ListItemIcon>
         <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItemButton>
@@ -84,7 +84,7 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
     } else {
       setFilteredTaggs([
         ...taggs.filter((tagg) =>
-          (tagg.key ?? "").toLowerCase().includes(searchTerm.toLowerCase())
+          tagg.key.toLowerCase().includes(searchTerm.toLowerCase())
         ),
       ]);
     }
