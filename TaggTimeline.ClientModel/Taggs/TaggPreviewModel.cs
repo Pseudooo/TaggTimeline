@@ -8,6 +8,6 @@ public class TaggPreviewModel
     public Guid Id { get; set; }
     
     [Required]
-    public string? Key { get; set; }
+    public string Key { get; set; }  = null!;
 }
 

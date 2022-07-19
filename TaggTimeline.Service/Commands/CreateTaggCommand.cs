@@ -6,5 +6,5 @@ namespace TaggTimeline.Service.Commands;
 
 public class CreateTaggCommand : IRequest<Tagg>
 {
-    public string Key { get; set; }
+    public string Key { get; set; } = null!;
 }

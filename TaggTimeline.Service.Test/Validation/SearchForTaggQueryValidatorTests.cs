@@ -10,7 +10,7 @@ namespace TaggTimeline.Service.Test.Validation;
 public class SearchForTaggQueryTests
 {
 
-    private SearchForTaggQueryValidator _validator;
+    private SearchForTaggQueryValidator _validator = null!;
 
     [SetUp]
     public void SetUp()
