@@ -59,7 +59,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
           severity: "success",
           message: (
             <>
-              Created <b>{instance.id}</b>
+              Created an instance of <b>{tagg.key}</b>
             </>
           ),
         });
