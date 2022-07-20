@@ -25,8 +25,8 @@ public class TransactionWrapper : ITransactionWrapper
     {
         if(!_transactionClosed)
         {
-            _transactionClosed = true;
             await _transaction.CommitAsync();
+            _transactionClosed = true;
         }
     }
 
