@@ -35,10 +35,11 @@ interface ToasterProps {
 const Toaster: FunctionComponent<ToasterProps> = ({ definition, onClose }) => {
   // Create self-closing functionality
   useEffect(() => {
-    if (definition.lifetime && definition.lifetime > 0) {
+    const lifetime = definition.lifetime ?? 5000;
+    if (lifetime > 0) {
       const timer = setTimeout(() => {
         onClose(definition.id);
-      }, definition.lifetime ?? 5000);
+      }, lifetime);
 
       return () => {
         clearTimeout(timer);
