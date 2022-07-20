@@ -108,7 +108,7 @@ export const ToasterProvider: FunctionComponent<PropsWithChildren> = ({
   };
 
   // Create all the active toasters
-  const toasterElems = toasters.map((definition, id) => (
+  const toasterElems = toasters.map((definition) => (
     <Collapse key={definition.id}>
       <Toaster definition={definition} onClose={handleRemoveToaster} />
     </Collapse>
