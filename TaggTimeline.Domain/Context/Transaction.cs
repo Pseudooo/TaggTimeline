@@ -2,11 +2,10 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using TaggTimeline.Domain.Interface;
 
-namespace TaggTimeline.Domain;
+namespace TaggTimeline.Domain.Context;
 
 public class Transaction : IAsyncDisposable, ITransaction
 {
-    
     private readonly DataContext _context;
     private IDbContextTransaction _transaction = null!;
 

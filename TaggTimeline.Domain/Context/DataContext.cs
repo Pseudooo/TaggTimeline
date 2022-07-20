@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TaggTimeline.Domain.Entities;
 using TaggTimeline.Domain.Entities.Taggs;
 
-namespace TaggTimeline.Domain;
+namespace TaggTimeline.Domain.Context;
 
 public class DataContext : DbContext
 {

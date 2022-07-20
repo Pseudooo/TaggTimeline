@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using TaggTimeline.Domain.Configuration;
+using TaggTimeline.Domain.Context;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Domain.Repository;
 
