@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggTimeline.MigrationRunne
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggTimeline.Service.Test", "TaggTimeline.Service.Test\TaggTimeline.Service.Test.csproj", "{32A78480-068F-43B7-9146-DE4FE609DC0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaggTimeline.ClientModel", "TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj", "{EBD15B60-B88B-4FB5-A1D9-4653DDFFC465}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{32A78480-068F-43B7-9146-DE4FE609DC0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32A78480-068F-43B7-9146-DE4FE609DC0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32A78480-068F-43B7-9146-DE4FE609DC0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD15B60-B88B-4FB5-A1D9-4653DDFFC465}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD15B60-B88B-4FB5-A1D9-4653DDFFC465}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD15B60-B88B-4FB5-A1D9-4653DDFFC465}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD15B60-B88B-4FB5-A1D9-4653DDFFC465}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
