@@ -22,7 +22,7 @@ public class CreateTaggCommandTests
     public void SetUp()
     {
         MockedRepository = MockBaseTaggRepository.GetBaseRepository();
-        MockedTransaction = MockTransaction.GetTransaction();
+        MockedTransaction = MockTransactionWrapper.GetTransaction();
     }
 
     [Test]
