@@ -15,8 +15,16 @@ import {
 } from "../api/wrapped";
 import { useAuth } from "./Auth";
 
+export enum DataStatus {
+  NOT_LOADED,
+  LOADING,
+  LOADED,
+  ERROR,
+}
+
 interface APIContextType {
   taggs?: TaggPreviewModel[];
+  taggsStatus: DataStatus;
   createTagg(name: string): Promise<Tagg>;
   createTaggInstance(taggId: string): Promise<Instance>;
   getAllTaggs(): Promise<TaggPreviewModel[]>;
@@ -32,6 +40,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   const [taggs, setTaggs] = useState<TaggPreviewModel[]>([]);
+  const [taggsStatus, setTaggsStatus] = useState(DataStatus.NOT_LOADED);
   const { user } = useAuth();
 
   /**
@@ -60,9 +69,16 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    * @returns All available taggs
    */
   async function getAllTaggs() {
-    const taggs = await getAllTaggsFromApi();
-    setTaggs([...taggs]);
-    return taggs;
+    try {
+      setTaggsStatus(DataStatus.LOADING);
+      const taggs = await getAllTaggsFromApi();
+      setTaggs([...taggs]);
+      setTaggsStatus(DataStatus.LOADED);
+      return taggs;
+    } catch (e) {
+      setTaggsStatus(DataStatus.ERROR);
+      throw e;
+    }
   }
 
   useEffect(() => {
@@ -70,6 +86,9 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       getAllTaggs();
     } else {
       setTaggs([]);
+      setTaggsStatus(DataStatus.NOT_LOADED);
+      // TODO: Remove when auth is complete
+      getAllTaggs();
     }
   }, [user]);
 
@@ -77,6 +96,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   const memoedValues = useMemo<APIContextType>(
     () => ({
       taggs,
+      taggsStatus,
       createTagg,
       getAllTaggs,
       createTaggInstance,
