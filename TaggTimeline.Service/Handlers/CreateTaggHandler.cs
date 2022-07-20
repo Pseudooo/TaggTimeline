@@ -11,17 +11,17 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, Tagg>
 {
     private readonly IBaseRepository<Tagg> _baseRepository;
 
-    private readonly ITransaction _transaction;
+    private readonly ITransactionWrapper _transactionWrapper;
 
-    public CreateTaggHandler(IBaseRepository<Tagg> baseRepository, ITransaction transaction)
+    public CreateTaggHandler(IBaseRepository<Tagg> baseRepository, ITransactionWrapper transactionWrapper)
     {
         _baseRepository = baseRepository;
-        _transaction = transaction;
+        _transactionWrapper = transactionWrapper;
     }
 
     public async Task<Tagg> Handle(CreateTaggCommand request, CancellationToken cancellationToken)
     {
-        using var trans = _transaction.InitialiseTransaction();
+        await using var t = await _transactionWrapper.Begin();
         
         var toBeCreated = new Tagg()
         {
@@ -30,6 +30,8 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, Tagg>
 
         var created = await _baseRepository.AddItem(toBeCreated);
         
+        await t.Commit();
+
         return created;
     }
 }

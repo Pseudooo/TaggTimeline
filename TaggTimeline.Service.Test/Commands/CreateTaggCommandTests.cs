@@ -16,7 +16,7 @@ public class CreateTaggCommandTests
 
     public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; } = null!;
 
-    public Mock<ITransaction> MockedTransaction { get; set; } = null!;
+    public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
