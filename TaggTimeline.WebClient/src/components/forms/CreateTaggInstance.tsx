@@ -16,6 +16,7 @@ import { stringToColour } from "../../util";
 import DatePicker from "../io/DatePicker";
 import { LoadingButton } from "@mui/lab";
 import { useAPI } from "../../contexts/API";
+import { useToaster } from "../../contexts/Toaster";
 
 export interface CreateTaggInstanceForm {
   onCancel?: () => void;
@@ -32,6 +33,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
   const { createTaggInstance } = useAPI();
+  const { createToaster } = useToaster();
   const [date, setDate] = useState(new Date());
 
   const selectTagg = (tagg: TaggPreviewModel) => {
@@ -53,6 +55,14 @@ export const CreateTaggInstanceForm: FunctionComponent<
         // TODO: Add a disabled state
         // setLoading(false);
         setComplete(true);
+        createToaster({
+          severity: "success",
+          message: (
+            <>
+              Created <b>{instance.id}</b>
+            </>
+          ),
+        });
         if (onSuccess) {
           onSuccess(instance);
         }
