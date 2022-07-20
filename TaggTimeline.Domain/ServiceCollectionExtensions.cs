@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
 
         sc.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         sc.AddScoped<ITaggRepository, TaggRepository>();
-        sc.AddScoped<ITransaction, Transaction>();
+        sc.AddScoped<ITransactionWrapper, TransactionWrapper>();
 
         return sc;
     }
