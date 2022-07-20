@@ -30,6 +30,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
 > = ({ onSuccess }) => {
   const [tagg, setTagg] = useState<TaggPreviewModel>();
   const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
   const { createTaggInstance } = useAPI();
   const [date, setDate] = useState(new Date());
 
@@ -51,6 +52,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
         // Don't remove loading state, so user can't resubmit
         // TODO: Add a disabled state
         // setLoading(false);
+        setComplete(true);
         if (onSuccess) {
           onSuccess(instance);
         }
@@ -85,6 +87,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
         <Button onClick={() => setTagg(undefined)}>Back</Button>
         <LoadingButton
           loading={loading}
+          disabled={complete}
           onClick={() => tryCreateTaggInstance(tagg)}
           variant="outlined"
         >
