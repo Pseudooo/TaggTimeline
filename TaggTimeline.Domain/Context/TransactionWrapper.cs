@@ -8,6 +8,7 @@ public class TransactionWrapper : ITransactionWrapper
 {
     private readonly DataContext _context;
     private IDbContextTransaction _transaction = null!;
+    private bool _transactionClosed = false;
 
     public TransactionWrapper(DataContext context)
     {
@@ -20,14 +21,22 @@ public class TransactionWrapper : ITransactionWrapper
         return this;
     }
 
-    public Task Commit()
+    public async Task Commit()
     {
-        return _transaction.CommitAsync();
+        if(!_transactionClosed)
+        {
+            _transactionClosed = true;
+            await _transaction.CommitAsync();
+        }
     }
 
-    public Task Rollback()
+    public async Task Rollback()
     {
-        return _transaction.RollbackAsync();
+        if(!_transactionClosed)
+        {
+            _transactionClosed = true;
+            await _transaction.RollbackAsync();
+        }
     }
 
     public async ValueTask DisposeAsync()
