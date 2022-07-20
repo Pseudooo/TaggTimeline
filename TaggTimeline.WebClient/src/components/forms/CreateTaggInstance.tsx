@@ -48,7 +48,9 @@ export const CreateTaggInstanceForm: FunctionComponent<
     setLoading(true);
     createTaggInstance(tagg.id)
       .then((instance) => {
-        setLoading(false);
+        // Don't remove loading state, so user can't resubmit
+        // TODO: Add a disabled state
+        // setLoading(false);
         if (onSuccess) {
           onSuccess(instance);
         }
