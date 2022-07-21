@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using TaggTime.Service.Queries;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Handlers;
@@ -30,7 +31,7 @@ public class SearchForCategoryQueryTests
         var result = await handler.Handle(query, CancellationToken.None);
         
         Assert.IsNotNull(result);
-        Assert.IsInstanceOf<IEnumerable<Category>>(result);
+        Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result);
         Assert.AreEqual(result.Count(), 2);
     }
 
@@ -43,7 +44,7 @@ public class SearchForCategoryQueryTests
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.IsInstanceOf<IEnumerable<Category>>(result);
+        Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result);
         Assert.AreEqual(result.Count(), 0);
     }
 
