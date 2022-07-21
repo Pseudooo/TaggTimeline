@@ -1,8 +1,8 @@
 
 using MediatR;
-using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.ClientModel.Taggs;
 
 namespace TaggTime.Service.Queries;
 
-public class GetAllCategoriesQuery : IRequest<IEnumerable<Category>>
+public class GetAllCategoriesQuery : IRequest<IEnumerable<CategoryPreviewModel>>
     { }
