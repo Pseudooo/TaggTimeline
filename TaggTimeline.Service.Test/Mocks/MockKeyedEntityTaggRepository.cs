@@ -1,6 +1,7 @@
 
 using System.Linq.Expressions;
 using Moq;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 
@@ -40,6 +41,37 @@ public class MockKeyedEntityTaggRepository
             },
     };
 
+    public static IList<TaggModel> InitialTaggModels { get; private set; } = new List<TaggModel>()
+    {
+        new TaggModel()
+            {
+                Id = InitialTaggs[0].Id,
+                Key = "FOO",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = null,
+                DeletedDate = null,
+                Instances = Enumerable.Empty<InstanceModel>(),
+            },
+        new TaggModel()
+            {
+                Id = InitialTaggs[1].Id,
+                Key = "BAR",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                DeletedDate = DateTime.Now,
+                Instances = Enumerable.Empty<InstanceModel>(),
+            },
+        new TaggModel()
+            {
+                Id = InitialTaggs[2].Id,
+                Key = "KEK",
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+                DeletedDate = DateTime.Now,
+                Instances = Enumerable.Empty<InstanceModel>(),
+            },
+    };
+
     public static Mock<IKeyedEntityRepository<Tagg>> GetBaseRepository()
     {
         var mockRepo = new Mock<IKeyedEntityRepository<Tagg>>();
@@ -49,7 +81,7 @@ public class MockKeyedEntityTaggRepository
         
         foreach(var tagg in InitialTaggs)
         {
-            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>>()))
+            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>[]>()))
                     .ReturnsAsync(tagg);
         }
 
