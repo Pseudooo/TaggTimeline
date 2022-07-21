@@ -24,7 +24,7 @@ public class SearchForCategoriesHandler : IRequestHandler<SearchForCategoriesQue
         {
             Id = category.Id,
             Key = category.Key,
-        });
+        }).ToList();
 
         return categoryPreviews;
     }
