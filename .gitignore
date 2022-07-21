@@ -400,3 +400,6 @@ FodyWeavers.xsd
 # Ignore generated API file
 TaggTimeline.WebApi/swagger.json
 TaggTimeline.WebApi/api.json
+
+# Ignore vscode
+.vscode
