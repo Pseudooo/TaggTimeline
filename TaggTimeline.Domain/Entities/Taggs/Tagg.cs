@@ -9,4 +9,5 @@ public class Tagg : MutableDatedEntity
     [MaxLength(255)]
     public string Key { get; set; } = null!;
     public IEnumerable<Instance> Instances { get; set; } = null!;
+    public IEnumerable<Category> Categories { get; set; } = null!;
 }
