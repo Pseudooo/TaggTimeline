@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaggTime.Service.Commands;
+using TaggTime.Service.Queries;
 using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.WebApi.Controllers;
@@ -20,7 +21,13 @@ public class CategoryController : ControllerBase
     [HttpGet("{id:Guid?}")]
     public async Task<ActionResult<Category>> GetCategory(Guid id)
     {
-        throw new NotImplementedException();
+        var query = new GetCategoryByIdQuery()
+        {
+            Id = id,
+        };
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
     }
 
     [HttpGet("all")]
