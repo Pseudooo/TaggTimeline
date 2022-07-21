@@ -47,9 +47,10 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost("search")]
-    public async Task<ActionResult<IEnumerable<Category>>> SearchForCategory()
+    public async Task<ActionResult<IEnumerable<Category>>> SearchForCategory([FromBody] SearchForCategoriesQuery query)
     {
-        throw new NotImplementedException();
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 
 }
