@@ -14,6 +14,7 @@ public class DataContext : DbContext
 
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 
     public override Task<int> SaveChangesAsync(CancellationToken tok)
     {
