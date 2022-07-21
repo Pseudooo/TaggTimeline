@@ -14,13 +14,13 @@ namespace TaggTimeline.Service.Test.Commands;
 public class CreateInstanceCommandTests
 {
 
-    public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; } = null!;
+    public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
     public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockBaseTaggRepository.GetBaseRepository();
+        MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
         MockedTransaction = MockTransactionWrapper.GetTransaction();
     }
 

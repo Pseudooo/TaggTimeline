@@ -14,12 +14,12 @@ namespace TaggTimeline.Service.Test.Queries;
 public class GetAllTaggsQueryTests
 {
 
-    public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; } = null!;
+    public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
     
     [SetUp]
     public void SetUp()
     {
-        this.MockedRepository = MockBaseTaggRepository.GetBaseRepository();
+        this.MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
     }
 
     [Test]
