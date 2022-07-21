@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaggTime.Service.Commands;
 using TaggTime.Service.Queries;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.WebApi.Controllers;
@@ -31,7 +32,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("all")]
-    public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
+    public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> GetAllCategories()
     {
         var query = new GetAllCategoriesQuery();
         var result = await _mediator.Send(query);
@@ -47,7 +48,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost("search")]
-    public async Task<ActionResult<IEnumerable<Category>>> SearchForCategory([FromBody] SearchForCategoriesQuery query)
+    public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> SearchForCategory([FromBody] SearchForCategoriesQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
