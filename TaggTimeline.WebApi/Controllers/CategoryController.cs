@@ -33,7 +33,10 @@ public class CategoryController : ControllerBase
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
     {
-        throw new NotImplementedException();
+        var query = new GetAllCategoriesQuery();
+        var result = await _mediator.Send(query);
+
+        return Ok(result);
     }
 
     [HttpPost]
