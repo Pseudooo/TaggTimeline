@@ -6,7 +6,7 @@ using TaggTimeline.Domain.Interface;
 
 namespace TaggTimeline.Service.Test.Mocks;
 
-public static class MockBaseTaggRepository
+public class MockKeyedEntityTaggRepository
 {
 
     public static List<Tagg> InitialTaggs { get; private set; } = new List<Tagg>()
@@ -53,12 +53,19 @@ public static class MockBaseTaggRepository
                     .ReturnsAsync(tagg);
         }
 
-        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>())).ReturnsAsync((Tagg added) => {
-            innerTaggs.Add(added);
-            return added;
-        });
+        mockRepo.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
+                .ReturnsAsync((string searchTerm) => {
+                    return innerTaggs.Where(category => category.Key.Contains(searchTerm));
+                });
+
+        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
+                .ReturnsAsync((Tagg added) => {
+                    innerTaggs.Add(added);
+                    return added;
+                });
 
         return mockRepo;
     }
+
 
 }
