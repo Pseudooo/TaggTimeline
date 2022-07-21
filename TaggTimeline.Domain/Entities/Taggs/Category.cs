@@ -1,5 +1,5 @@
 
 namespace TaggTimeline.Domain.Entities.Taggs;
 
-public class Category : KeyedEntitiy
+public class Category : KeyedEntity
     { }
