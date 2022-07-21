@@ -9,5 +9,7 @@ public class TaggPreviewModel
     
     [Required]
     public string Key { get; set; } = null!;
+
+    public IEnumerable<CategoryPreviewModel> Categories { get; set; } = null!;
 }
 
