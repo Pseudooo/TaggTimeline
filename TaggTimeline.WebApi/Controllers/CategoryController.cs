@@ -1,6 +1,7 @@
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TaggTime.Service.Commands;
 using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.WebApi.Controllers;
@@ -29,9 +30,10 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Category>> CreateCategory()
+    public async Task<ActionResult<Category>> CreateCategory([FromBody] CreateCategoryCommand command)
     {
-        throw new NotImplementedException();
+        var result = await _mediator.Send(command);
+        return Created("GetTagg", result);
     }
 
     [HttpPost("search")]
