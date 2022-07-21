@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using TaggTimeline.Domain.Context;
 using TaggTimeline.Domain.Entities;
+using TaggTimeline.Domain.Interface;
 
 namespace TaggTimeline.Domain.Repository;
 
-public class KeyedEntityRepository<TEntity> : BaseRepository<TEntity> where TEntity : KeyedEntity
+public class KeyedEntityRepository<TEntity> : BaseRepository<TEntity>, IKeyedEntityRepository<TEntity> where TEntity : KeyedEntity
 {
     public KeyedEntityRepository(DataContext context) : base(context)
         { }
