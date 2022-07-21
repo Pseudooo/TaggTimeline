@@ -24,7 +24,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpGet("{id:Guid?}")]
-    public async Task<ActionResult<Tagg>> GetTagg(Guid id)
+    public async Task<ActionResult<TaggModel>> GetTagg(Guid id)
     {
         var query = new GetTaggByIdQuery()
         {
