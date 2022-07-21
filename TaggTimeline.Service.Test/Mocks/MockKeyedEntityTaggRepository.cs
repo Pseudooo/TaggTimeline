@@ -55,7 +55,7 @@ public class MockKeyedEntityTaggRepository
 
         mockRepo.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
                 .ReturnsAsync((string searchTerm) => {
-                    return innerTaggs.Where(category => category.Key.Contains(searchTerm));
+                    return innerTaggs.Where(tagg => tagg.Key.Contains(searchTerm));
                 });
 
         mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
