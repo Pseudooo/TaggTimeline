@@ -1,4 +1,4 @@
-name: "Build Server"
+name: "Build"
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-
+    name: Full Build
     runs-on: ubuntu-latest
     container: node:latest
     services:
@@ -29,7 +29,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET
+    - name: "Server: Setup .NET"
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
@@ -40,9 +40,19 @@ jobs:
         ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
         DatabaseMigrationsEnabled: "true"
     
-    - name: Restore dependencies
+    - name: "Server: Restore dependencies"
       run: dotnet restore
-    - name: Build
+    - name: "Server: Build"
       run: dotnet build --no-restore
-    - name: Test
+    - name: "Server: Test"
       run: dotnet test --no-build --verbosity normal
+
+    - name: "Client: Install Node modules"
+      working-directory: ./TaggTimeline.WebClient
+      run: npm i
+    - name: "Client: Lint"
+      working-directory: ./TaggTimeline.WebClient
+      run: npm run lint
+    - name: "Client: Build"
+      working-directory: ./TaggTimeline.WebClient
+      run: npm run build
