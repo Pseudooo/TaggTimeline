@@ -16,6 +16,7 @@ import { stringToColour } from "../../util";
 import DatePicker from "../io/DatePicker";
 import { LoadingButton } from "@mui/lab";
 import { useAPI } from "../../contexts/API";
+import { useToaster } from "../../contexts/Toaster";
 
 export interface CreateTaggInstanceForm {
   onCancel?: () => void;
@@ -30,7 +31,9 @@ export const CreateTaggInstanceForm: FunctionComponent<
 > = ({ onSuccess }) => {
   const [tagg, setTagg] = useState<TaggPreviewModel>();
   const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
   const { createTaggInstance } = useAPI();
+  const { createToaster } = useToaster();
   const [date, setDate] = useState(new Date());
 
   const selectTagg = (tagg: TaggPreviewModel) => {
@@ -48,7 +51,18 @@ export const CreateTaggInstanceForm: FunctionComponent<
     setLoading(true);
     createTaggInstance(tagg.id)
       .then((instance) => {
-        setLoading(false);
+        // Don't remove loading state, so user can't resubmit
+        // TODO: Add a disabled state
+        // setLoading(false);
+        setComplete(true);
+        createToaster({
+          severity: "success",
+          message: (
+            <>
+              Created an instance of <b>{tagg.key}</b>
+            </>
+          ),
+        });
         if (onSuccess) {
           onSuccess(instance);
         }
@@ -83,6 +97,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
         <Button onClick={() => setTagg(undefined)}>Back</Button>
         <LoadingButton
           loading={loading}
+          disabled={complete}
           onClick={() => tryCreateTaggInstance(tagg)}
           variant="outlined"
         >

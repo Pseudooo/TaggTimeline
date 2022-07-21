@@ -11,6 +11,7 @@ import { AuthProvider } from "./contexts/Auth";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { APIProvider } from "./contexts/API";
+import { ToasterProvider } from "./contexts/Toaster";
 
 // It's fair to say this nesting is disgusting.
 // TODO: Investigate a better way of doing this
@@ -31,8 +32,11 @@ root.render(
           <AuthProvider>
             {/* Needed for calling the API */}
             <APIProvider>
-              {/* The main app */}
-              <App />
+              {/* Provides ability to create toaster notifications */}
+              <ToasterProvider>
+                {/* The main app */}
+                <App />
+              </ToasterProvider>
             </APIProvider>
           </AuthProvider>
         </LocalizationProvider>
