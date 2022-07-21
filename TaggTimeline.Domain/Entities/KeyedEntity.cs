@@ -1,7 +1,7 @@
 
 namespace TaggTimeline.Domain.Entities;
 
-public class KeyedEntity : DatedEntity
+public class KeyedEntity : MutableDatedEntity
 {
     public string Key { get; set; } = null!;
 }
