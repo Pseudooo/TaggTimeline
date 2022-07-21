@@ -23,7 +23,7 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Cate
 
         var toBeCreated = new Category()
         {
-            key = request.Key,
+            Key = request.Key,
         };
 
         var created = await _baseRepository.AddItem(toBeCreated);

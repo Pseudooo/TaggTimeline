@@ -13,7 +13,7 @@ public class KeyedEntityRepository<TEntity> : BaseRepository<TEntity> where TEnt
     public async Task<IEnumerable<TEntity>> SearchForKey(string searchTerm)
     {
         var result = await Context.Set<TEntity>()
-                                  .Where(entity => EF.Functions.Like(entity.key, $"%{searchTerm}%"))
+                                  .Where(entity => EF.Functions.Like(entity.Key, $"%{searchTerm}%"))
                                   .ToListAsync();
         return result;
     }
