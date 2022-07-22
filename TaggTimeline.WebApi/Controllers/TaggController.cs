@@ -71,7 +71,14 @@ public class TaggController : ControllerBase
     [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
     public async Task<ActionResult> AddCategory(Guid taggId, Guid categoryId)
     {
-        throw new NotImplementedException();
+        var command = new AddCategoryToTaggCommand()
+        {
+            TaggId = taggId,
+            CategoryId = categoryId,
+        };
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
 }
