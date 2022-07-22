@@ -41,7 +41,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Category>> CreateCategory([FromBody] CreateCategoryCommand command)
+    public async Task<ActionResult<CategoryModel>> CreateCategory([FromBody] CreateCategoryCommand command)
     {
         var result = await _mediator.Send(command);
         return Created("GetTagg", result);
