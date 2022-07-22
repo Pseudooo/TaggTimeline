@@ -68,4 +68,10 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
+    public async Task<ActionResult> AddCategory(Guid taggId, Guid categoryId)
+    {
+        throw new NotImplementedException();
+    }
+
 }
