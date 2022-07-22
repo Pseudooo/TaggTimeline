@@ -20,7 +20,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet("{id:Guid?}")]
-    public async Task<ActionResult<Category>> GetCategory(Guid id)
+    public async Task<ActionResult<CategoryModel>> GetCategory(Guid id)
     {
         var query = new GetCategoryByIdQuery()
         {

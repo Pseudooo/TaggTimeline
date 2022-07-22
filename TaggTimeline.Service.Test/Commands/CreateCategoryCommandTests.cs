@@ -6,6 +6,7 @@ using TaggTime.Service.Handlers;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Commands;
 
@@ -20,7 +21,7 @@ public class CreateCategoryCommandTests
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockKeyedEntityCategoryRepository.GetBaseRepository();
+        MockedRepository = new MockKeyedEntityCategoryRepository();
         MockedTransaction = MockTransactionWrapper.GetTransaction();
     }
 
