@@ -22,7 +22,10 @@ public class CreateInstanceHandler : IRequestHandler<CreateInstanceCommand, Inst
     {
         await using var transaction = await _transactionWrapper.Begin();
 
-        var instance = new Instance();
+        var instance = new Instance() 
+        {
+            OccuranceDate = request.OccuranceDate,
+        };
 
         var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.TaggId, x => x.Instances);
         if(tagg is null)

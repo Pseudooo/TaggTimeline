@@ -73,6 +73,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
             error={error.length > 0}
             helperText={error}
             disabled={loading}
+            autoFocus
           />
         </FormControl>
       </CardContent>

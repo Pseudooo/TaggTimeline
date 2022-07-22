@@ -9,6 +9,14 @@
  * ---------------------------------------------------------------
  */
 
+export interface CreateInstanceCommand {
+  /** @format uuid */
+  taggId: string;
+
+  /** @format date-time */
+  occuranceDate: string;
+}
+
 export interface CreateTaggCommand {
   key: string;
 }
@@ -19,6 +27,9 @@ export interface Instance {
 
   /** @format date-time */
   createdDate: string;
+
+  /** @format date-time */
+  occuranceDate: string;
 }
 
 export interface SearchForTaggQuery {
@@ -364,12 +375,14 @@ export class Api<
      *
      * @tags Tagg
      * @name InstanceCreate
-     * @request POST:/Tagg/{taggId}/instance
+     * @request POST:/Tagg/instance
      */
-    instanceCreate: (taggId: string, params: RequestParams = {}) =>
+    instanceCreate: (data: CreateInstanceCommand, params: RequestParams = {}) =>
       this.request<Instance, any>({
-        path: `/Tagg/${taggId}/instance`,
+        path: `/Tagg/instance`,
         method: "POST",
+        body: data,
+        type: ContentType.Json,
         format: "json",
         ...params,
       }),

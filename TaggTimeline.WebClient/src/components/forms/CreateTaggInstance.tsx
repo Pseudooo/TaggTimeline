@@ -49,7 +49,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
 
   const tryCreateTaggInstance = (tagg: TaggPreviewModel) => {
     setLoading(true);
-    createTaggInstance(tagg.id)
+    createTaggInstance(tagg.id, date)
       .then((instance) => {
         // Don't remove loading state, so user can't resubmit
         // TODO: Add a disabled state
@@ -85,12 +85,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
       </ListItem>
       <CardContent>
         <FormGroup>
-          <DatePicker
-            label="Date"
-            value={date}
-            onChange={handleDateChange}
-            disabled
-          />
+          <DatePicker label="Date" value={date} onChange={handleDateChange} />
         </FormGroup>
       </CardContent>
       <CardActions>
