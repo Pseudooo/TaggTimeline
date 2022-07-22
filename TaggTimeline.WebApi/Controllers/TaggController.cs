@@ -50,7 +50,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost("search")]
-    public async Task<ActionResult<IEnumerable<Tagg>>> SearchForTagg([FromBody] SearchForTaggQuery query)
+    public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> SearchForTagg([FromBody] SearchForTaggQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
