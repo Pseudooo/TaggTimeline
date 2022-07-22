@@ -30,12 +30,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "npm run swagger:generate",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "swagger:generate": "sta -o ./src/api -n generated.ts -p https://localhost:7054/swagger/v1/swagger.json --disableStrictSSL"
+    "swagger:generate": "sta -o ./src/api -n generated.ts -p ../TaggTimeline.WebApi/api.json",
+    "swagger:generatelive": "sta -o ./src/api -n generated.ts -p https://localhost:7054/swagger/v1/swagger.json --disableStrictSSL"
   },
   "eslintConfig": {
     "extends": [
