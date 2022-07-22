@@ -1,4 +1,5 @@
 
+using MapsterMapper;
 using Moq;
 using NUnit.Framework;
 using TaggTime.Service.Handlers;
@@ -15,22 +16,24 @@ public class GetAllCategoriesQueryTests
 {
     
     public Mock<IKeyedEntityRepository<Category>> MockedRepository { get; set; } = null!;
+    public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         MockedRepository = new MockKeyedEntityCategoryRepository();
+        MockedMapper = new MockCategoryMapper();
     }
 
     [Test]
-    public async Task Get_All_Categories_Should_Return_Taggs()
+    public async Task Get_All_Categories_Should_Return_Categories()
     {
-        var handler = new GetAllCategoriesHandler(MockedRepository.Object);
+        var handler = new GetAllCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(new GetAllCategoriesQuery(), CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result);
-        Assert.AreEqual(result.Count(), 2);
+        Assert.AreEqual(2, result.Count());
     }
 
 }
