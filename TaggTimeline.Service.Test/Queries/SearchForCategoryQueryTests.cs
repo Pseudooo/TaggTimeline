@@ -1,4 +1,5 @@
 
+using MapsterMapper;
 using Moq;
 using NUnit.Framework;
 using TaggTime.Service.Queries;
@@ -15,11 +16,13 @@ public class SearchForCategoryQueryTests
 {
 
     public Mock<IKeyedEntityRepository<Category>> MockedRepository { get; set; } = null!;
+    public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         MockedRepository = new MockKeyedEntityCategoryRepository();
+        MockedMapper = new MockCategoryMapper();
     }
 
     [Test]
@@ -27,7 +30,7 @@ public class SearchForCategoryQueryTests
     {
         var searchTerm = "ant";
         var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm };
-        var handler = new SearchForCategoriesHandler(MockedRepository.Object);
+        var handler = new SearchForCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
         
         Assert.IsNotNull(result);
@@ -40,7 +43,7 @@ public class SearchForCategoryQueryTests
     {
         var searchTerm = "astringthatwontcomeup";
         var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm };
-        var handler = new SearchForCategoriesHandler(MockedRepository.Object);
+        var handler = new SearchForCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
