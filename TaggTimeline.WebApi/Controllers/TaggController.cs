@@ -43,7 +43,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Tagg>> CreateTagg([FromBody] CreateTaggCommand command)
+    public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
     {
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
