@@ -57,7 +57,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost("{taggId:Guid?}/instance")]
-    public async Task<ActionResult<Instance>> CreateTaggInstance(Guid taggId)
+    public async Task<ActionResult<InstanceModel>> CreateTaggInstance(Guid taggId)
     {
         var command = new CreateInstanceCommand()
         {

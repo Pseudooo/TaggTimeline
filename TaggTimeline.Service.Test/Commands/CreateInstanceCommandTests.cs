@@ -1,6 +1,8 @@
 
+using MapsterMapper;
 using Moq;
 using NUnit.Framework;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Commands;
@@ -17,23 +19,25 @@ public class CreateInstanceCommandTests
 
     public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
     public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
+    public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
+        MockedRepository = new MockKeyedEntityTaggRepository();
         MockedTransaction = MockTransactionWrapper.GetTransaction();
+        MockedMapper = new MockInstanceMapper();
     }
 
     [Test]
     public async Task Create_Instance_Should_Create_Instance()
     {
         var command = new CreateInstanceCommand() { TaggId = TaggTestData.InitialTaggs[0].Id };
-        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object);
+        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.IsInstanceOf<Instance>(result);
+        Assert.IsInstanceOf<InstanceModel>(result);
         Assert.AreEqual(TaggTestData.InitialTaggs[0].Instances.Count(), 1);
     }
 
@@ -41,7 +45,7 @@ public class CreateInstanceCommandTests
     public void Create_Instance_Should_Throw_EntityNotFoundException()
     {
         var command = new CreateInstanceCommand() { TaggId = Guid.NewGuid() };
-        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object);
+        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
         
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {
             await handler.Handle(command, CancellationToken.None);
