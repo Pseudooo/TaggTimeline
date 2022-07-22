@@ -9,6 +9,7 @@ using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
 
@@ -22,14 +23,14 @@ public class GetTaggByIdQueryTests
     [SetUp]
     public void SetUp()
     {   
-        MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
-        MockedMapper = MockMapper.GetMapper();
+        MockedRepository = new MockKeyedEntityTaggRepository();
+        MockedMapper = new MockTaggMapper();
     }
 
     [Test]
     public async Task Get_Tagg_By_Id_Should_Return_Tagg()
     {
-        var id = MockKeyedEntityTaggRepository.InitialTaggs[0].Id;
+        var id = TaggTestData.InitialTaggs[0].Id;
         var query = new GetTaggByIdQuery() { Id = id };
         var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);

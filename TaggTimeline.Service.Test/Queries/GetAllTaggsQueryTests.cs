@@ -8,6 +8,7 @@ using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
 
@@ -21,8 +22,8 @@ public class GetAllTaggsQueryTests
     [SetUp]
     public void SetUp()
     {
-        this.MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
-        this.MockedMapper = MockMapper.GetMapper();
+        this.MockedRepository = new MockKeyedEntityTaggRepository();
+        this.MockedMapper = new MockTaggMapper();
     }
 
     [Test]

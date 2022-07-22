@@ -7,6 +7,7 @@ using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
 
@@ -19,7 +20,7 @@ public class SearchForTaggQueryTests
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
+        MockedRepository = new MockKeyedEntityTaggRepository();
     }
 
     [Test]
