@@ -7,6 +7,7 @@ using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Commands;
 
@@ -27,13 +28,13 @@ public class CreateInstanceCommandTests
     [Test]
     public async Task Create_Instance_Should_Create_Instance()
     {
-        var command = new CreateInstanceCommand() { TaggId = MockKeyedEntityTaggRepository.InitialTaggs[0].Id };
+        var command = new CreateInstanceCommand() { TaggId = TaggTestData.InitialTaggs[0].Id };
         var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<Instance>(result);
-        Assert.AreEqual(MockKeyedEntityTaggRepository.InitialTaggs[0].Instances.Count(), 1);
+        Assert.AreEqual(TaggTestData.InitialTaggs[0].Instances.Count(), 1);
     }
 
     [Test]
