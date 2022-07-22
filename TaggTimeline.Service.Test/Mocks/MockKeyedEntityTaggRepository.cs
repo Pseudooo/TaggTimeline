@@ -7,8 +7,64 @@ using TaggTimeline.Domain.Interface;
 
 namespace TaggTimeline.Service.Test.Mocks;
 
-public class MockKeyedEntityTaggRepository
+public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
 {
+
+    private List<Tagg> _taggs;
+
+    public MockKeyedEntityTaggRepository()
+    {
+        _taggs = InitialTaggs.ToList();
+
+        this.Setup(repo => repo.GetAll())
+            .ReturnsAsync(_taggs);
+
+        this.Setup(repo => repo.GetByIdWithNavigationProperties(It.IsAny<Guid>(), It.IsAny<Expression<Func<Tagg, object>>[]>()))
+            .ReturnsAsync((Guid id, Expression<Func<Tagg, object>>[] _) => _taggs.SingleOrDefault(tagg => tagg.Id == id));
+
+        this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
+            .ReturnsAsync((string searchTerm) => _taggs.Where(tagg => tagg.Key.Contains(searchTerm)));
+
+        this.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
+            .ReturnsAsync((Tagg added) => {
+                added.Id = Guid.NewGuid();
+                added.CreatedDate = DateTime.Now;
+
+                _taggs.Add(added);
+
+                return added;
+            });
+    }
+
+    public static Mock<IKeyedEntityRepository<Tagg>> GetBaseRepository()
+    {
+        var mockRepo = new Mock<IKeyedEntityRepository<Tagg>>();
+        var innerTaggs = InitialTaggs.ToList();
+        
+        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTaggs);
+        
+        foreach(var tagg in InitialTaggs)
+        {
+            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>[]>()))
+                    .ReturnsAsync(tagg);
+        }
+        mockRepo.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
+                .ReturnsAsync((string searchTerm) => {
+                    return innerTaggs.Where(tagg => tagg.Key.Contains(searchTerm));
+                });
+
+        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
+                .ReturnsAsync((Tagg added) => {
+
+                    added.Id = Guid.NewGuid();
+                    added.CreatedDate = DateTime.Now;
+
+                    innerTaggs.Add(added);
+                    return added;
+                });
+
+        return mockRepo;
+    }
 
     public static List<Tagg> InitialTaggs { get; private set; } = new List<Tagg>()
     {
@@ -91,32 +147,7 @@ public class MockKeyedEntityTaggRepository
         }
     };
 
-    public static Mock<IKeyedEntityRepository<Tagg>> GetBaseRepository()
-    {
-        var mockRepo = new Mock<IKeyedEntityRepository<Tagg>>();
-        var innerTaggs = InitialTaggs.ToList();
-        
-        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTaggs);
-        
-        foreach(var tagg in InitialTaggs)
-        {
-            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>[]>()))
-                    .ReturnsAsync(tagg);
-        }
 
-        mockRepo.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
-                .ReturnsAsync((string searchTerm) => {
-                    return innerTaggs.Where(tagg => tagg.Key.Contains(searchTerm));
-                });
-
-        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
-                .ReturnsAsync((Tagg added) => {
-                    innerTaggs.Add(added);
-                    return added;
-                });
-
-        return mockRepo;
-    }
 
 
 }
