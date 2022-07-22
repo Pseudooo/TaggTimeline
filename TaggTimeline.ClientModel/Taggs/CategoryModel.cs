@@ -9,6 +9,9 @@ public class CategoryModel
     public Guid Id { get; set; }
 
     [Required]
+    public string Key { get; set; } = null!;
+
+    [Required]
     public DateTime CreatedDate { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
