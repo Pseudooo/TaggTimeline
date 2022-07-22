@@ -72,6 +72,25 @@ public class MockKeyedEntityTaggRepository
             },
     };
 
+    public static IList<TaggPreviewModel> InitialTaggPreviewModels { get; private set; } = new List<TaggPreviewModel>()
+    {
+        new TaggPreviewModel()
+        {
+            Id = InitialTaggModels[0].Id,
+            Key = InitialTaggs[0].Key
+        },
+        new TaggPreviewModel()
+        {
+            Id = InitialTaggModels[1].Id,
+            Key = InitialTaggs[1].Key
+        },
+        new TaggPreviewModel()
+        {
+            Id = InitialTaggModels[2].Id,
+            Key = InitialTaggs[2].Key
+        }
+    };
+
     public static Mock<IKeyedEntityRepository<Tagg>> GetBaseRepository()
     {
         var mockRepo = new Mock<IKeyedEntityRepository<Tagg>>();
