@@ -7,7 +7,7 @@ using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.Domain.Context;
 
-public partial class DataContext : IdentityDbContext<IdentityUser>
+public class DataContext : IdentityDbContext<IdentityUser>
 {
     public DataContext()
         { }
