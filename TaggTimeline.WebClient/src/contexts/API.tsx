@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Instance, Tagg, TaggPreviewModel } from "../api/generated";
+import { InstanceModel, TaggModel, TaggPreviewModel } from "../api/generated";
 import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
@@ -25,8 +25,8 @@ export enum DataStatus {
 interface APIContextType {
   taggs?: TaggPreviewModel[];
   taggsStatus: DataStatus;
-  createTagg(name: string): Promise<Tagg>;
-  createTaggInstance(taggId: string): Promise<Instance>;
+  createTagg(name: string): Promise<TaggModel>;
+  createTaggInstance(taggId: string): Promise<InstanceModel>;
   getAllTaggs(): Promise<TaggPreviewModel[]>;
 }
 

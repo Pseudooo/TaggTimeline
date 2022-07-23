@@ -10,7 +10,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FunctionComponent, useState } from "react";
-import { Instance, TaggPreviewModel } from "../../api/generated";
+import { InstanceModel, TaggPreviewModel } from "../../api/generated";
 import { SelectTaggForm } from "./SelectTagg";
 import { stringToColour } from "../../util";
 import DatePicker from "../io/DatePicker";
@@ -20,7 +20,7 @@ import { useToaster } from "../../contexts/Toaster";
 
 export interface CreateTaggInstanceForm {
   onCancel?: () => void;
-  onSuccess?: (instance: Instance) => void;
+  onSuccess?: (instance: InstanceModel) => void;
 }
 
 /**
