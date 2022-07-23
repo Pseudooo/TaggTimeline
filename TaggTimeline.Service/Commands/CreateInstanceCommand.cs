@@ -9,4 +9,7 @@ public class CreateInstanceCommand : IRequest<Instance>
 {
     [Required]
     public Guid TaggId { get; set; }
+
+    [Required]
+    public DateTime OccuranceDate { get; set; }
 }
