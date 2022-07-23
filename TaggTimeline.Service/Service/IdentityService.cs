@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using TaggTimeline.ClientModel.Auth;
 using TaggTimeline.Service.Configuration;
+using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Interface;
 
 namespace TaggTimeline.Service.Service;
@@ -38,7 +39,7 @@ public class IdentityService : IIdentityService
     {
         var existingUser = await _userManager.FindByNameAsync(username);
         if(existingUser is not null)
-            throw new Exception("..."); // Temporary exception
+            throw new UserRegistrationException("There is already a user with that username");
 
         var createdUser = new IdentityUser()
         {
@@ -47,7 +48,7 @@ public class IdentityService : IIdentityService
 
         var userCreationResult = await _userManager.CreateAsync(createdUser, password);
         if(!userCreationResult.Succeeded)
-            throw new Exception("..."); // Temporary exception
+            throw new UserRegistrationException(string.Join(", ", userCreationResult.Errors.Select(x => x.Description)));
 
         return GenerateAuthenticationResultForUser(createdUser);
     }
