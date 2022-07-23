@@ -22,6 +22,8 @@
     <EmbeddedResource Include="Scripts/00/00_CreateTaggTable.sql"/>
     <EmbeddedResource Include="Scripts/00/01_CreateInstancesTable.sql"/>
     <EmbeddedResource Include="Scripts/00/02_InstanceDateInsertion.sql"/>
+    <EmbeddedResource Include="Scripts/00/03_CreateCategoryTable.sql"/>
+
   </ItemGroup>
 
 </Project>

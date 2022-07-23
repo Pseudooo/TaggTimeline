@@ -1,4 +1,5 @@
 
+using MapsterMapper;
 using MediatR;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
@@ -10,17 +11,19 @@ namespace TaggTimeline.Service.Handlers;
 public class GetAllTaggsHandler : IRequestHandler<GetAllTaggsQuery, IEnumerable<TaggPreviewModel>>
 {
     private readonly IBaseRepository<Tagg> _baseRepository;
+    private readonly IMapper _mapper;
 
-    public GetAllTaggsHandler(IBaseRepository<Tagg> baseRepository)
+    public GetAllTaggsHandler(IBaseRepository<Tagg> baseRepository, IMapper mapper)
     {
         _baseRepository = baseRepository;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<TaggPreviewModel>> Handle(GetAllTaggsQuery request, CancellationToken cancellationToken)
     {
         var taggs = await _baseRepository.GetAll();
 
-        var taggPreviews = taggs.Select(tagg => new TaggPreviewModel() { Id = tagg.Id, Key = tagg.Key }).ToList();
+        var taggPreviews = _mapper.Map<IEnumerable<TaggPreviewModel>>(taggs);
 
         return taggPreviews;
     }

@@ -1,12 +1,10 @@
 
-using System.Linq.Expressions;
-using Moq;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
-using TaggTimeline.Domain.Interface;
 
-namespace TaggTimeline.Service.Test.Mocks;
+namespace TaggTimeline.Service.Test.Mocks.Taggs;
 
-public static class MockBaseTaggRepository
+public static class TaggTestData
 {
 
     public static List<Tagg> InitialTaggs { get; private set; } = new List<Tagg>()
@@ -18,7 +16,8 @@ public static class MockBaseTaggRepository
                 CreatedDate = DateTime.Now,
                 ModifiedDate = null,
                 DeletedDate = null,
-                Instances = Enumerable.Empty<Instance>()
+                Instances = Enumerable.Empty<Instance>(),
+                Categories = Enumerable.Empty<Category>(),
             },
         new Tagg()
             {
@@ -28,6 +27,7 @@ public static class MockBaseTaggRepository
                 ModifiedDate = DateTime.Now,
                 DeletedDate = DateTime.Now,
                 Instances = Enumerable.Empty<Instance>(),
+                Categories = Enumerable.Empty<Category>(),
             },
         new Tagg()
             {
@@ -37,28 +37,8 @@ public static class MockBaseTaggRepository
                 ModifiedDate = DateTime.Now,
                 DeletedDate = DateTime.Now,
                 Instances = Enumerable.Empty<Instance>(),
+                Categories = Enumerable.Empty<Category>(),
             },
     };
-
-    public static Mock<IBaseRepository<Tagg>> GetBaseRepository()
-    {
-        var mockRepo = new Mock<IBaseRepository<Tagg>>();
-        var innerTaggs = InitialTaggs.ToList();
-        
-        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTaggs);
-        
-        foreach(var tagg in InitialTaggs)
-        {
-            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>>()))
-                    .ReturnsAsync(tagg);
-        }
-
-        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>())).ReturnsAsync((Tagg added) => {
-            innerTaggs.Add(added);
-            return added;
-        });
-
-        return mockRepo;
-    }
 
 }

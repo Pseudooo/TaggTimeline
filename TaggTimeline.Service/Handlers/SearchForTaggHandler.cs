@@ -1,4 +1,5 @@
 
+using MapsterMapper;
 using MediatR;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
@@ -9,20 +10,21 @@ namespace TaggTimeline.Service.Handlers;
 
 public class SearchForTaggHandler : IRequestHandler<SearchForTaggQuery, IEnumerable<TaggPreviewModel>>
 {
-    private readonly ITaggRepository _taggRepository;
+    private readonly IKeyedEntityRepository<Tagg> _taggRepository;
+    private readonly IMapper _mapper;
 
-    public SearchForTaggHandler(ITaggRepository taggRepository)
+    public SearchForTaggHandler(IKeyedEntityRepository<Tagg> taggRepository, IMapper mapper)
     {
         _taggRepository = taggRepository;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<TaggPreviewModel>> Handle(SearchForTaggQuery request, CancellationToken cancellationToken)
     {
-        var taggs = await _taggRepository.SearchForTagg(request.SearchTerm);
+        var taggs = await _taggRepository.SearchForKey(request.SearchTerm);
 
-        var taggPreviews = taggs.Select(tagg => new TaggPreviewModel() { Id = tagg.Id, Key = tagg.Key })
-                                .ToList();
+        var taggPreviewModels = _mapper.Map<IEnumerable<TaggPreviewModel>>(taggs);
 
-        return taggPreviews;
+        return taggPreviewModels;
     }   
 }

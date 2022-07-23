@@ -1,15 +1,13 @@
+
 using System.ComponentModel.DataAnnotations;
 
 namespace TaggTimeline.ClientModel.Taggs;
 
-public class TaggPreviewModel
+public class InstanceModel
 {
     [Required]
     public Guid Id { get; set; }
     
     [Required]
-    public string Key { get; set; } = null!;
-
-    public IEnumerable<CategoryPreviewModel> Categories { get; set; } = null!;
+    public DateTime CreatedDate { get; set; }
 }
-

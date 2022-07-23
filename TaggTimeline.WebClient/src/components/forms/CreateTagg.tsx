@@ -7,13 +7,13 @@ import {
   FormControl,
 } from "@mui/material";
 import { FunctionComponent, useEffect, useState } from "react";
-import { Tagg } from "../../api/generated";
+import { TaggModel } from "../../api/generated";
 import { useAPI } from "../../contexts/API";
 import TextField from "../io/TextField";
 
 export interface CreateTaggFormProps {
   placeholder?: string;
-  onSuccess?: (tagg: Tagg) => void;
+  onSuccess?: (tagg: TaggModel) => void;
   onCancel?: () => void;
   cancelText?: string;
 }

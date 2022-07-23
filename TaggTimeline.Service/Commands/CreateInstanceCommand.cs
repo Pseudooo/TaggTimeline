@@ -1,11 +1,11 @@
 
 using MediatR;
-using TaggTimeline.Domain.Entities.Taggs;
 using System.ComponentModel.DataAnnotations;
+using TaggTimeline.ClientModel.Taggs;
 
 namespace TaggTimeline.Service.Commands;
 
-public class CreateInstanceCommand : IRequest<Instance>
+public class CreateInstanceCommand : IRequest<InstanceModel>
 {
     [Required]
     public Guid TaggId { get; set; }

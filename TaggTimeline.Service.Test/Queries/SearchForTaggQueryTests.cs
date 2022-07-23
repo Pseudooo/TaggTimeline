@@ -1,4 +1,5 @@
 
+using MapsterMapper;
 using Moq;
 using NUnit.Framework;
 using TaggTimeline.ClientModel.Taggs;
@@ -7,6 +8,7 @@ using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
 
@@ -14,12 +16,14 @@ namespace TaggTimeline.Service.Test.Queries;
 public class SearchForTaggQueryTests
 {
 
-    public Mock<ITaggRepository> MockedRepository { get; private set; } = null!;
+    public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; private set; } = null!;
+    public Mock<IMapper> MockedMapper { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockTaggRepository.GetTaggRepository();
+        MockedRepository = new MockKeyedEntityTaggRepository();
+        MockedMapper = new MockTaggMapper();
     }
 
     [Test]
@@ -27,7 +31,7 @@ public class SearchForTaggQueryTests
     {
         var searchTerm = "F";
         var query = new SearchForTaggQuery() { SearchTerm = searchTerm };
-        var handler = new SearchForTaggHandler(MockedRepository.Object);
+        var handler = new SearchForTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
@@ -40,7 +44,7 @@ public class SearchForTaggQueryTests
     {
         var searchTerm = "astringthatwontcomeup";
         var query = new SearchForTaggQuery() { SearchTerm = searchTerm };
-        var handler = new SearchForTaggHandler(MockedRepository.Object);
+        var handler = new SearchForTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
