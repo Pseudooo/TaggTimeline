@@ -19,9 +19,9 @@ public class IdentityService : IIdentityService
         _jwtConfiguration = jwtConfiguration;
     }
 
-    public async Task<AuthenticationResult> Register(string email, string password)
+    public async Task<AuthenticationResult> Register(string username, string password)
     {
-        var existingUser = await _userManager.FindByEmailAsync(email);
+        var existingUser = await _userManager.FindByNameAsync(username);
         if(existingUser is not null)
             return new AuthenticationResult()
                 {
@@ -30,8 +30,7 @@ public class IdentityService : IIdentityService
 
         var newUser = new IdentityUser()
         {
-            Email = email,
-            UserName = email,
+            UserName = username,
         };
 
         var createdUser = await _userManager.CreateAsync(newUser, password);

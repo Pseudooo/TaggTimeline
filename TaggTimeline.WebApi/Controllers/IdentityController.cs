@@ -18,7 +18,7 @@ public class IdentityController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
     {
-        var authResponse = await _identityService.Register(request.Email, request.Password);
+        var authResponse = await _identityService.Register(request.Username, request.Password);
 
         if(!authResponse.Success)
         {
@@ -28,7 +28,10 @@ public class IdentityController : ControllerBase
             });
         }
 
-        return Ok();
+        return Ok(new AuthSuccessResponse()
+        {
+            Token = authResponse.Token,
+        });
     }
 
 }
