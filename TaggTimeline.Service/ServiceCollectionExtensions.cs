@@ -6,7 +6,9 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.Service.Interface;
 using TaggTimeline.Service.PipelineBehaviours;
+using TaggTimeline.Service.Service;
 
 namespace TaggTimeline.Service;
 
@@ -28,6 +30,8 @@ public static class ServiceCollectionExtensions
 
         sc.AddSingleton(mappingConfig);
         sc.AddScoped<IMapper, ServiceMapper>();
+
+        sc.AddScoped<IIdentityService, IdentityService>();
 
         return sc;
     }

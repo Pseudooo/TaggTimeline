@@ -1,5 +1,5 @@
 
-namespace TaggTimeline.WebApi.Configuration;
+namespace TaggTimeline.Service.Configuration;
 
 public class JwtConfiguration
 {

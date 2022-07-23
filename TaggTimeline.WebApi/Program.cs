@@ -7,9 +7,8 @@ using TaggTimeline.Domain;
 using TaggTimeline.Domain.Configuration;
 using TaggTimeline.Domain.Context;
 using TaggTimeline.Service;
+using TaggTimeline.Service.Configuration;
 using TaggTimeline.WebApi;
-using TaggTimeline.WebApi.Configuration;
-using TaggTimeline.WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,7 +78,6 @@ builder.Services.AddServiceDependencies();
 builder.Services.AddDomainDependencies(dbConfig);
 builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<DataContext>();
-builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 
