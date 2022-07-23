@@ -69,7 +69,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
-    public async Task<ActionResult> AddCategory(Guid taggId, Guid categoryId)
+    public async Task<ActionResult<TaggModel>> AddCategory(Guid taggId, Guid categoryId)
     {
         var command = new AddCategoryToTaggCommand()
         {
