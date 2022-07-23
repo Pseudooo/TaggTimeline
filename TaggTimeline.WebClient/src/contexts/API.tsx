@@ -7,7 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { InstanceModel, TaggModel, TaggPreviewModel } from "../api/generated";
+import { TaggPreviewModel } from "../api/generated";
 import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
@@ -25,9 +25,9 @@ export enum DataStatus {
 interface APIContextType {
   taggs?: TaggPreviewModel[];
   taggsStatus: DataStatus;
-  createTagg(name: string): Promise<TaggModel>;
-  createTaggInstance(taggId: string): Promise<InstanceModel>;
-  getAllTaggs(): Promise<TaggPreviewModel[]>;
+  createTagg: typeof createTaggFromApi;
+  createTaggInstance: typeof createTaggInstanceFromApi;
+  getAllTaggs: typeof getAllTaggsFromApi;
 }
 
 const APIContext = createContext<APIContextType>({} as APIContextType);
@@ -48,27 +48,29 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    * @param name The name of the tagg to create
    * @returns The created tagg
    */
-  async function createTagg(name: string) {
-    const tagg = await createTaggFromApi(name);
+  const createTagg: APIContextType["createTagg"] = async (...args) => {
+    const tagg = await createTaggFromApi(...args);
     setTaggs([...taggs, tagg]);
     return tagg;
-  }
+  };
 
   /**
    * Creates an instance of a tag
    * @param taggId The id of the tag
    * @returns The created instance
    */
-  async function createTaggInstance(taggId: string) {
-    const instance = await createTaggInstanceFromApi(taggId);
+  const createTaggInstance: APIContextType["createTaggInstance"] = async (
+    ...args
+  ) => {
+    const instance = await createTaggInstanceFromApi(...args);
     return instance;
-  }
+  };
 
   /**
    * Gets all the user's taggs
    * @returns All available taggs
    */
-  async function getAllTaggs() {
+  const getAllTaggs: APIContextType["getAllTaggs"] = async () => {
     try {
       setTaggsStatus(DataStatus.LOADING);
       const taggs = await getAllTaggsFromApi();
@@ -79,7 +81,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       setTaggsStatus(DataStatus.ERROR);
       throw e;
     }
-  }
+  };
 
   useEffect(() => {
     if (user) {

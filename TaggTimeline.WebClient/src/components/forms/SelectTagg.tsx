@@ -110,7 +110,8 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
           label="Filter Taggs..."
           value={searchTerm}
           onChange={handleSearchChange}
-        ></TextField>
+          autoFocus
+        />
       </FormControl>
       <List disablePadding sx={{ overflow: "auto", flex: "1 1 auto" }}>
         {taggListItems.length === 0 && taggsStatus === DataStatus.LOADED ? (
