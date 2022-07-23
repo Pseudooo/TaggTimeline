@@ -1,6 +1,8 @@
 
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TaggTimeline.WebApi.Service;
+using TaggTimeline.ClientModel.Auth;
+using TaggTimeline.Service.Auth;
 
 namespace TaggTimeline.WebApi.Controllers;
 
@@ -8,49 +10,25 @@ namespace TaggTimeline.WebApi.Controllers;
 [Route("[controller]")]
 public class IdentityController : ControllerBase
 {
-    private readonly IIdentityService _identityService;
+    private readonly IMediator _mediator;
 
-    public IdentityController(IIdentityService identityService)
+    public IdentityController(IMediator mediator)
     {
-        _identityService = identityService;
+        _mediator = mediator;
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] UserRegistrationRequest request)
+    public async Task<ActionResult<AuthenticationResultModel>> Register([FromBody] RegisterUserCommand command)
     {
-        var authResponse = await _identityService.Register(request.Username, request.Password);
-
-        if(!authResponse.Success)
-        {
-            return BadRequest(new AuthFailureResponse
-            {
-                Errors = authResponse.Errors,
-            });
-        }
-
-        return Ok(new AuthSuccessResponse()
-        {
-            Token = authResponse.Token,
-        });
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+    public async Task<ActionResult<AuthenticationResultModel>> Login([FromBody] LoginUserCommand command)
     {
-        var authResponse = await _identityService.Login(request.Username, request.Password);
-
-        if(!authResponse.Success)
-        {
-            return BadRequest(new AuthFailureResponse
-            {
-                Errors = authResponse.Errors,
-            });
-        }
-
-        return Ok(new AuthSuccessResponse()
-        {
-            Token = authResponse.Token,
-        });
+        var result = await _mediator.Send(command);
+        return Ok(result);
     }
 
 }
