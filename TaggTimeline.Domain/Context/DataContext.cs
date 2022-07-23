@@ -9,10 +9,18 @@ namespace TaggTimeline.Domain.Context;
 
 public partial class DataContext : IdentityDbContext<IdentityUser>
 {
-    public DataContext(DbContextOptions opts) : base(opts)
+    public DataContext()
+        { }
+
+    public DataContext(DbContextOptions<DataContext> opts) : base(opts)
         {
             Database.EnsureCreated();
         }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder options)
+    {
+        options.UseNpgsql("User ID=taggserver;Password=Q6%5nWgeN4#9;Host=localhost;Port=5432;Database=taggtimeline;Pooling=true;Connection Lifetime=0;");
+    }
 
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;
