@@ -35,34 +35,4 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
             });
     }
 
-    public static Mock<IKeyedEntityRepository<Tagg>> GetBaseRepository()
-    {
-        var mockRepo = new Mock<IKeyedEntityRepository<Tagg>>();
-        var innerTaggs = TaggTestData.InitialTaggs.ToList();
-        
-        mockRepo.Setup(repo => repo.GetAll()).ReturnsAsync(innerTaggs);
-        
-        foreach(var tagg in innerTaggs)
-        {
-            mockRepo.Setup(repo => repo.GetByIdWithNavigationProperties(It.Is<Guid>(id => tagg.Id == id), It.IsAny<Expression<Func<Tagg, object>>[]>()))
-                    .ReturnsAsync(tagg);
-        }
-        mockRepo.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
-                .ReturnsAsync((string searchTerm) => {
-                    return innerTaggs.Where(tagg => tagg.Key.Contains(searchTerm));
-                });
-
-        mockRepo.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
-                .ReturnsAsync((Tagg added) => {
-
-                    added.Id = Guid.NewGuid();
-                    added.CreatedDate = DateTime.Now;
-
-                    innerTaggs.Add(added);
-                    return added;
-                });
-
-        return mockRepo;
-    }
-
 }

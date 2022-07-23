@@ -26,7 +26,7 @@ public class CreateTaggCommandTests
     [SetUp]
     public void SetUp()
     {
-        MockedRepository = MockKeyedEntityTaggRepository.GetBaseRepository();
+        MockedRepository = new MockKeyedEntityTaggRepository();
         MockedTransaction = MockTransactionWrapper.GetTransaction();
         MockedMapper = new MockTaggMapper();
     }
