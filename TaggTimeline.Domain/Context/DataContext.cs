@@ -17,11 +17,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
             Database.EnsureCreated();
         }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        options.UseNpgsql("User ID=taggserver;Password=Q6%5nWgeN4#9;Host=localhost;Port=5432;Database=taggtimeline;Pooling=true;Connection Lifetime=0;");
-    }
-
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;
     public DbSet<Category> Categories { get; set; } = null!;
