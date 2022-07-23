@@ -23,8 +23,8 @@ public class IdentityService : IIdentityService
 
         var newUser = new IdentityUser()
         {
-            
-        }
+
+        };
 
         throw new NotImplementedException();
     }
