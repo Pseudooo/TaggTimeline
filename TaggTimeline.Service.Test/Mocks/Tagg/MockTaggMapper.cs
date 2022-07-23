@@ -3,6 +3,7 @@ using MapsterMapper;
 using Moq;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Mocks.Taggs;
 
@@ -11,6 +12,8 @@ public class MockTaggMapper : Mock<IMapper>
 
     public MockTaggMapper()
     {
+        var categoryMapper = new MockCategoryMapper().Object;
+
         Setup(mapper => mapper.Map<TaggModel>(It.IsAny<Tagg>()))
             .Returns((Tagg mappedFrom) => {
                 return new TaggModel()
@@ -20,6 +23,7 @@ public class MockTaggMapper : Mock<IMapper>
                     CreatedDate = mappedFrom.CreatedDate,
                     ModifiedDate = mappedFrom.ModifiedDate,
                     DeletedDate = mappedFrom.DeletedDate,
+                    Categories = categoryMapper.Map<IEnumerable<CategoryPreviewModel>>(mappedFrom.Categories),
                 };
             });
             

@@ -35,6 +35,6 @@ public class MockCategoryMapper : Mock<IMapper>
             });
 
         Setup(mapper => mapper.Map<IEnumerable<CategoryPreviewModel>>(It.IsAny<IEnumerable<Category>>()))
-            .Returns((IEnumerable<Category> mappedFrom) => mappedFrom.Select(category => this.Object.Map<CategoryPreviewModel>(category)).ToList());
+            .Returns((IEnumerable<Category> mappedFrom) => mappedFrom?.Select(category => this.Object.Map<CategoryPreviewModel>(category)).ToList() ?? Enumerable.Empty<CategoryPreviewModel>());
     }
 }
