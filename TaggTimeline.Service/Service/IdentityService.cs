@@ -26,11 +26,11 @@ public class IdentityService : IIdentityService
     {
         var user = await _userManager.FindByNameAsync(username);
         if(user is null)
-            throw new Exception("..."); // Temporary exception
+            throw new EntityNotFoundException("Couldn't find user with that username"); // Temporary exception
 
         var validPassword = await _userManager.CheckPasswordAsync(user, password);
         if(!validPassword)
-            throw new Exception("..."); // Temporary exception
+            throw new AuthenticationFailedException("Invalid username/password"); // Temporary exception
 
         return GenerateAuthenticationResultForUser(user);
     }
