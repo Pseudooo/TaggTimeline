@@ -1,13 +1,18 @@
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaggTimeline.Domain.Entities;
 using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.Domain.Context;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<IdentityUser>
 {
-    public DataContext(DbContextOptions opts) : base(opts)
+    public DataContext()
+        { }
+
+    public DataContext(DbContextOptions<DataContext> opts) : base(opts)
         {
             Database.EnsureCreated();
         }
