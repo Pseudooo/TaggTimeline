@@ -34,4 +34,23 @@ public class IdentityController : ControllerBase
         });
     }
 
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] UserLoginRequest request)
+    {
+        var authResponse = await _identityService.Login(request.Username, request.Password);
+
+        if(!authResponse.Success)
+        {
+            return BadRequest(new AuthFailureResponse
+            {
+                Errors = authResponse.Errors,
+            });
+        }
+
+        return Ok(new AuthSuccessResponse()
+        {
+            Token = authResponse.Token,
+        });
+    }
+
 }
