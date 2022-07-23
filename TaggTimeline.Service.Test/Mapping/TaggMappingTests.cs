@@ -3,7 +3,6 @@ using Mapster;
 using NUnit.Framework;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
-using TaggTimeline.Service.Configuration;
 using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Mapping;
@@ -11,13 +10,6 @@ namespace TaggTimeline.Service.Test.Mapping;
 [TestFixture]
 public class TaggMappingTests
 {
-
-    [SetUp]
-    public void SetUp()
-    {
-        _ = new MappingConfig();
-    }
-
     [Test]
     public void Map_Tagg_To_TaggModel_Should_Map()
     {
@@ -63,5 +55,4 @@ public class TaggMappingTests
         Assert.AreEqual(instance.Id, instanceModel.Id);
         Assert.AreEqual(instance.CreatedDate, instanceModel.CreatedDate);
     }
-
 }

@@ -2,7 +2,6 @@
 using Mapster;
 using NUnit.Framework;
 using TaggTimeline.ClientModel.Taggs;
-using TaggTimeline.Service.Configuration;
 using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Mapping;
@@ -10,12 +9,6 @@ namespace TaggTimeline.Service.Test.Mapping;
 [TestFixture]
 public class CategoryMappingTests
 {
-
-    [SetUp]
-    public void SetUp()
-    {
-        _ = new MappingConfig();
-    }
 
     [Test]
     public void Map_Category_To_CategoryModel_Should_Map()
