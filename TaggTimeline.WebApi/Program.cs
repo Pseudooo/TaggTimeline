@@ -1,12 +1,15 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TaggTimeline.Domain;
 using TaggTimeline.Domain.Configuration;
+using TaggTimeline.Domain.Context;
 using TaggTimeline.Service;
 using TaggTimeline.WebApi;
 using TaggTimeline.WebApi.Configuration;
+using TaggTimeline.WebApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +77,9 @@ var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<Dat
 
 builder.Services.AddServiceDependencies();
 builder.Services.AddDomainDependencies(dbConfig);
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<DataContext>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 
