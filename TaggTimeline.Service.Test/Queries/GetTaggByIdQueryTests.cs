@@ -37,8 +37,8 @@ public class GetTaggByIdQueryTests
         Assert.IsNotNull(result);
         Assert.IsNotEmpty(result.Key);
         Assert.IsInstanceOf<TaggModel>(result);
-        Assert.IsInstanceOf<InstanceModel>(result.Instances);
-        Assert.IsInstanceOf<CategoryModel>(result.Categories);
+        Assert.IsInstanceOf<List<InstanceModel>>(result.Instances);
+        Assert.IsInstanceOf<List<CategoryPreviewModel>>(result.Categories);
     }
 
     [Test]
