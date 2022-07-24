@@ -35,7 +35,7 @@ public class CreateTaggCommandTests
     public async Task Create_Tagg_Should_Create_Tagg()
     {
         var command = new CreateTaggCommand() { Key = "Tagg" };
-        var handler = new CreateTaggHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
+        var handler = new CreateTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);

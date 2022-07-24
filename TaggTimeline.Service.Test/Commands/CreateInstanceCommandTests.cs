@@ -18,14 +18,12 @@ public class CreateInstanceCommandTests
 {
 
     public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
-    public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
     public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         MockedRepository = new MockKeyedEntityTaggRepository();
-        MockedTransaction = MockTransactionWrapper.GetTransaction();
         MockedMapper = new MockInstanceMapper();
     }
 
