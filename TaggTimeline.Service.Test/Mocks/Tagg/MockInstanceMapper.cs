@@ -16,6 +16,7 @@ public class MockInstanceMapper : Mock<IMapper>
                 {
                     Id = mappedFrom.Id,
                     CreatedDate = mappedFrom.CreatedDate,
+                    OccuranceDate = mappedFrom.OccuranceDate,
                 };
             });
     }
