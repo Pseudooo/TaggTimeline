@@ -8,7 +8,6 @@ using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
-using TaggTimeline.Service.Test.Mocks;
 using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
@@ -38,6 +37,8 @@ public class GetTaggByIdQueryTests
         Assert.IsNotNull(result);
         Assert.IsNotEmpty(result.Key);
         Assert.IsInstanceOf<TaggModel>(result);
+        Assert.IsInstanceOf<InstanceModel>(result.Instances);
+        Assert.IsInstanceOf<CategoryModel>(result.Categories);
     }
 
     [Test]

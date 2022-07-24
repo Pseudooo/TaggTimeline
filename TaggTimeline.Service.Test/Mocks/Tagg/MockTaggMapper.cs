@@ -13,6 +13,7 @@ public class MockTaggMapper : Mock<IMapper>
     public MockTaggMapper()
     {
         var categoryMapper = new MockCategoryMapper().Object;
+        var instanceMapper = new MockInstanceMapper().Object;
 
         Setup(mapper => mapper.Map<TaggModel>(It.IsAny<Tagg>()))
             .Returns((Tagg mappedFrom) => {
@@ -24,6 +25,7 @@ public class MockTaggMapper : Mock<IMapper>
                     ModifiedDate = mappedFrom.ModifiedDate,
                     DeletedDate = mappedFrom.DeletedDate,
                     Categories = categoryMapper.Map<IEnumerable<CategoryPreviewModel>>(mappedFrom.Categories),
+                    Instances = instanceMapper.Map<IEnumerable<InstanceModel>>(mappedFrom.Instances),
                 };
             });
             
