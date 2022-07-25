@@ -12,6 +12,7 @@ import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
   createTaggInstance as createTaggInstanceFromApi,
+  getTagg as getTaggFromApi,
 } from "../api/wrapped";
 import { useAuth } from "./Auth";
 
@@ -28,6 +29,7 @@ interface APIContextType {
   createTagg: typeof createTaggFromApi;
   createTaggInstance: typeof createTaggInstanceFromApi;
   getAllTaggs: typeof getAllTaggsFromApi;
+  getTagg: typeof getTaggFromApi;
 }
 
 const APIContext = createContext<APIContextType>({} as APIContextType);
@@ -83,6 +85,16 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
     }
   };
 
+  /**
+   * Gets a tagg by its ID
+   * @param params Parameters from the getTagg API function
+   * @returns The tagg, if found
+   */
+  const getTagg: APIContextType["getTagg"] = async (...params) => {
+    const tagg = await getTaggFromApi(...params);
+    return tagg;
+  };
+
   useEffect(() => {
     if (user) {
       getAllTaggs();
@@ -102,6 +114,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       createTagg,
       getAllTaggs,
       createTaggInstance,
+      getTagg,
     }),
     [taggs]
   );

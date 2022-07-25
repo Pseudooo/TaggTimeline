@@ -70,3 +70,14 @@ export async function createTaggInstance(taggId: string, occuranceDate: Date) {
     )
   );
 }
+
+/**
+ * Gets a tagg by ID from the API
+ * @param taggId The ID of the tagg
+ * @returns The detailed Tagg
+ */
+export async function getTagg(taggId: string) {
+  return handleResponse(
+    await wrappedFetch((params) => apiInstace.tagg.taggDetail(taggId, params))
+  );
+}
