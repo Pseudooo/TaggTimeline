@@ -23,65 +23,65 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-    var jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
-    builder.Services.AddSingleton(jwtConfiguration);
+        var jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
+        builder.Services.AddSingleton(jwtConfiguration);
 
-    builder.Services.AddAuthentication(opts => 
-        {
-            opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(bearer => 
+        builder.Services.AddAuthentication(opts => 
             {
-            bearer.SaveToken = true;
-            bearer.TokenValidationParameters = new TokenValidationParameters()
+                opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(bearer => 
+                {
+                bearer.SaveToken = true;
+                bearer.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfiguration.Secret)),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    RequireExpirationTime = false,
+                    ValidateLifetime = true,
+                };
+            });
+
+        builder.Services.AddSwaggerGen(cfg => 
             {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfiguration.Secret)),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                RequireExpirationTime = false,
-                ValidateLifetime = true,
-            };
-        });
-
-    builder.Services.AddSwaggerGen(cfg => 
-        {
-            cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-                {
-                    Description = "JWT Authorization header using bearer tokens",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                });
-
-            cfg.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                     {
-                        new OpenApiSecurityScheme
+                        Description = "JWT Authorization header using bearer tokens",
+                        Name = "Authorization",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey,
+                        Scheme = "Bearer",
+                    });
+
+                cfg.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
                         {
-                            Reference = new OpenApiReference
+                            new OpenApiSecurityScheme
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
-                            },
-                            Scheme = "oauth2",
-                            Name = "Bearer",
-                            In = ParameterLocation.Header,
-                            },
-                            new List<string>()
-                        }
-                });
-        });
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "Bearer"
+                                },
+                                Scheme = "oauth2",
+                                Name = "Bearer",
+                                In = ParameterLocation.Header,
+                                },
+                                new List<string>()
+                            }
+                    });
+            });
 
-    var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
+        var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
 
-    builder.Services.AddServiceDependencies();
-    builder.Services.AddDomainDependencies(dbConfig);
-    builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<DataContext>();
+        builder.Services.AddServiceDependencies();
+        builder.Services.AddDomainDependencies(dbConfig);
+        builder.Services.AddDefaultIdentity<IdentityUser>()
+            .AddEntityFrameworkStores<DataContext>();
 
         var app = builder.Build();
 
