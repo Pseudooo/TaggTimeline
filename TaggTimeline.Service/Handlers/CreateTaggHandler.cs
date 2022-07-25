@@ -24,6 +24,8 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, TaggModel>
         var toBeCreated = new Tagg()
         {
             Key = request.Key,
+            Instances = Enumerable.Empty<Instance>(),
+            Categories = Enumerable.Empty<Category>(),
         };
 
         var createdTagg = await _baseRepository.AddItem(toBeCreated);
