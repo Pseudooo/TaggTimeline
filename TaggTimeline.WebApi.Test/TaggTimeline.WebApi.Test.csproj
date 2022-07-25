@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaggTimeline.WebApi\TaggTimeline.WebApi.csproj" />
+    <ProjectReference Include="..\TaggTimeline.MigrationRunner\TaggTimeline.MigrationRunner.csproj" />
   </ItemGroup>
 
 </Project>

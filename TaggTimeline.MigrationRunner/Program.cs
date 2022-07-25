@@ -3,9 +3,11 @@ using DbUp;
 using Microsoft.Extensions.Configuration;
 using TaggTimeline.MigrationRunner.Configuration;
 
-internal class Program
+namespace TaggTimeline.MigrationRunner;
+
+public class Program
 {
-    private static int Main(string[] args)
+    public static int Main(string[] args)
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
