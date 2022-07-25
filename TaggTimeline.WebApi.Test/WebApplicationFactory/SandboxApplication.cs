@@ -27,8 +27,8 @@ public class SandboxApplication : WebApplicationFactory<Program>
             DatabaseConfiguration databaseConfiguration;
             using(var scope = sc.BuildServiceProvider().CreateScope())
             {
-                var provider = scope.ServiceProvider;
-                databaseConfiguration = provider.GetRequiredService<DatabaseConfiguration>();
+                var sp = scope.ServiceProvider;
+                databaseConfiguration = sp.GetRequiredService<DatabaseConfiguration>();
             }
             
             // Modify the database param to be a sandbox database
@@ -51,9 +51,10 @@ public class SandboxApplication : WebApplicationFactory<Program>
                     options.UseNpgsql(connectionStringBuilder.ConnectionString);
                 });
 
-                var provider = sc.BuildServiceProvider().CreateScope().ServiceProvider;
-                Context = provider.GetRequiredService<DataContext>();
             }
+
+            var provider = sc.BuildServiceProvider().CreateScope().ServiceProvider;
+            Context = provider.GetRequiredService<DataContext>();
         });
     }
 }
