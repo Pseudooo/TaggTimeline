@@ -12,6 +12,8 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDomainDependencies(this IServiceCollection sc, DatabaseConfiguration dbConfig)
     {
+        sc.AddSingleton<DatabaseConfiguration>(dbConfig);
+
         var builder = new NpgsqlConnectionStringBuilder(dbConfig.ConnectionString);
         sc.AddDbContext<DataContext>(opts => opts.UseNpgsql(builder.ConnectionString));
 

@@ -9,9 +9,6 @@ namespace TaggTimeline.Domain.Context;
 
 public class DataContext : IdentityDbContext<IdentityUser>
 {
-    public DataContext()
-        { }
-
     public DataContext(DbContextOptions<DataContext> opts) : base(opts)
         { }
 
