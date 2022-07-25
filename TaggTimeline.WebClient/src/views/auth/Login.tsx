@@ -19,7 +19,7 @@ export const AuthLoginPage: FunctionComponent = () => {
 
   async function doLogin() {
     setLoading(true);
-    await login("test_username");
+    await login("Test User", "Testpassword1");
     setLoading(false);
     navigate("/");
   }

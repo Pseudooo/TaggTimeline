@@ -1,5 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { FunctionComponent } from "react";
+import RegisterAccountForm from "../components/forms/RegisterAccount";
 import { TimelineSpeedDial } from "../components/timeline/TimelineSpeedDial";
 
 /**
@@ -8,9 +9,7 @@ import { TimelineSpeedDial } from "../components/timeline/TimelineSpeedDial";
 export const Home: FunctionComponent = () => {
   return (
     <Box display="flex" flexDirection="column" gap={1}>
-      <Typography>Home page</Typography>
-      {/* <HorizontalTimeline /> */}
-      {/* <CreateTaggInstanceForm /> */}
+      <RegisterAccountForm />
       <TimelineSpeedDial />
     </Box>
   );
