@@ -38,9 +38,4 @@ public class TransactionWrapper : ITransactionWrapper
             await _transaction.RollbackAsync();
         }
     }
-
-    public async ValueTask DisposeAsync()
-    {
-        await Rollback();
-    }
 }
