@@ -22,7 +22,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
                 var provider = scope.ServiceProvider;
                 databaseConfiguration = provider.GetRequiredService<DatabaseConfiguration>();
             }
-
+            
             // Modify the database param to be a sandbox database
             var testDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(databaseConfiguration.ConnectionString);
 
@@ -36,7 +36,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
             // Add new context with modified configuration
             sc.AddDbContext<DataContext>(opts => 
             {
-                opts.UseNpgsql("User ID=taggserver;Password=taggtimeline;Host=localhost;Port=5432;Database=taggtimeline;Pooling=true;Connection Lifetime=0;");
+                opts.UseNpgsql(testDbConnectionStringBuilder.ConnectionString);
             });
 
             using(var scope = sc.BuildServiceProvider().CreateScope())
