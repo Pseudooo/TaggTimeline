@@ -39,7 +39,7 @@ jobs:
       env:
         DatabaseConfiguration.ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
         ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
-        DatabaseMigrationsEnabled: "true"
+        DatabaseMigrationsEnabled: "false"
         OverrideWebapiConnectionString: "false"
     
     - name: "Server: Restore dependencies"
