@@ -26,10 +26,11 @@ public class GetTaggByIdQueryTests
         MockedMapper = new MockTaggMapper();
     }
 
-    [Test]
-    public async Task Get_Tagg_By_Id_Should_Return_Tagg()
+    private static readonly IEnumerable<Guid> Tagg_Ids_To_Check = TaggTestData.InitialTaggs.Select(tagg => tagg.Id);
+
+    [TestCaseSource(nameof(Tagg_Ids_To_Check))]
+    public async Task Get_Tagg_By_Id_Should_Return_Tagg_With_Instances_And_Categories(Guid id)
     {
-        var id = TaggTestData.InitialTaggs[0].Id;
         var query = new GetTaggByIdQuery() { Id = id };
         var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
@@ -37,7 +38,9 @@ public class GetTaggByIdQueryTests
         Assert.IsNotNull(result);
         Assert.IsNotEmpty(result.Key);
         Assert.IsInstanceOf<TaggModel>(result);
+        Assert.IsNotNull(result.Instances);
         Assert.IsInstanceOf<IEnumerable<InstanceModel>>(result.Instances);
+        Assert.IsNotNull(result.Categories);
         Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result.Categories);
     }
 
