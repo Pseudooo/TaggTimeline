@@ -19,5 +19,8 @@ public class MockInstanceMapper : Mock<IMapper>
                     OccuranceDate = mappedFrom.OccuranceDate,
                 };
             });
+
+        Setup(mapper => mapper.Map<IEnumerable<InstanceModel>>(It.IsAny<IEnumerable<InstanceModel>>()))
+            .Returns((IEnumerable<Instance> mappedFrom) => mappedFrom.Select(instance => this.Object.Map<InstanceModel>(instance)).ToList());
     }
 }
