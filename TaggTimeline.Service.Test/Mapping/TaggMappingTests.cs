@@ -46,6 +46,7 @@ public class TaggMappingTests
         {
             Id = Guid.NewGuid(),
             CreatedDate = DateTime.Now,
+            OccuranceDate = DateTime.Now,
         };
 
         var instanceModel = instance.Adapt<InstanceModel>();
@@ -54,5 +55,6 @@ public class TaggMappingTests
         Assert.IsInstanceOf<InstanceModel>(instanceModel);
         Assert.AreEqual(instance.Id, instanceModel.Id);
         Assert.AreEqual(instance.CreatedDate, instanceModel.CreatedDate);
+        Assert.AreEqual(instance.OccuranceDate, instanceModel.OccuranceDate);
     }
 }

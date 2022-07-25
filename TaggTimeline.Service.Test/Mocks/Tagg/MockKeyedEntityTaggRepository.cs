@@ -28,6 +28,8 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
             .ReturnsAsync((Tagg added) => {
                 added.Id = Guid.NewGuid();
                 added.CreatedDate = DateTime.Now;
+                added.Categories ??= Enumerable.Empty<Category>();
+                added.Instances ??= Enumerable.Empty<Instance>();
 
                 Taggs.Add(added);
 

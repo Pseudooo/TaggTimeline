@@ -10,4 +10,7 @@ public class InstanceModel
     
     [Required]
     public DateTime CreatedDate { get; set; }
+    
+    [Required]
+    public DateTime OccuranceDate { get; set; }
 }
