@@ -7,14 +7,15 @@ import {
   useState,
 } from "react";
 import {
-  AuthUser,
+  register as authRegister,
   login as authLogin,
   logout as authLogout,
 } from "../api/auth";
 
 interface AuthContextType {
-  user?: AuthUser;
-  login: (name: string) => Promise<AuthUser>;
+  token: string | null;
+  register: (username: string, password: string) => Promise<string>;
+  login: (username: string, password: string) => Promise<string>;
   logout: () => Promise<boolean>;
 }
 
@@ -27,17 +28,32 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [user, setUser] = useState<AuthUser>();
+  const [token, setToken] = useState<string | null>(null);
 
   /**
-   * Attempts to log in
-   * @param name The name of the user to log in
+   * Registers an account, and returns a token
+   * @param username The username of the user to create
+   * @param password The password to secure the new account
+   * @returns An authorization token
    */
-  async function login(name: string) {
-    setUser(undefined);
-    const user = await authLogin(name);
-    setUser(user);
-    return user;
+  async function register(username: string, password: string) {
+    setToken(null);
+    const token = await authRegister(username, password);
+    setToken(token);
+    return token;
+  }
+
+  /**
+   * Logs an account in, and returns a token
+   * @param username The username of the user to login
+   * @param password The password to the account
+   * @returns An authorization token
+   */
+  async function login(username: string, password: string) {
+    setToken(null);
+    const token = await authLogin(username, password);
+    setToken(token);
+    return token;
   }
 
   /**
@@ -46,18 +62,19 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    */
   async function logout() {
     const success = await authLogout();
-    setUser(undefined);
+    setToken(null);
     return success;
   }
 
   // Use Memo'd versions to prevent re-rendering unnecessarily
   const memoedValue = useMemo<AuthContextType>(
     () => ({
-      user,
+      token,
+      register,
       login,
       logout,
     }),
-    [user]
+    [token]
   );
 
   return (

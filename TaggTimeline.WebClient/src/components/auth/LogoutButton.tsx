@@ -15,9 +15,9 @@ export interface LogoutButtonProps {
 export const LogoutButton: FunctionComponent<LogoutButtonProps> = ({
   autoHide = true,
 }) => {
-  const { user } = useAuth();
+  const { token } = useAuth();
 
-  if (!user && autoHide) {
+  if (!token && autoHide) {
     return null;
   }
 
