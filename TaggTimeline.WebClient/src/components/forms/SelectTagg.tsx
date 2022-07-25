@@ -52,10 +52,10 @@ export interface SelectTaggFormProps {
 export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
   onSelected,
 }) => {
-  const { taggs, taggsStatus } = useAPI();
+  const { taggs } = useAPI();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTaggs, setFilteredTaggs] = useState<TaggPreviewModel[]>(
-    taggs ?? []
+    taggs.value ?? []
   );
   const [shouldCreateTagg, setShouldCreateTagg] = useState(false);
 
@@ -81,11 +81,11 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
    * Update the filtered list of Taggs
    */
   useEffect(() => {
-    if (!taggs) {
+    if (!taggs.value) {
       setFilteredTaggs([]);
     } else {
       setFilteredTaggs([
-        ...taggs.filter((tagg) =>
+        ...taggs.value.filter((tagg) =>
           tagg.key.toLowerCase().includes(searchTerm.toLowerCase())
         ),
       ]);
@@ -114,7 +114,7 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
         />
       </FormControl>
       <List disablePadding sx={{ overflow: "auto", flex: "1 1 auto" }}>
-        {taggListItems.length === 0 && taggsStatus === DataStatus.LOADED ? (
+        {taggListItems.length === 0 && taggs.status === DataStatus.LOADED ? (
           <Alert severity="warning">
             <AlertTitle>No results</AlertTitle>
             Maybe{" "}
@@ -131,20 +131,20 @@ export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
         ) : (
           taggListItems
         )}
-        {taggsStatus === DataStatus.ERROR && (
+        {taggs.status === DataStatus.ERROR && (
           <Alert severity="error">
             <AlertTitle>Error</AlertTitle>
             There was an error loading your Taggs.
           </Alert>
         )}
         {/* TODO: This should never display, and instead should be handled properly when auth is done */}
-        {taggsStatus === DataStatus.NOT_LOADED && (
+        {taggs.status === DataStatus.NOT_LOADED && (
           <Alert severity="error">
             <AlertTitle>Not Loaded</AlertTitle>
             Your Taggs haven&apos;t been loaded yet...
           </Alert>
         )}
-        {taggsStatus === DataStatus.LOADING && (
+        {taggs.status === DataStatus.LOADING && (
           <ListItem>
             <Box flex={1} textAlign="center">
               <CircularProgress />

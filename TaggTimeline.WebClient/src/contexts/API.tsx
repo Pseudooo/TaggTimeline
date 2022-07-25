@@ -23,9 +23,14 @@ export enum DataStatus {
   ERROR,
 }
 
+export interface DataWrapper<T> {
+  value?: T;
+  status: DataStatus;
+  error?: string;
+}
+
 interface APIContextType {
-  taggs?: TaggPreviewModel[];
-  taggsStatus: DataStatus;
+  taggs: DataWrapper<TaggPreviewModel[]>;
   createTagg: typeof createTaggFromApi;
   createTaggInstance: typeof createTaggInstanceFromApi;
   getAllTaggs: typeof getAllTaggsFromApi;
@@ -41,8 +46,9 @@ const APIContext = createContext<APIContextType>({} as APIContextType);
 export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [taggs, setTaggs] = useState<TaggPreviewModel[]>([]);
-  const [taggsStatus, setTaggsStatus] = useState(DataStatus.NOT_LOADED);
+  const [taggs, setTaggs] = useState<DataWrapper<TaggPreviewModel[]>>({
+    status: DataStatus.NOT_LOADED,
+  });
   const { user } = useAuth();
 
   /**
@@ -52,7 +58,10 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    */
   const createTagg: APIContextType["createTagg"] = async (...args) => {
     const tagg = await createTaggFromApi(...args);
-    setTaggs([...taggs, tagg]);
+    setTaggs((prev) => ({
+      ...prev,
+      value: prev.value ? [...prev.value, tagg] : [tagg],
+    }));
     return tagg;
   };
 
@@ -74,13 +83,20 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    */
   const getAllTaggs: APIContextType["getAllTaggs"] = async () => {
     try {
-      setTaggsStatus(DataStatus.LOADING);
+      setTaggs((prev) => ({ ...prev, status: DataStatus.LOADING }));
       const taggs = await getAllTaggsFromApi();
-      setTaggs([...taggs]);
-      setTaggsStatus(DataStatus.LOADED);
+      setTaggs((prev) => ({
+        ...prev,
+        status: DataStatus.LOADED,
+        value: taggs,
+      }));
       return taggs;
     } catch (e) {
-      setTaggsStatus(DataStatus.ERROR);
+      setTaggs((prev) => ({
+        ...prev,
+        status: DataStatus.ERROR,
+        error: `${e}`,
+      }));
       throw e;
     }
   };
@@ -99,8 +115,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
     if (user) {
       getAllTaggs();
     } else {
-      setTaggs([]);
-      setTaggsStatus(DataStatus.NOT_LOADED);
+      setTaggs({ status: DataStatus.NOT_LOADED });
       // TODO: Remove when auth is complete
       getAllTaggs();
     }
@@ -110,7 +125,6 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   const memoedValues = useMemo<APIContextType>(
     () => ({
       taggs,
-      taggsStatus,
       createTagg,
       getAllTaggs,
       createTaggInstance,
