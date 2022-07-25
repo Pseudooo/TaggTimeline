@@ -4,12 +4,18 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using TaggTimeline.Domain.Configuration;
 using TaggTimeline.Domain.Context;
+using TaggTimeline.WebApi.Test.Configuration;
 
-namespace TaggTimeline.WebApi.Test;
+namespace TaggTimeline.WebApi.Test.WebApplicationFactory;
 
 public class SandboxApplication : WebApplicationFactory<Program>
-{
-    public IServiceProvider ServiceProvider { get; private set; } = null!;
+{   
+    private readonly TestConfiguration _testConfiguration;
+
+    public SandboxApplication(TestConfiguration testConfiguration)
+    {
+        _testConfiguration = testConfiguration;
+    }
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
@@ -26,18 +32,23 @@ public class SandboxApplication : WebApplicationFactory<Program>
             // Modify the database param to be a sandbox database
             var testDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(databaseConfiguration.ConnectionString);
 
-            // Remove the original context from the service collection
-            var contextDescriptor = sc.Single(desc => desc.ServiceType == typeof(DataContext));
-            sc.Remove(contextDescriptor);
-            var contextOptionsDescriptor = sc.Single(desc => desc.ServiceType == typeof(DbContextOptions<DataContext>));
-            sc.Remove(contextOptionsDescriptor);
-
-            Console.WriteLine($"Using Connection String:\n{testDbConnectionStringBuilder.ConnectionString}");
-            // Add new context with modified configuration
-            sc.AddDbContext<DataContext>(opts => 
+            if(_testConfiguration.OverrideWebapiConnectionString)
             {
-                opts.UseNpgsql(testDbConnectionStringBuilder.ConnectionString);
-            });
+                Console.WriteLine($"Using Sandbox Application, configuring now");
+
+                // Remove existing context
+                var contextDescriptor = sc.Single(descriptor => descriptor.ServiceType == typeof(DataContext));
+                var contextOptionsDescriptor = sc.Single(descriptor => descriptor.ServiceType == typeof(DbContextOptions<DataContext>));
+                sc.Remove(contextDescriptor);
+                sc.Remove(contextOptionsDescriptor);
+                
+                // Add new context with new connection string
+                var connectionStringBuilder = new NpgsqlConnectionStringBuilder(_testConfiguration.DatabaseConnectionString);
+                sc.AddDbContext<DataContext>(options => 
+                {
+                    options.UseNpgsql(connectionStringBuilder.ConnectionString);
+                });
+            }
 
             using(var scope = sc.BuildServiceProvider().CreateScope())
             {
