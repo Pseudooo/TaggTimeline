@@ -1,12 +1,14 @@
 
+using MapsterMapper;
 using Moq;
 using NUnit.Framework;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Handlers;
 using TaggTimeline.Service.Queries;
-using TaggTimeline.Service.Test.Mocks;
+using TaggTimeline.Service.Test.Mocks.Taggs;
 
 namespace TaggTimeline.Service.Test.Queries;
 
@@ -14,25 +16,32 @@ namespace TaggTimeline.Service.Test.Queries;
 public class GetTaggByIdQueryTests
 {
 
-    public Mock<IBaseRepository<Tagg>> MockedRepository { get; set; } = null!;
+    public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
+    public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {   
-        MockedRepository = MockBaseTaggRepository.GetBaseRepository();
+        MockedRepository = new MockKeyedEntityTaggRepository();
+        MockedMapper = new MockTaggMapper();
     }
 
-    [Test]
-    public async Task Get_Tagg_By_Id_Should_Return_Tagg()
+    private static readonly IEnumerable<Guid> Tagg_Ids_To_Check = TaggTestData.InitialTaggs.Select(tagg => tagg.Id);
+
+    [TestCaseSource(nameof(Tagg_Ids_To_Check))]
+    public async Task Get_Tagg_By_Id_Should_Return_Tagg_With_Instances_And_Categories(Guid id)
     {
-        var id = MockBaseTaggRepository.InitialTaggs[0].Id;
         var query = new GetTaggByIdQuery() { Id = id };
-        var handler = new GetTaggByIdHandler(MockedRepository.Object);
+        var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.IsNotEmpty(result.Key);
-        Assert.IsInstanceOf<Tagg>(result);
+        Assert.IsInstanceOf<TaggModel>(result);
+        Assert.IsNotNull(result.Instances);
+        Assert.IsInstanceOf<IEnumerable<InstanceModel>>(result.Instances);
+        Assert.IsNotNull(result.Categories);
+        Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result.Categories);
     }
 
     [Test]
@@ -40,7 +49,7 @@ public class GetTaggByIdQueryTests
     {
         var id = Guid.NewGuid();
         var query = new GetTaggByIdQuery() { Id = id };
-        var handler = new GetTaggByIdHandler(MockedRepository.Object);
+        var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {
             var result = await handler.Handle(query, CancellationToken.None);

@@ -1,6 +1,13 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TaggTimeline.Domain;
 using TaggTimeline.Domain.Configuration;
+using TaggTimeline.Domain.Context;
 using TaggTimeline.Service;
+using TaggTimeline.Service.Configuration;
 using TaggTimeline.WebApi;
 
 public class Program
@@ -16,10 +23,65 @@ public class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
-        var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
+    var jwtConfiguration = builder.Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
+    builder.Services.AddSingleton(jwtConfiguration);
 
-        builder.Services.AddServiceDependencies();
-        builder.Services.AddDomainDependencies(dbConfig);
+    builder.Services.AddAuthentication(opts => 
+        {
+            opts.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            opts.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            opts.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(bearer => 
+            {
+            bearer.SaveToken = true;
+            bearer.TokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfiguration.Secret)),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+            };
+        });
+
+    builder.Services.AddSwaggerGen(cfg => 
+        {
+            cfg.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header using bearer tokens",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                });
+
+            cfg.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
+                            },
+                            new List<string>()
+                        }
+                });
+        });
+
+    var dbConfig = builder.Configuration.GetSection("DatabaseConfiguration").Get<DatabaseConfiguration>();
+
+    builder.Services.AddServiceDependencies();
+    builder.Services.AddDomainDependencies(dbConfig);
+    builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<DataContext>();
 
         var app = builder.Build();
 
@@ -32,6 +94,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseMiddleware<ErrorHandlerMiddleware>();

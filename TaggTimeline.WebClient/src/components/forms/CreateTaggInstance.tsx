@@ -10,16 +10,17 @@ import {
   ListItemText,
 } from "@mui/material";
 import { FunctionComponent, useState } from "react";
-import { Instance, TaggPreviewModel } from "../../api/generated";
+import { InstanceModel, TaggPreviewModel } from "../../api/generated";
 import { SelectTaggForm } from "./SelectTagg";
 import { stringToColour } from "../../util";
 import DatePicker from "../io/DatePicker";
 import { LoadingButton } from "@mui/lab";
 import { useAPI } from "../../contexts/API";
+import { useToaster } from "../../contexts/Toaster";
 
 export interface CreateTaggInstanceForm {
   onCancel?: () => void;
-  onSuccess?: (instance: Instance) => void;
+  onSuccess?: (instance: InstanceModel) => void;
 }
 
 /**
@@ -30,7 +31,9 @@ export const CreateTaggInstanceForm: FunctionComponent<
 > = ({ onSuccess }) => {
   const [tagg, setTagg] = useState<TaggPreviewModel>();
   const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(false);
   const { createTaggInstance } = useAPI();
+  const { createToaster } = useToaster();
   const [date, setDate] = useState(new Date());
 
   const selectTagg = (tagg: TaggPreviewModel) => {
@@ -46,9 +49,20 @@ export const CreateTaggInstanceForm: FunctionComponent<
 
   const tryCreateTaggInstance = (tagg: TaggPreviewModel) => {
     setLoading(true);
-    createTaggInstance(tagg.id)
+    createTaggInstance(tagg.id, date)
       .then((instance) => {
-        setLoading(false);
+        // Don't remove loading state, so user can't resubmit
+        // TODO: Add a disabled state
+        // setLoading(false);
+        setComplete(true);
+        createToaster({
+          severity: "success",
+          message: (
+            <>
+              Created an instance of <b>{tagg.key}</b>
+            </>
+          ),
+        });
         if (onSuccess) {
           onSuccess(instance);
         }
@@ -71,18 +85,14 @@ export const CreateTaggInstanceForm: FunctionComponent<
       </ListItem>
       <CardContent>
         <FormGroup>
-          <DatePicker
-            label="Date"
-            value={date}
-            onChange={handleDateChange}
-            disabled
-          />
+          <DatePicker label="Date" value={date} onChange={handleDateChange} />
         </FormGroup>
       </CardContent>
       <CardActions>
         <Button onClick={() => setTagg(undefined)}>Back</Button>
         <LoadingButton
           loading={loading}
+          disabled={complete}
           onClick={() => tryCreateTaggInstance(tagg)}
           variant="outlined"
         >

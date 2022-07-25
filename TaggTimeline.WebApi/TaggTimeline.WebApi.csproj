@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -16,5 +18,10 @@
     <ProjectReference Include="..\TaggTimeline.Domain\TaggTimeline.Domain.csproj" />
     <ProjectReference Include="..\TaggTimeline.ClientModel\TaggTimeline.ClientModel.csproj" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="dotnet tool restore" />
+    <Exec Command="dotnet swagger tofile --output api.json $(OutputPath)\$(AssemblyName).dll v1 " />
+  </Target>
 
 </Project>

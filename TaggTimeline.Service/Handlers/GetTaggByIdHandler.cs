@@ -1,5 +1,7 @@
 
+using MapsterMapper;
 using MediatR;
+using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Exceptions;
@@ -7,23 +9,27 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.Service.Handlers;
 
-public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, Tagg>
+public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, TaggModel>
 {
 
     private readonly IBaseRepository<Tagg> _baseRepository;
+    private readonly IMapper _mapper;
 
-    public GetTaggByIdHandler(IBaseRepository<Tagg> baseRepository)
+    public GetTaggByIdHandler(IBaseRepository<Tagg> baseRepository, IMapper mapper)
     {
         _baseRepository = baseRepository;
+        _mapper = mapper;
     }
     
-    public async Task<Tagg> Handle(GetTaggByIdQuery request, CancellationToken cancellationToken)
+    public async Task<TaggModel> Handle(GetTaggByIdQuery request, CancellationToken cancellationToken)
     {
-        var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Instances);
-
+        var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Instances, x => x.Categories);
+        
         if(tagg is null)
             throw new EntityNotFoundException($"Couldn't find Tagg with id:{request.Id}");
 
-        return tagg; 
+        var taggModel = _mapper.Map<TaggModel>(tagg);
+
+        return taggModel; 
     }
 }

@@ -23,17 +23,20 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "react-transition-group": "^4.4.2",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "npm run swagger:generate",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",
-    "swagger:generate": "sta -o ./src/api -n generated.ts -p https://localhost:7054/swagger/v1/swagger.json --disableStrictSSL"
+    "swagger:generate": "sta -o ./src/api -n generated.ts -p ../TaggTimeline.WebApi/api.json",
+    "swagger:generatelive": "sta -o ./src/api -n generated.ts -p https://localhost:7054/swagger/v1/swagger.json --disableStrictSSL"
   },
   "eslintConfig": {
     "extends": [

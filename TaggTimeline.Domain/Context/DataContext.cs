@@ -1,19 +1,25 @@
 
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaggTimeline.Domain.Entities;
 using TaggTimeline.Domain.Entities.Taggs;
 
 namespace TaggTimeline.Domain.Context;
 
-public class DataContext : DbContext
+public class DataContext : IdentityDbContext<IdentityUser>
 {
-    public DataContext(DbContextOptions opts) : base(opts)
+    public DataContext()
+        { }
+
+    public DataContext(DbContextOptions<DataContext> opts) : base(opts)
         {
             Database.EnsureCreated();
         }
 
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;
+    public DbSet<Category> Categories { get; set; } = null!;
 
     public override Task<int> SaveChangesAsync(CancellationToken tok)
     {

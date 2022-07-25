@@ -24,7 +24,7 @@ public class TaggController : ControllerBase
     }
 
     [HttpGet("{id:Guid?}")]
-    public async Task<ActionResult<Tagg>> GetTagg(Guid id)
+    public async Task<ActionResult<TaggModel>> GetTagg(Guid id)
     {
         var query = new GetTaggByIdQuery()
         {
@@ -43,25 +43,33 @@ public class TaggController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Tagg>> CreateTagg([FromBody] CreateTaggCommand command)
+    public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
     {
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
     }
 
     [HttpPost("search")]
-    public async Task<ActionResult<IEnumerable<Tagg>>> SearchForTagg([FromBody] SearchForTaggQuery query)
+    public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> SearchForTagg([FromBody] SearchForTaggQuery query)
     {
         var result = await _mediator.Send(query);
         return Ok(result);
     }
 
-    [HttpPost("{taggId:Guid?}/instance")]
-    public async Task<ActionResult<Instance>> CreateTaggInstance(Guid taggId)
+    [HttpPost("instance")]
+    public async Task<ActionResult<InstanceModel>> CreateTaggInstance([FromBody] CreateInstanceCommand command)
     {
-        var command = new CreateInstanceCommand()
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
+    public async Task<ActionResult<TaggModel>> AddCategory(Guid taggId, Guid categoryId)
+    {
+        var command = new AddCategoryToTaggCommand()
         {
             TaggId = taggId,
+            CategoryId = categoryId,
         };
 
         var result = await _mediator.Send(command);

@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Ignore generated API file
+TaggTimeline.WebApi/swagger.json
+TaggTimeline.WebApi/api.json
+
+# Ignore vscode
+.vscode

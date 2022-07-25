@@ -57,12 +57,16 @@ export async function getAllTaggs() {
 /**
  * Creates an instance of a tag
  * @param taggId The id of the tag
+ * @param occuranceDate The occurance of the tag
  * @returns The created instance
  */
-export async function createTaggInstance(taggId: string) {
+export async function createTaggInstance(taggId: string, occuranceDate: Date) {
   return handleResponse(
     await wrappedFetch((params) =>
-      apiInstace.tagg.instanceCreate(taggId, params)
+      apiInstace.tagg.instanceCreate(
+        { taggId, occuranceDate: occuranceDate?.toJSON() },
+        params
+      )
     )
   );
 }
