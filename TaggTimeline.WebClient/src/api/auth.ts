@@ -1,17 +1,30 @@
 import { fakeFetch } from "../util/placeholder";
+import { registerUser, loginUser } from "./wrapped";
 
 export type AuthUser = {
-  name: string;
+  username: string;
 };
 
 /**
- * Logs a user in
- * @param name The name of the user
- * @returns The user information if successful
+ * Registers an account, and returns a token
+ * @param username The username of the user to create
+ * @param password The password to secure the new account
+ * @returns An authorization token
  */
-export async function login(name: string) {
-  const user = await fakeFetch({ name } as AuthUser, 2000);
-  return user;
+export async function register(username: string, password: string) {
+  const response = await registerUser(username, password);
+  return response.token;
+}
+
+/**
+ * Logs an account in, and returns a token
+ * @param username The username of the user to login
+ * @param password The password to the account
+ * @returns An authorization token
+ */
+export async function login(username: string, password: string) {
+  const response = await loginUser(username, password);
+  return response.token;
 }
 
 /**
