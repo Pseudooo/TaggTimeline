@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
+import HorizontalTimeline from "../components/timeline/horizontal/HorizontalTimeline";
 import { TimelineSpeedDial } from "../components/timeline/TimelineSpeedDial";
 
 /**
@@ -11,6 +12,7 @@ export const Home: FunctionComponent = () => {
       <Typography>Home page</Typography>
       {/* <HorizontalTimeline /> */}
       {/* <CreateTaggInstanceForm /> */}
+      <HorizontalTimeline />
       <TimelineSpeedDial />
     </Box>
   );
