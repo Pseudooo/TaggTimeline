@@ -17,14 +17,12 @@ public class CreateCategoryCommandTests
 {
 
     public Mock<IKeyedEntityRepository<Category>> MockedRepository { get; set; } = null!;
-    public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
     public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         MockedRepository = new MockKeyedEntityCategoryRepository();
-        MockedTransaction = MockTransactionWrapper.GetTransaction();
         MockedMapper = new MockCategoryMapper();
     }
 
@@ -32,7 +30,7 @@ public class CreateCategoryCommandTests
     public async Task Create_Category_Should_Create_Catgory()
     {
         var command = new CreateCategoryCommand() { Key = "Category" };
-        var handler = new CreateCategoryHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
+        var handler = new CreateCategoryHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);
