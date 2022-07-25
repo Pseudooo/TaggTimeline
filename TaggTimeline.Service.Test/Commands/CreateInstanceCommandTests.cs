@@ -18,14 +18,12 @@ public class CreateInstanceCommandTests
 {
 
     public Mock<IKeyedEntityRepository<Tagg>> MockedRepository { get; set; } = null!;
-    public Mock<ITransactionWrapper> MockedTransaction { get; set; } = null!;
     public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
     public void SetUp()
     {
         MockedRepository = new MockKeyedEntityTaggRepository();
-        MockedTransaction = MockTransactionWrapper.GetTransaction();
         MockedMapper = new MockInstanceMapper();
     }
 
@@ -33,7 +31,8 @@ public class CreateInstanceCommandTests
     public async Task Create_Instance_Should_Create_Instance()
     {
         var command = new CreateInstanceCommand() { TaggId = TaggTestData.InitialTaggs[1].Id };
-        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
+        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedMapper.Object);
+
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);
@@ -45,7 +44,7 @@ public class CreateInstanceCommandTests
     public void Create_Instance_Should_Throw_EntityNotFoundException()
     {
         var command = new CreateInstanceCommand() { TaggId = Guid.NewGuid() };
-        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedTransaction.Object, MockedMapper.Object);
+        var handler = new CreateInstanceHandler(MockedRepository.Object, MockedMapper.Object);
         
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {
             await handler.Handle(command, CancellationToken.None);

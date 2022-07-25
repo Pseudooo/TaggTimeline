@@ -12,20 +12,16 @@ namespace TaggTimeline.Service.Handlers;
 public class CreateInstanceHandler : IRequestHandler<CreateInstanceCommand, InstanceModel>
 {
     private readonly IBaseRepository<Tagg> _baseRepository;
-    private readonly ITransactionWrapper _transactionWrapper;
     private readonly IMapper _mapper;
 
-    public CreateInstanceHandler(IBaseRepository<Tagg> baseRepository, ITransactionWrapper transactionWrapper, IMapper mapper)
+    public CreateInstanceHandler(IBaseRepository<Tagg> baseRepository, IMapper mapper)
     {
         _baseRepository = baseRepository;
-        _transactionWrapper = transactionWrapper;
         _mapper = mapper;
     }
 
     public async Task<InstanceModel> Handle(CreateInstanceCommand request, CancellationToken cancellationToken)
     {
-        await using var transaction = await _transactionWrapper.Begin();
-
         var instance = new Instance() 
         {
             OccuranceDate = request.OccuranceDate,
@@ -38,8 +34,6 @@ public class CreateInstanceHandler : IRequestHandler<CreateInstanceCommand, Inst
         tagg.Instances = tagg.Instances.Append(instance).ToList();
 
         await _baseRepository.SaveChanges(CancellationToken.None);
-
-        await transaction.Commit();
 
         var instanceModel = _mapper.Map<InstanceModel>(instance);
 

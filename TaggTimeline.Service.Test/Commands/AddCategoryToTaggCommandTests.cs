@@ -8,7 +8,6 @@ using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Handlers;
-using TaggTimeline.Service.Test.Mocks;
 using TaggTimeline.Service.Test.Mocks.Categories;
 using TaggTimeline.Service.Test.Mocks.Taggs;
 
@@ -19,7 +18,6 @@ public class AddCategoryToTaggCommandTests
 {
     public Mock<IKeyedEntityRepository<Tagg>> MockedTaggRepository { get; set; } = null!;
     public Mock<IKeyedEntityRepository<Category>> MockedCategoryRepository { get; set; } = null!;
-    public Mock<ITransactionWrapper> MockedTransactionWrapper { get; set; } = null!;
     public Mock<IMapper> MockedMapper { get; set; } = null!;
 
     [SetUp]
@@ -27,7 +25,6 @@ public class AddCategoryToTaggCommandTests
     {
         MockedTaggRepository = new MockKeyedEntityTaggRepository();
         MockedCategoryRepository = new MockKeyedEntityCategoryRepository();
-        MockedTransactionWrapper = MockTransactionWrapper.GetTransaction();
         MockedMapper = new MockTaggMapper();
     }
 
@@ -40,8 +37,7 @@ public class AddCategoryToTaggCommandTests
             CategoryId = CategoryTestData.InitCategories[0].Id,
         };
         var handler = new AddCategoryToTaggHandler(MockedTaggRepository.Object, 
-                                                   MockedCategoryRepository.Object, 
-                                                   MockedTransactionWrapper.Object, 
+                                                   MockedCategoryRepository.Object,
                                                    MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -60,8 +56,7 @@ public class AddCategoryToTaggCommandTests
             CategoryId = Guid.NewGuid(),
         };
         var handler = new AddCategoryToTaggHandler(MockedTaggRepository.Object, 
-                                                   MockedCategoryRepository.Object, 
-                                                   MockedTransactionWrapper.Object, 
+                                                   MockedCategoryRepository.Object,
                                                    MockedMapper.Object);
 
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {
@@ -78,8 +73,7 @@ public class AddCategoryToTaggCommandTests
             CategoryId = CategoryTestData.InitCategories[0].Id,
         };
         var handler = new AddCategoryToTaggHandler(MockedTaggRepository.Object, 
-                                                   MockedCategoryRepository.Object, 
-                                                   MockedTransactionWrapper.Object, 
+                                                   MockedCategoryRepository.Object,
                                                    MockedMapper.Object);
 
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {

@@ -20,6 +20,7 @@ public static class ServiceCollectionExtensions
         sc.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+        sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
         var mappingConfig = new TypeAdapterConfig();
         mappingConfig.NewConfig<Tagg, TaggModel>();
