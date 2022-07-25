@@ -3,7 +3,7 @@ using NUnit.Framework;
 using TaggTime.Service.Commands;
 using TaggTimeline.ClientModel.Taggs;
 
-namespace TaggTimeline.WebApi.Test.Category;
+namespace TaggTimeline.WebApi.Test.Categories;
 
 [TestFixture]
 public class CreateCategoryTests

@@ -3,7 +3,7 @@ using NUnit.Framework;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Service.Commands;
 
-namespace TaggTimeline.WebApi.Test.Tagg;
+namespace TaggTimeline.WebApi.Test.Taggs;
 
 [TestFixture]
 public class CreateTaggTests
