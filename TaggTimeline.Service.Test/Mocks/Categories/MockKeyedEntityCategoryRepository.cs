@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using Moq;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
@@ -19,6 +20,9 @@ public class MockKeyedEntityCategoryRepository : Mock<IKeyedEntityRepository<Cat
 
         this.Setup(repo => repo.GetById(It.IsAny<Guid>()))
             .ReturnsAsync((Guid id) => Categories.SingleOrDefault(category => category.Id == id));
+
+        this.Setup(repo => repo.GetByIdWithNavigationProperties(It.IsAny<Guid>(), It.IsAny<Expression<Func<Category, object>>[]>()))
+            .ReturnsAsync((Guid id, Expression<Func<Category, object>>[] _) => Categories.SingleOrDefault(category => category.Id == id));
 
         this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
             .ReturnsAsync((string searchTerm) => Categories.Where(category => category.Key.Contains(searchTerm)));
