@@ -21,10 +21,7 @@ public class MockCategoryMapper : Mock<IMapper>
                     DeletedDate = mappedFrom.DeletedDate,
                 };
             });
-
-        Setup(mapper => mapper.Map<IEnumerable<CategoryModel>>(It.IsAny<IEnumerable<Category>>()))
-            .Returns((IEnumerable<Category> mappedFrom) => mappedFrom.Select(category => this.Object.Map<CategoryModel>(category)).ToList());
-
+            
         Setup(mapper => mapper.Map<CategoryPreviewModel>(It.IsAny<Category>()))
             .Returns((Category mappedFrom) => {
                 return new CategoryPreviewModel()
