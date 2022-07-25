@@ -24,8 +24,8 @@ public class SandboxApplication : WebApplicationFactory<Program>
             }
 
             // Modify the database param to be a sandbox database
-            var testDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(databaseConfiguration.ConnectionString)
-            testDbConnectionStringBuilder.Database = "taggtimeline_sb";
+            var testDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(databaseConfiguration.ConnectionString);
+            testDbConnectionStringBuilder.Database = "taggtimeline";
 
             // Remove the original context from the service collection
             var contextDescriptor = sc.Single(desc => desc.ServiceType == typeof(DataContext));
@@ -43,7 +43,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
             {
                 var provider = scope.ServiceProvider;
                 var context = provider.GetRequiredService<DataContext>();
-                
+
                 context.Database.EnsureCreated();
             }
         });
