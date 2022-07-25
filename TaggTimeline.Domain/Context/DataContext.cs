@@ -10,9 +10,7 @@ namespace TaggTimeline.Domain.Context;
 public class DataContext : IdentityDbContext<IdentityUser>
 {
     public DataContext(DbContextOptions<DataContext> opts) : base(opts)
-        {
-            Database.EnsureCreated();
-        }
+        { }
 
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;
