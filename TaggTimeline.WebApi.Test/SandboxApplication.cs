@@ -25,7 +25,6 @@ public class SandboxApplication : WebApplicationFactory<Program>
 
             // Modify the database param to be a sandbox database
             var testDbConnectionStringBuilder = new NpgsqlConnectionStringBuilder(databaseConfiguration.ConnectionString);
-            testDbConnectionStringBuilder.Database = "taggtimeline";
 
             // Remove the original context from the service collection
             var contextDescriptor = sc.Single(desc => desc.ServiceType == typeof(DataContext));
@@ -37,7 +36,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
             // Add new context with modified configuration
             sc.AddDbContext<DataContext>(opts => 
             {
-                opts.UseNpgsql(testDbConnectionStringBuilder.ConnectionString);
+                opts.UseNpgsql("User ID=taggserver;Password=Q6%5nWgeN4#9;Host=localhost;Port=5432;Database=taggtimeline;Pooling=true;Connection Lifetime=0;");
             });
 
             using(var scope = sc.BuildServiceProvider().CreateScope())
