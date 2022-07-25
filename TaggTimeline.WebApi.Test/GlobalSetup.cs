@@ -25,6 +25,7 @@ public class GlobalSetup
     [OneTimeTearDown]
     public void TearDown()
     {
-
+        if(TestConfiguration.OverrideWebapiConnectionString) // Only delete if running tests on isolated db
+            SandboxApplication.Context.Database.EnsureDeleted();
     }
 }

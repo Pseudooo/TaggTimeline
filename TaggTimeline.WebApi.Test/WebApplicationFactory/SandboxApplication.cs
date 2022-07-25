@@ -12,6 +12,8 @@ public class SandboxApplication : WebApplicationFactory<Program>
 {   
     private readonly TestConfiguration _testConfiguration;
 
+    public DataContext Context { get; private set; } = null!;
+
     public SandboxApplication(TestConfiguration testConfiguration)
     {
         _testConfiguration = testConfiguration;
@@ -48,6 +50,9 @@ public class SandboxApplication : WebApplicationFactory<Program>
                 {
                     options.UseNpgsql(connectionStringBuilder.ConnectionString);
                 });
+
+                var provider = sc.BuildServiceProvider().CreateScope().ServiceProvider;
+                Context = provider.GetRequiredService<DataContext>();
             }
         });
     }
