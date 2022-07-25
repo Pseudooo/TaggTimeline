@@ -28,7 +28,7 @@ public class CreateTaggTests
             Content = JsonContent.Create(new CreateTaggCommand() { Key = taggKey }),
         };
         var response = await client.SendAsync(request);
-        // Assert.IsTrue(response.IsSuccessStatusCode);
+        Assert.IsTrue(response.IsSuccessStatusCode);
         
         var createdTagg = await response.Content.ReadFromJsonAsync<TaggModel>();
         Assert.IsNotNull(createdTagg);
