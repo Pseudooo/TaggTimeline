@@ -41,21 +41,13 @@ public class SandboxApplication : WebApplicationFactory<Program>
                 var contextOptionsDescriptor = sc.Single(descriptor => descriptor.ServiceType == typeof(DbContextOptions<DataContext>));
                 sc.Remove(contextDescriptor);
                 sc.Remove(contextOptionsDescriptor);
-                
+
                 // Add new context with new connection string
-                var connectionStringBuilder = new NpgsqlConnectionStringBuilder(_testConfiguration.DatabaseConnectionString);
+                var connectionStringBuilder = new NpgsqlConnectionStringBuilder(_testConfiguration.ConnectionString);
                 sc.AddDbContext<DataContext>(options => 
                 {
                     options.UseNpgsql(connectionStringBuilder.ConnectionString);
                 });
-            }
-
-            using(var scope = sc.BuildServiceProvider().CreateScope())
-            {
-                var provider = scope.ServiceProvider;
-                var context = provider.GetRequiredService<DataContext>();
-
-                context.Database.EnsureCreated();
             }
         });
     }
