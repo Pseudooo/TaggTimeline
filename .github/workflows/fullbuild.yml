@@ -40,6 +40,7 @@ jobs:
         DatabaseConfiguration.ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
         ConnectionString: "User ID=taggserver;Password=timeline;Host=postgres;Port=5432;Database=taggtimeline;"
         DatabaseMigrationsEnabled: "true"
+        OverrideWebapiConnectionString: "false"
     
     - name: "Server: Restore dependencies"
       run: dotnet restore
