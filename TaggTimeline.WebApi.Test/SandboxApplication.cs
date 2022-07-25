@@ -33,6 +33,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
             var contextOptionsDescriptor = sc.Single(desc => desc.ServiceType == typeof(DbContextOptions<DataContext>));
             sc.Remove(contextOptionsDescriptor);
 
+            Console.WriteLine($"Using Connection String:\n{testDbConnectionStringBuilder.ConnectionString}");
             // Add new context with modified configuration
             sc.AddDbContext<DataContext>(opts => 
             {
