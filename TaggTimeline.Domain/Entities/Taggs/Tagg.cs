@@ -1,6 +1,3 @@
-
-using System.ComponentModel.DataAnnotations;
-
 namespace TaggTimeline.Domain.Entities.Taggs;
 
 public class Tagg : KeyedEntity
