@@ -1,11 +1,22 @@
 
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Mocks.Taggs;
 
 public static class TaggTestData
 {
+
+    public static List<Instance> InitialInstances { get; private set; } = new List<Instance>()
+    {
+        new Instance()
+            {
+                Id = Guid.NewGuid(),
+                CreatedDate = DateTime.Now,
+                OccuranceDate = DateTime.Now,
+            },
+    };
 
     public static List<Tagg> InitialTaggs { get; private set; } = new List<Tagg>()
     {
@@ -16,8 +27,8 @@ public static class TaggTestData
                 CreatedDate = DateTime.Now,
                 ModifiedDate = null,
                 DeletedDate = null,
-                Instances = Enumerable.Empty<Instance>(),
-                Categories = Enumerable.Empty<Category>(),
+                Instances = InitialInstances,
+                Categories = new[] { CategoryTestData.InitCategories[0] },
             },
         new Tagg()
             {
@@ -40,5 +51,7 @@ public static class TaggTestData
                 Categories = Enumerable.Empty<Category>(),
             },
     };
+
+
 
 }
