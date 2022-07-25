@@ -36,7 +36,7 @@ public class AddCategoryToTaggCommandTests
     {
         var command = new AddCategoryToTaggCommand()
         {
-            TaggId = TaggTestData.InitialTaggs[0].Id,
+            TaggId = TaggTestData.InitialTaggs[1].Id,
             CategoryId = CategoryTestData.InitCategories[0].Id,
         };
         var handler = new AddCategoryToTaggHandler(MockedTaggRepository.Object, 

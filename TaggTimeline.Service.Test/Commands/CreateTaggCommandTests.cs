@@ -40,6 +40,10 @@ public class CreateTaggCommandTests
 
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<TaggModel>(result);
+        Assert.IsNotNull(result.Instances);
+        Assert.IsInstanceOf<IEnumerable<InstanceModel>>(result.Instances);
+        Assert.IsNotNull(result.Categories);
+        Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result.Categories);
         Assert.AreEqual((await MockedRepository.Object.GetAll()).Count(), 4);
     }
 
