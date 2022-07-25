@@ -22,7 +22,7 @@ public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, Cate
 
     public async Task<CategoryModel> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await _baseRepository.GetById(request.Id);
+        var category = await _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Taggs);
 
         if(category is null)
             throw new EntityNotFoundException($"Couldn't find Category with id:{request.Id}");
