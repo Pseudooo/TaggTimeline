@@ -28,10 +28,7 @@ public class MockTaggMapper : Mock<IMapper>
                     Instances = instanceMapper.Map<IEnumerable<InstanceModel>>(mappedFrom.Instances),
                 };
             });
-            
-        Setup(mapper => mapper.Map<IEnumerable<TaggModel>>(It.IsAny<IEnumerable<Tagg>>()))
-            .Returns((IEnumerable<Tagg> mappedFrom) => mappedFrom.Select(tagg => this.Object.Map<TaggModel>(tagg)).ToList());
-
+        
         Setup(mapper => mapper.Map<TaggPreviewModel>(It.IsAny<Tagg>()))
             .Returns((Tagg mappedFrom) => {
                 return new TaggPreviewModel()
