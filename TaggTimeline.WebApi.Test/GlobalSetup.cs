@@ -20,6 +20,9 @@ public class GlobalSetup
                                                       .Get<TestConfiguration>();
 
         SandboxApplication = new SandboxApplication(TestConfiguration);
+
+        var result = TaggTimeline.MigrationRunner.Program.Main(new string[0]);
+        Assert.AreEqual(0, result);
     }
 
     [OneTimeTearDown]
