@@ -20,7 +20,7 @@ public class MockInstanceMapper : Mock<IMapper>
                 };
             });
 
-        Setup(mapper => mapper.Map<IEnumerable<InstanceModel>>(It.IsAny<IEnumerable<InstanceModel>>()))
+        Setup(mapper => mapper.Map<IEnumerable<InstanceModel>>(It.IsAny<IEnumerable<Instance>>()))
             .Returns((IEnumerable<Instance> mappedFrom) => mappedFrom.Select(instance => this.Object.Map<InstanceModel>(instance)).ToList());
     }
 }
