@@ -16,6 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../store/helper";
 import {
   addTagg,
+  addTaggInstance,
   initialiseTaggDetails,
   updateTaggDetails,
   updateTaggs,
@@ -77,9 +78,11 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    * @returns The created instance
    */
   const createTaggInstance: APIContextType["createTaggInstance"] = async (
+    id,
     ...args
   ) => {
-    const instance = await createTaggInstanceFromApi(...args);
+    const instance = await createTaggInstanceFromApi(id, ...args);
+    dispatch(addTaggInstance(id, instance));
     return instance;
   };
 

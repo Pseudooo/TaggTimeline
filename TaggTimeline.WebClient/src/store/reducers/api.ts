@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TaggModel, TaggPreviewModel } from "../../api/generated";
+import {
+  InstanceModel,
+  TaggModel,
+  TaggPreviewModel,
+} from "../../api/generated";
 import { AppThunk } from "../helper";
 
 export enum DataStatus {
@@ -63,6 +67,25 @@ export const apiSlice = createSlice({
       state.taggDetails = {
         ...state.taggDetails,
         [action.payload.id]: action.payload.value,
+      };
+    },
+    /**
+     * Adds an instance to a tagg
+     * @param state The state of the app
+     * @param action The action to take on the state
+     */
+    addTaggInstance(
+      state,
+      action: PayloadAction<{ id: string; value: InstanceModel }>
+    ) {
+      const tagg = state.taggDetails[action.payload.id];
+      if (!tagg || !tagg.value || !tagg.value.instances) {
+        return;
+      }
+      tagg.value.instances = [...tagg.value.instances, action.payload.value];
+      state.taggDetails = {
+        ...state.taggDetails,
+        [action.payload.id]: tagg,
       };
     },
   },
@@ -160,6 +183,19 @@ export function initialiseTaggDetails(taggId: string) {
     return tagg.status !== DataStatus.NOT_LOADED;
   };
   return initialiseTaggDetailsThunk;
+}
+
+/**
+ * Adds an instance of a tagg to a tagg
+ * @param taggId The id of the tagg
+ * @param instance The instance
+ * @returns A thunk function
+ */
+export function addTaggInstance(taggId: string, instance: InstanceModel) {
+  const addTaggInstanceThunk: AppThunk = (dispatch, _getState) => {
+    dispatch(apiSlice.actions.addTaggInstance({ id: taggId, value: instance }));
+  };
+  return addTaggInstanceThunk;
 }
 
 export default apiSlice.reducer;
