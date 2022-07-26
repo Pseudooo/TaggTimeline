@@ -6,11 +6,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import {
-  register as authRegister,
-  login as authLogin,
-  logout as authLogout,
-} from "../api/auth";
+import { registerUser, loginUser } from "../api/wrapped";
+import { useToaster } from "./Toaster";
 
 interface AuthContextType {
   token: string | null;
@@ -28,6 +25,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
+  const { createToaster } = useToaster();
   const [token, setToken] = useState<string | null>(null);
 
   /**
@@ -38,9 +36,13 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    */
   async function register(username: string, password: string) {
     setToken(null);
-    const token = await authRegister(username, password);
-    setToken(token);
-    return token;
+    const response = await registerUser(username, password);
+    setToken(response.token);
+    createToaster({
+      severity: "success",
+      message: "Account created successfully",
+    });
+    return response.token;
   }
 
   /**
@@ -51,9 +53,10 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    */
   async function login(username: string, password: string) {
     setToken(null);
-    const token = await authLogin(username, password);
-    setToken(token);
-    return token;
+    const response = await loginUser(username, password);
+    setToken(response.token);
+    createToaster({ severity: "success", message: "Login successful" });
+    return response.token;
   }
 
   /**
@@ -61,9 +64,8 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    * @returns If the user successfully logged out
    */
   async function logout() {
-    const success = await authLogout();
     setToken(null);
-    return success;
+    return true;
   }
 
   // Use Memo'd versions to prevent re-rendering unnecessarily

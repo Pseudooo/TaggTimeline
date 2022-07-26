@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthUser } from "../../api/auth";
 
 export enum AuthStatus {
   LOGGED_OUT,
@@ -10,14 +9,14 @@ export enum AuthStatus {
 export interface AuthState {
   loggedIn: boolean;
   status: AuthStatus;
-  user?: AuthUser;
+  token: string | null;
 }
 
 // Initial state of the auth store
 const initialState: AuthState = {
   loggedIn: false,
   status: AuthStatus.LOGGED_OUT,
-  user: undefined,
+  token: null,
 };
 
 export const authSlice = createSlice({
