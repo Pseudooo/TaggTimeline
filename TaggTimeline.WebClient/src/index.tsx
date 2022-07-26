@@ -20,28 +20,28 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    {/* Create the router for the app */}
-    <BrowserRouter>
-      {/* Reset CSS across the board */}
-      <CssBaseline />
-      {/* Provide the store for the app */}
-      <StoreProvider store={store}>
-        {/* Localization needed for date/time pickers */}
-        <LocalizationProvider dateAdapter={AdapterMoment}>
-          {/* Needed for auth across the app */}
-          <AuthProvider>
-            {/* Needed for calling the API */}
-            <APIProvider>
-              {/* Provides ability to create toaster notifications */}
-              <ToasterProvider>
+    {/* Provides ability to create toaster notifications, top most so all can access */}
+    <ToasterProvider>
+      {/* Create the router for the app */}
+      <BrowserRouter>
+        {/* Reset CSS across the board */}
+        <CssBaseline />
+        {/* Provide the store for the app */}
+        <StoreProvider store={store}>
+          {/* Localization needed for date/time pickers */}
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            {/* Needed for auth across the app */}
+            <AuthProvider>
+              {/* Needed for calling the API */}
+              <APIProvider>
                 {/* The main app */}
                 <App />
-              </ToasterProvider>
-            </APIProvider>
-          </AuthProvider>
-        </LocalizationProvider>
-      </StoreProvider>
-    </BrowserRouter>
+              </APIProvider>
+            </AuthProvider>
+          </LocalizationProvider>
+        </StoreProvider>
+      </BrowserRouter>
+    </ToasterProvider>
   </React.StrictMode>
 );
 

@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import BarebonesLayout from "../layouts/BarebonesLayout";
 import { Home } from "../views/Home";
 
 /**
@@ -8,7 +8,7 @@ import { Home } from "../views/Home";
  */
 const MainRoutes: RouteObject = {
   path: "/",
-  element: <MainLayout />,
+  element: <BarebonesLayout center />,
   children: [
     {
       path: "/",

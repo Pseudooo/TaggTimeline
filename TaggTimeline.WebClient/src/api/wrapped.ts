@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Api, HttpResponse, RequestParams } from "./generated";
 
-const apiInstace = new Api();
+const apiInstance = new Api();
 
 /**
  * Wrapper function for API calls. Handles injecting things like auth headers
@@ -39,7 +39,7 @@ function handleResponse<T = any, E = any>(response: HttpResponse<T, E>): T {
 export async function createTagg(name: string) {
   return handleResponse(
     await wrappedFetch((params) =>
-      apiInstace.tagg.taggCreate({ key: name }, params)
+      apiInstance.tagg.taggCreate({ key: name }, params)
     )
   );
 }
@@ -50,7 +50,7 @@ export async function createTagg(name: string) {
  */
 export async function getAllTaggs() {
   return handleResponse(
-    await wrappedFetch((params) => apiInstace.tagg.getTagg(params))
+    await wrappedFetch((params) => apiInstance.tagg.getTagg(params))
   );
 }
 
@@ -63,10 +63,41 @@ export async function getAllTaggs() {
 export async function createTaggInstance(taggId: string, occuranceDate: Date) {
   return handleResponse(
     await wrappedFetch((params) =>
-      apiInstace.tagg.instanceCreate(
+      apiInstance.tagg.instanceCreate(
         { taggId, occuranceDate: occuranceDate?.toJSON() },
         params
       )
+    )
+  );
+}
+
+/**
+ * Registers an account, and returns a token
+ * @param username The username of the user to create
+ * @param password The password to secure the new account
+ * @returns An authorization token
+ */
+export async function registerUser(username: string, password: string) {
+  return handleResponse(
+    await wrappedFetch((params) =>
+      apiInstance.identity.registerCreate(
+        { userName: username, password },
+        params
+      )
+    )
+  );
+}
+
+/**
+ * Logs an account in, and returns a token
+ * @param username The username of the user to login
+ * @param password The password to the account
+ * @returns An authorization token
+ */
+export async function loginUser(username: string, password: string) {
+  return handleResponse(
+    await wrappedFetch((params) =>
+      apiInstance.identity.loginCreate({ userName: username, password }, params)
     )
   );
 }
