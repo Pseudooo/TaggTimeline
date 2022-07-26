@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import BarebonesLayout from "../layouts/BarebonesLayout";
-import AuthLoginPage from "../views/auth/Login";
 import AuthLogoutPage from "../views/auth/Logout";
+import UserAccountForm from "../components/forms/UserAccountForm";
 
 /**
  * Routes related to user login/logout.
@@ -13,7 +13,11 @@ const AuthRoutes: RouteObject = {
   children: [
     {
       path: "/login",
-      element: <AuthLoginPage />,
+      element: <UserAccountForm formMode="Login" />,
+    },
+    {
+      path: "/register",
+      element: <UserAccountForm formMode="Register" />,
     },
     {
       path: "/logout",
