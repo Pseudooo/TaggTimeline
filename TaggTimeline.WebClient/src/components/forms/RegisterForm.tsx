@@ -19,69 +19,51 @@ import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
 
-interface UserAccountFormProps {
-  formMode: "Login" | "Register";
-}
-
-export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
-  formMode,
-}) => {
-  const { register, login } = useAuth();
+export const RegisterForm: FunctionComponent = () => {
+  const { register } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   // @TODO: Workout how to have a ValidationProvider manage these, they're awful here
   const [usernameErrors, setUsernameErrors] = useState<ValidationResponse>([]);
-
   const [passwordErrors, setPasswordErrors] = useState<ValidationResponse>([]);
+  const [confirmedPasswordErrors, setConfirmedPasswordErrors] =
+    useState<ValidationResponse>([]);
 
-  const handleUsernameChange = (username: string) => {
-    setUsernameErrors(required(username));
-    setUsername(username);
+  const handleUsernameChange = (newUsername: string) => {
+    setUsernameErrors(required(newUsername));
+    setUsername(newUsername);
   };
 
-  const handlePasswordChange = (password: string) => {
-    setPasswordErrors(validatePassword(password));
-    setPassword(password);
+  const handlePasswordChange = (newPassword: string) => {
+    setPasswordErrors(validatePassword(newPassword));
+    setPassword(newPassword);
+  };
+
+  const handleConfirmedPasswordChange = (newPassword: string) => {
+    setConfirmedPasswordErrors(
+      newPassword !== password ? ["Passwords do not match"] : []
+    );
+    setConfirmedPassword(newPassword);
   };
 
   const tryProcessUser = async () => {
     try {
       setLoading(true);
-
-      // Not sure if I like it like this, but it's useful for simplicity
-      // as there's little distinction right now
-      if (formMode === "Register") {
-        await register(username, password);
-      }
-
-      if (formMode === "Login") {
-        await login(username, password);
-      }
-
-      navigate("/#");
+      await register(username, password);
+      navigate("/");
     } finally {
       setLoading(false);
     }
   };
 
-  const captionLink =
-    formMode === "Register" ? (
-      <Typography variant="caption" sx={{ paddingY: 1 }}>
-        Already registered? <Link to="/login">Login here</Link>
-      </Typography>
-    ) : (
-      <Typography variant="caption" sx={{ paddingY: 1 }}>
-        Don&apos;t have an account? <Link to="/register">Register here</Link>
-      </Typography>
-    );
-
   return (
     <Card sx={{ width: 600 }}>
-      <CardHeader avatar={<Person />} title={formMode} />
+      <CardHeader avatar={<Person />} title="Register an account" />
       <CardContent>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
           <TextField
@@ -106,7 +88,21 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
             required
           />
         </FormControl>
-        {captionLink}
+        <FormControl fullWidth sx={{ paddingY: 1 }}>
+          <TextField
+            label="Confirm Password"
+            type="password"
+            value={confirmedPassword}
+            onChange={handleConfirmedPasswordChange}
+            error={confirmedPasswordErrors.length > 0}
+            helperText={confirmedPasswordErrors[0]}
+            disabled={loading}
+            required
+          />
+        </FormControl>
+        <Typography variant="caption" sx={{ paddingY: 1 }}>
+          Already registered? <Link to="/login">Login here</Link>
+        </Typography>
       </CardContent>
       <CardActions
         sx={{ display: "flex", flex: "1", justifyContent: "space-between" }}
@@ -115,15 +111,19 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
         <Button>Cancel</Button>
         <LoadingButton
           loading={loading}
-          disabled={passwordErrors.length > 0 || usernameErrors.length > 0}
+          disabled={
+            passwordErrors.length > 0 ||
+            usernameErrors.length > 0 ||
+            confirmedPasswordErrors.length > 0
+          }
           onClick={() => tryProcessUser()}
           variant="contained"
         >
-          {formMode}
+          Register
         </LoadingButton>
       </CardActions>
     </Card>
   );
 };
 
-export default UserAccountForm;
+export default RegisterForm;

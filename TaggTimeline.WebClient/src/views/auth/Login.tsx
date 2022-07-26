@@ -1,11 +1,11 @@
 import { FunctionComponent } from "react";
-import UserAccountForm from "../../components/forms/UserAccountForm";
+import LoginForm from "../../components/forms/LoginForm";
 
 /**
  * Page for logging in
  */
 export const AuthLoginPage: FunctionComponent = () => {
-  return <UserAccountForm formMode="Login" />;
+  return <LoginForm />;
 };
 
 export default AuthLoginPage;
