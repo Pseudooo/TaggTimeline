@@ -24,6 +24,7 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Cate
         var toBeCreated = new Category()
         {
             Key = request.Key,
+            Taggs = Enumerable.Empty<Tagg>(),
         };
 
         var created = await _baseRepository.AddItem(toBeCreated);
