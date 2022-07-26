@@ -33,20 +33,18 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // @TODO: Workout how to have a ValidationProvide manage these, they're awful here
-  const [usernameValidation, setUsernameValidation] =
-    useState<ValidationResponse>({ failed: false, errors: [] });
+  // @TODO: Workout how to have a ValidationProvider manage these, they're awful here
+  const [usernameErrors, setUsernameErrors] = useState<ValidationResponse>([]);
 
-  const [passwordValidation, setPasswordValidation] =
-    useState<ValidationResponse>({ failed: false, errors: [] });
+  const [passwordErrors, setPasswordErrors] = useState<ValidationResponse>([]);
 
   const handleUsernameChange = (username: string) => {
-    setUsernameValidation(required(username));
+    setUsernameErrors(required(username));
     setUsername(username);
   };
 
   const handlePasswordChange = (password: string) => {
-    setPasswordValidation(validatePassword(password));
+    setPasswordErrors(validatePassword(password));
     setPassword(password);
   };
 
@@ -90,8 +88,8 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
             label="Username"
             value={username}
             onChange={handleUsernameChange}
-            error={usernameValidation.failed}
-            helperText={usernameValidation.errors[0]}
+            error={usernameErrors.length > 0}
+            helperText={usernameErrors[0]}
             autoFocus
             required
           />
@@ -102,8 +100,8 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
             type="password"
             value={password}
             onChange={handlePasswordChange}
-            error={passwordValidation.failed}
-            helperText={passwordValidation.errors[0]}
+            error={passwordErrors.length > 0}
+            helperText={passwordErrors[0]}
             disabled={loading}
             required
           />
@@ -117,7 +115,7 @@ export const UserAccountForm: FunctionComponent<UserAccountFormProps> = ({
         <Button>Cancel</Button>
         <LoadingButton
           loading={loading}
-          disabled={passwordValidation.failed || usernameValidation.failed}
+          disabled={passwordErrors.length > 0 || usernameErrors.length > 0}
           onClick={() => tryProcessUser()}
           variant="contained"
         >

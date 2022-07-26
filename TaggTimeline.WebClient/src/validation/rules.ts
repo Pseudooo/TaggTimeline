@@ -1,20 +1,13 @@
-// You could infer there's no errors if errors.length === 0, but this feels more explicit
-export interface ValidationResponse {
-  failed: boolean;
-  errors: string[];
-}
+export type ValidationResponse = string[];
 
 /**
  * Validates whether or not a provided value meets a "required" critera
  * @param value The value to check if it exists
- * @returns Whether or not the value is deemed to exist
+ * @returns Relevant required errors
  */
 // eslint-disable-next-line
-export function required(value: any) {
-  const errored: ValidationResponse = {
-    failed: true,
-    errors: ["Value is required"],
-  };
+export function required(value: any): ValidationResponse {
+  const errored: ValidationResponse = ["Value is required"];
 
   if (value === undefined || value === null) {
     return errored;
@@ -24,17 +17,14 @@ export function required(value: any) {
     return errored;
   }
 
-  return {
-    failed: false,
-    errors: [],
-  };
+  return [];
 }
 
 /**
  * Validates a password to be valid for the backend
  * @todo Potentially consider support for non-english characters
  * @param password The password to validate
- * @returns Whether or not the password failed, and the errors if so
+ * @returns All relevant password errors
  */
 export function validatePassword(password: string): ValidationResponse {
   const errors: string[] = [];
@@ -65,8 +55,5 @@ export function validatePassword(password: string): ValidationResponse {
     errors.push("Passwords must container at least one lower case letter");
   }
 
-  return {
-    failed: !!errors.length,
-    errors,
-  };
+  return errors;
 }
