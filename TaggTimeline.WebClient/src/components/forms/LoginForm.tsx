@@ -18,6 +18,7 @@ import {
 import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
+import { HttpResponse } from "../../api/generated";
 
 export const UserAccountForm: FunctionComponent = () => {
   const { login } = useAuth();
@@ -30,13 +31,16 @@ export const UserAccountForm: FunctionComponent = () => {
   // @TODO: Workout how to have a ValidationProvider manage these, they're awful here
   const [usernameErrors, setUsernameErrors] = useState<ValidationResponse>([]);
   const [passwordErrors, setPasswordErrors] = useState<ValidationResponse>([]);
+  const [generalError, setGeneralErrors] = useState<ValidationResponse>([]);
 
   const handleUsernameChange = (username: string) => {
+    setGeneralErrors([]);
     setUsernameErrors(required(username));
     setUsername(username);
   };
 
   const handlePasswordChange = (password: string) => {
+    setGeneralErrors([]);
     setPasswordErrors(validatePassword(password));
     setPassword(password);
   };
@@ -46,14 +50,38 @@ export const UserAccountForm: FunctionComponent = () => {
       setLoading(true);
       await login(username, password);
       navigate("/");
+    } catch (e: unknown) {
+      if (e instanceof Response) {
+        const { error } = e as HttpResponse<unknown, unknown>;
+        if (error === "Couldn't find user with that username") {
+          setUsernameErrors([error]);
+        } else if (error === "Invalid username/password") {
+          setGeneralErrors([error]);
+        } else {
+          setGeneralErrors([error as string]);
+        }
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const errorsExist = () => {
+    return (
+      usernameErrors.length > 0 ||
+      passwordErrors.length > 0 ||
+      generalError.length > 0
+    );
+  };
+
   return (
     <Card sx={{ width: 600 }}>
-      <CardHeader avatar={<Person />} title="Login" />
+      <CardHeader
+        avatar={<Person />}
+        title="Login"
+        subheader={generalError}
+        subheaderTypographyProps={{ color: "red" }}
+      />
       <CardContent>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
           <TextField
@@ -89,7 +117,7 @@ export const UserAccountForm: FunctionComponent = () => {
         <Button>Cancel</Button>
         <LoadingButton
           loading={loading}
-          disabled={passwordErrors.length > 0 || usernameErrors.length > 0}
+          disabled={errorsExist()}
           onClick={() => tryProcessUser()}
           variant="contained"
         >

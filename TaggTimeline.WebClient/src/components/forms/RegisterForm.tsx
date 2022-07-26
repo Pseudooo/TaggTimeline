@@ -18,6 +18,7 @@ import {
 import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
+import { HttpResponse } from "../../api/generated";
 
 export const RegisterForm: FunctionComponent = () => {
   const { register } = useAuth();
@@ -33,6 +34,7 @@ export const RegisterForm: FunctionComponent = () => {
   const [passwordErrors, setPasswordErrors] = useState<ValidationResponse>([]);
   const [confirmedPasswordErrors, setConfirmedPasswordErrors] =
     useState<ValidationResponse>([]);
+  const [generalError, setGeneralErrors] = useState<ValidationResponse>([]);
 
   const handleUsernameChange = (newUsername: string) => {
     setUsernameErrors(required(newUsername));
@@ -56,14 +58,35 @@ export const RegisterForm: FunctionComponent = () => {
       setLoading(true);
       await register(username, password);
       navigate("/");
+    } catch (e: unknown) {
+      if (e instanceof Response) {
+        const { error } = e as HttpResponse<unknown, unknown>;
+        if (error === "There is already a user with that username") {
+          setUsernameErrors([error]);
+        }
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const errorsExist = () => {
+    return (
+      usernameErrors.length > 0 ||
+      passwordErrors.length > 0 ||
+      confirmedPasswordErrors.length > 0 ||
+      generalError.length > 0
+    );
+  };
+
   return (
     <Card sx={{ width: 600 }}>
-      <CardHeader avatar={<Person />} title="Register an account" />
+      <CardHeader
+        avatar={<Person />}
+        title="Register an account"
+        subheader={generalError}
+        subheaderTypographyProps={{ color: "red" }}
+      />
       <CardContent>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
           <TextField
@@ -111,11 +134,7 @@ export const RegisterForm: FunctionComponent = () => {
         <Button>Cancel</Button>
         <LoadingButton
           loading={loading}
-          disabled={
-            passwordErrors.length > 0 ||
-            usernameErrors.length > 0 ||
-            confirmedPasswordErrors.length > 0
-          }
+          disabled={errorsExist()}
           onClick={() => tryProcessUser()}
           variant="contained"
         >

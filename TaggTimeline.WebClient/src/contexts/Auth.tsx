@@ -6,13 +6,15 @@ import {
   useMemo,
   useState,
 } from "react";
+import { AuthenticationResultModel } from "../api/generated";
 import { registerUser, loginUser } from "../api/wrapped";
+import { fakeFetch } from "../util/placeholder";
 import { useToaster } from "./Toaster";
 
 interface AuthContextType {
   token: string | null;
-  register: (username: string, password: string) => Promise<string>;
-  login: (username: string, password: string) => Promise<string>;
+  register: typeof registerUser;
+  login: typeof loginUser;
   logout: () => Promise<boolean>;
 }
 
@@ -34,16 +36,17 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    * @param password The password to secure the new account
    * @returns An authorization token
    */
-  async function register(username: string, password: string) {
+  const register: AuthContextType["register"] = async (...args) => {
     setToken(null);
-    const response = await registerUser(username, password);
+    const response = await registerUser(...args);
     setToken(response.token);
     createToaster({
       severity: "success",
       message: "Account created successfully",
     });
-    return response.token;
-  }
+
+    return { token } as AuthenticationResultModel;
+  };
 
   /**
    * Logs an account in, and returns a token
@@ -51,20 +54,22 @@ export const AuthProvider: FunctionComponent<PropsWithChildren> = ({
    * @param password The password to the account
    * @returns An authorization token
    */
-  async function login(username: string, password: string) {
+  const login: AuthContextType["login"] = async (...args) => {
     setToken(null);
-    const response = await loginUser(username, password);
+    const response = await loginUser(...args);
     setToken(response.token);
     createToaster({ severity: "success", message: "Login successful" });
-    return response.token;
-  }
+    return { token } as AuthenticationResultModel;
+  };
 
   /**
    * Attempts to log out the current user
    * @returns If the user successfully logged out
    */
   async function logout() {
+    await fakeFetch({}, 1000);
     setToken(null);
+    createToaster({ severity: "success", message: "Logout successful" });
     return true;
   }
 
