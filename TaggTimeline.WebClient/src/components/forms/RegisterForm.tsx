@@ -37,11 +37,13 @@ export const RegisterForm: FunctionComponent = () => {
   const [generalError, setGeneralErrors] = useState<ValidationResponse>([]);
 
   const handleUsernameChange = (newUsername: string) => {
+    setGeneralErrors([]);
     setUsernameErrors(required(newUsername));
     setUsername(newUsername);
   };
 
   const handlePasswordChange = (newPassword: string) => {
+    setGeneralErrors([]);
     setPasswordErrors(validatePassword(newPassword));
     setPassword(newPassword);
   };
@@ -64,6 +66,7 @@ export const RegisterForm: FunctionComponent = () => {
         if (error === "There is already a user with that username") {
           setUsernameErrors([error]);
         }
+        setGeneralErrors([error as string]);
       }
     } finally {
       setLoading(false);
