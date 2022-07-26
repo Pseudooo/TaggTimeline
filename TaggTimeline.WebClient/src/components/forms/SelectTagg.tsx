@@ -52,7 +52,8 @@ export interface SelectTaggFormProps {
 export const SelectTaggForm: FunctionComponent<SelectTaggFormProps> = ({
   onSelected,
 }) => {
-  const { taggs } = useAPI();
+  const { useTaggs } = useAPI();
+  const taggs = useTaggs();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredTaggs, setFilteredTaggs] = useState<TaggPreviewModel[]>(
     taggs.value ?? []

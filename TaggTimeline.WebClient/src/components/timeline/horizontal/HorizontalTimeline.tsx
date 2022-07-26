@@ -1,13 +1,19 @@
 import { Grid, Paper } from "@mui/material";
-import { FunctionComponent, useState } from "react";
-import { TaggPreviewModel } from "../../../api/generated";
+import { FunctionComponent, useEffect, useState } from "react";
+import { TaggModel, TaggPreviewModel } from "../../../api/generated";
 import { useAPI } from "../../../contexts/API";
+import { DataWrapper } from "../../../store/reducers/api";
 import { SelectTaggsDropdown } from "../../io/custom/SelectTaggsDropdown";
 import { DateRangePicker } from "../../io/DateRangePicker";
 
 export const HorizontalTimeline: FunctionComponent = () => {
-  const { taggs } = useAPI();
+  const { useTaggs, useTaggDetails, initTaggDetails } = useAPI();
+  const taggs = useTaggs();
+  const taggDetails = useTaggDetails();
   const [chosenTaggs, setChosenTaggs] = useState<TaggPreviewModel[]>([]);
+  const [chosenTaggDetails, setChosenTaggDetails] = useState<
+    DataWrapper<TaggModel>[]
+  >([]);
   const [startDate, setStartDate] = useState<Date | null>(new Date());
   const [endDate, setEndDate] = useState<Date | null>(new Date());
 
@@ -15,6 +21,11 @@ export const HorizontalTimeline: FunctionComponent = () => {
     setStartDate(newStart);
     setEndDate(newEnd);
   };
+
+  useEffect(() => {
+    chosenTaggs.forEach((tagg) => initTaggDetails(tagg.id));
+    setChosenTaggDetails([...chosenTaggs.map((tagg) => taggDetails[tagg.id])]);
+  }, [chosenTaggs, taggDetails]);
 
   return (
     <Paper>
@@ -42,6 +53,9 @@ export const HorizontalTimeline: FunctionComponent = () => {
           </Grid>
           <Grid item xs={12}>
             Main content
+            {chosenTaggDetails.map((tagg, i) => (
+              <p key={i}>{`${JSON.stringify(tagg)}`}</p>
+            ))}
           </Grid>
         </Grid>
       </Grid>

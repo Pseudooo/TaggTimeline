@@ -5,15 +5,21 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
 } from "react";
-import { TaggPreviewModel } from "../api/generated";
+import { TaggModel, TaggPreviewModel } from "../api/generated";
 import {
   createTagg as createTaggFromApi,
   getAllTaggs as getAllTaggsFromApi,
   createTaggInstance as createTaggInstanceFromApi,
   getTagg as getTaggFromApi,
 } from "../api/wrapped";
+import { useAppDispatch, useAppSelector } from "../store/helper";
+import {
+  addTagg,
+  initialiseTaggDetails,
+  updateTaggDetails,
+  updateTaggs,
+} from "../store/reducers/api";
 import { useAuth } from "./Auth";
 
 export enum DataStatus {
@@ -30,11 +36,13 @@ export interface DataWrapper<T> {
 }
 
 interface APIContextType {
-  taggs: DataWrapper<TaggPreviewModel[]>;
+  useTaggs: () => DataWrapper<TaggPreviewModel[]>;
+  useTaggDetails: () => { [key: string]: DataWrapper<TaggModel> };
   createTagg: typeof createTaggFromApi;
   createTaggInstance: typeof createTaggInstanceFromApi;
   getAllTaggs: typeof getAllTaggsFromApi;
-  getTagg: typeof getTaggFromApi;
+  initTaggDetails: (taggId: string) => void;
+  getTaggDetails: typeof getTaggFromApi;
 }
 
 const APIContext = createContext<APIContextType>({} as APIContextType);
@@ -46,10 +54,11 @@ const APIContext = createContext<APIContextType>({} as APIContextType);
 export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
-  const [taggs, setTaggs] = useState<DataWrapper<TaggPreviewModel[]>>({
-    status: DataStatus.NOT_LOADED,
-  });
+  const dispatch = useAppDispatch();
   const { user } = useAuth();
+
+  const useTaggs = () => useAppSelector((state) => state.api.taggs);
+  const useTaggDetails = () => useAppSelector((state) => state.api.taggDetails);
 
   /**
    * Creates a tagg and stores it locally for reference
@@ -58,10 +67,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    */
   const createTagg: APIContextType["createTagg"] = async (...args) => {
     const tagg = await createTaggFromApi(...args);
-    setTaggs((prev) => ({
-      ...prev,
-      value: prev.value ? [...prev.value, tagg] : [tagg],
-    }));
+    dispatch(addTagg(tagg));
     return tagg;
   };
 
@@ -83,20 +89,12 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    */
   const getAllTaggs: APIContextType["getAllTaggs"] = async () => {
     try {
-      setTaggs((prev) => ({ ...prev, status: DataStatus.LOADING }));
+      dispatch(updateTaggs(DataStatus.LOADING));
       const taggs = await getAllTaggsFromApi();
-      setTaggs((prev) => ({
-        ...prev,
-        status: DataStatus.LOADED,
-        value: taggs,
-      }));
+      dispatch(updateTaggs(DataStatus.LOADED, taggs));
       return taggs;
     } catch (e) {
-      setTaggs((prev) => ({
-        ...prev,
-        status: DataStatus.ERROR,
-        error: `${e}`,
-      }));
+      dispatch(updateTaggs(DataStatus.ERROR, undefined, `${e}`));
       throw e;
     }
   };
@@ -106,16 +104,34 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    * @param params Parameters from the getTagg API function
    * @returns The tagg, if found
    */
-  const getTagg: APIContextType["getTagg"] = async (...params) => {
-    const tagg = await getTaggFromApi(...params);
-    return tagg;
+  const getTaggDetails: APIContextType["getTaggDetails"] = async (id) => {
+    try {
+      dispatch(updateTaggDetails(id, DataStatus.LOADING));
+      const tagg = await getTaggFromApi(id);
+      dispatch(updateTaggDetails(id, DataStatus.LOADED, tagg));
+      return tagg;
+    } catch (e) {
+      dispatch(updateTaggDetails(id, DataStatus.ERROR, undefined, `${e}`));
+      throw e;
+    }
+  };
+
+  /**
+   * Loads a tagg's details if it hasn't been loaded
+   * @param taggId The id of the tagg
+   */
+  const initTaggDetails = (taggId: string) => {
+    const initialised = dispatch(initialiseTaggDetails(taggId));
+    if (!initialised) {
+      getTaggDetails(taggId);
+    }
   };
 
   useEffect(() => {
     if (user) {
       getAllTaggs();
     } else {
-      setTaggs({ status: DataStatus.NOT_LOADED });
+      dispatch(updateTaggs(DataStatus.NOT_LOADED));
       // TODO: Remove when auth is complete
       getAllTaggs();
     }
@@ -124,13 +140,15 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   // Use Memo'd versions to prevent re-rendering unnecessarily
   const memoedValues = useMemo<APIContextType>(
     () => ({
-      taggs,
+      useTaggs,
+      useTaggDetails,
       createTagg,
       getAllTaggs,
       createTaggInstance,
-      getTagg,
+      getTaggDetails,
+      initTaggDetails,
     }),
-    [taggs]
+    []
   );
 
   return (
