@@ -34,6 +34,20 @@ const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
 }) => {
   const startTime = startDate.valueOf();
   const timeRange = endDate.valueOf() - startTime;
+
+  const timelineEntries = tagg.instances?.map((instance) => {
+    const occuranceTime = moment(instance.occuranceDate).valueOf();
+    const offset = (occuranceTime - startTime) / timeRange;
+    return (
+      <TimelineTaggInstance
+        key={instance.id}
+        tagg={tagg}
+        taggInstance={instance}
+        sx={{ position: "absolute", left: `${offset * 100}%` }}
+      />
+    );
+  });
+
   return (
     <Box
       sx={{
@@ -54,18 +68,7 @@ const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
       <Box
         sx={{ marginLeft: "1rem", marginRight: "1rem", position: "relative" }}
       >
-        {tagg.instances?.map((instance) => {
-          const occuranceTime = moment(instance.occuranceDate).valueOf();
-          const offset = (occuranceTime - startTime) / timeRange;
-          return (
-            <TimelineTaggInstance
-              key={instance.id}
-              tagg={tagg}
-              taggInstance={instance}
-              sx={{ position: "absolute", left: `${offset * 100}%` }}
-            />
-          );
-        })}
+        {timelineEntries}
       </Box>
     </Box>
   );
@@ -116,6 +119,21 @@ export const HorizontalTimeline: FunctionComponent = () => {
     }
   }, [autoDate, chosenTaggDetails]);
 
+  const rows = chosenTaggDetails.map((tagg, i) => {
+    return tagg.value ? (
+      <HorizontalTimelineRow
+        key={tagg.value.id}
+        tagg={tagg.value}
+        startDate={startDate ?? moment()}
+        endDate={endDate ?? moment()}
+      />
+    ) : (
+      <Box key={i} flex={1} textAlign="center">
+        <CircularProgress />
+      </Box>
+    );
+  });
+
   return (
     <Paper>
       <Grid container>
@@ -134,7 +152,7 @@ export const HorizontalTimeline: FunctionComponent = () => {
             }
             label="Auto"
             labelPlacement="end"
-          ></FormControlLabel>
+          />
           <DateRangePicker
             startDate={startDate}
             endDate={endDate}
@@ -143,23 +161,7 @@ export const HorizontalTimeline: FunctionComponent = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          {chosenTaggDetails.map((tagg, i) => {
-            if (tagg.value) {
-              return (
-                <HorizontalTimelineRow
-                  key={tagg.value.id}
-                  tagg={tagg.value}
-                  startDate={startDate ?? moment()}
-                  endDate={endDate ?? moment()}
-                />
-              );
-            }
-            return (
-              <Box key={i} flex={1} textAlign="center">
-                <CircularProgress />
-              </Box>
-            );
-          })}
+          {rows}
         </Grid>
       </Grid>
     </Paper>
