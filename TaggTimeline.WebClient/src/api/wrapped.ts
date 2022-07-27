@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Moment } from "moment";
 import { Api, HttpResponse, RequestParams } from "./generated";
 
 const apiInstance = new Api();
@@ -60,7 +61,10 @@ export async function getAllTaggs() {
  * @param occuranceDate The occurance of the tag
  * @returns The created instance
  */
-export async function createTaggInstance(taggId: string, occuranceDate: Date) {
+export async function createTaggInstance(
+  taggId: string,
+  occuranceDate: Moment
+) {
   return handleResponse(
     await wrappedFetch((params) =>
       apiInstance.tagg.instanceCreate(
@@ -99,5 +103,16 @@ export async function loginUser(username: string, password: string) {
     await wrappedFetch((params) =>
       apiInstance.identity.loginCreate({ userName: username, password }, params)
     )
+  );
+}
+
+/**
+ * Gets a tagg by ID from the API
+ * @param taggId The ID of the tagg
+ * @returns The detailed Tagg
+ */
+export async function getTagg(taggId: string) {
+  return handleResponse(
+    await wrappedFetch((params) => apiInstance.tagg.taggDetail(taggId, params))
   );
 }

@@ -17,6 +17,7 @@ import DatePicker from "../io/DatePicker";
 import { LoadingButton } from "@mui/lab";
 import { useAPI } from "../../contexts/API";
 import { useToaster } from "../../contexts/Toaster";
+import moment, { Moment } from "moment";
 
 export interface CreateTaggInstanceForm {
   onCancel?: () => void;
@@ -34,13 +35,13 @@ export const CreateTaggInstanceForm: FunctionComponent<
   const [complete, setComplete] = useState(false);
   const { createTaggInstance } = useAPI();
   const { createToaster } = useToaster();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(moment());
 
   const selectTagg = (tagg: TaggPreviewModel) => {
     setTagg(tagg);
   };
 
-  const handleDateChange = (newDate: Date | null) => {
+  const handleDateChange = (newDate: Moment | null) => {
     if (!newDate) {
       return;
     }

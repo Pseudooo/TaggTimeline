@@ -1,14 +1,15 @@
 import { TextField } from "@mui/material";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
+import { Moment } from "moment";
 import { FunctionComponent, ReactNode } from "react";
 
 interface DatePickerProps {
   label?: ReactNode;
-  value: Date | null;
+  value: Moment | null;
   // onChange: React.ComponentProps<typeof DesktopDatePicker>["onChange"];
-  onChange: (newValue: Date | null) => void;
-  minDate?: Date;
-  maxDate?: Date;
+  onChange: (newValue: Moment | null) => void;
+  minDate?: Moment;
+  maxDate?: Moment;
   disabled?: boolean;
 }
 
@@ -23,12 +24,12 @@ export const DatePicker: FunctionComponent<DatePickerProps> = ({
   maxDate,
   disabled = false,
 }) => {
-  const handleChange = (newValue: Date | null) => {
+  const handleChange = (newValue: Moment | null) => {
     onChange(newValue);
   };
 
   return (
-    <DesktopDatePicker
+    <DesktopDatePicker<Moment>
       label={label}
       disableMaskedInput
       value={value}

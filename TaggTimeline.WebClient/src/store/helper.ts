@@ -1,3 +1,4 @@
+import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import store from ".";
 
@@ -9,3 +10,11 @@ export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 // Strongly-typed useSelector hook
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+// Reusable thunk definition
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>;
