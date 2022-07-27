@@ -113,6 +113,6 @@ export async function loginUser(username: string, password: string) {
  */
 export async function getTagg(taggId: string) {
   return handleResponse(
-    await wrappedFetch((params) => apiInstace.tagg.taggDetail(taggId, params))
+    await wrappedFetch((params) => apiInstance.tagg.taggDetail(taggId, params))
   );
 }
