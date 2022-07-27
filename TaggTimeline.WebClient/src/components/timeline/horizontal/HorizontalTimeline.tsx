@@ -1,3 +1,11 @@
+import {
+  Box,
+  CircularProgress,
+  FormControlLabel,
+  Grid,
+  Paper,
+  Switch,
+} from "@mui/material";
 import moment from "moment";
 import { Moment } from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
@@ -6,6 +14,44 @@ import { useAPI } from "../../../contexts/API";
 import { DataWrapper } from "../../../store/reducers/api";
 import { SelectTaggsDropdown } from "../../io/custom/SelectTaggsDropdown";
 import { DateRangePicker } from "../../io/DateRangePicker";
+import { TimelineTaggInstance } from "../TimelineTaggInstance";
+
+interface HorizontalTimelineRowProps {
+  tagg: TaggModel;
+  startDate: Moment;
+  endDate: Moment;
+}
+
+/**
+ * Creates a row in the horizontal timeline
+ * @param props The props for this component
+ */
+const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
+  tagg,
+  startDate,
+  endDate,
+}) => {
+  console.log(startDate);
+
+  const startTime = startDate.valueOf();
+  const timeRange = endDate.valueOf() - startTime;
+  return (
+    <Box sx={{ position: "relative", height: "3rem" }}>
+      {tagg.instances?.map((instance) => {
+        const occuranceTime = moment(instance.occuranceDate).valueOf();
+        const offset = (occuranceTime - startTime) / timeRange;
+        return (
+          <TimelineTaggInstance
+            key={instance.id}
+            tagg={tagg}
+            taggInstance={instance}
+            sx={{ position: "absolute", left: `${offset * 100}%` }}
+          />
+        );
+      })}
+    </Box>
+  );
+};
 
 export const HorizontalTimeline: FunctionComponent = () => {
   const { useTaggs, useTaggDetails, initTaggDetails } = useAPI();
@@ -80,9 +126,23 @@ export const HorizontalTimeline: FunctionComponent = () => {
         </Grid>
         <Grid item xs={12}>
           Main content
-          {chosenTaggDetails.map((tagg, i) => (
-            <p key={i}>{`${JSON.stringify(tagg)}`}</p>
-          ))}
+          {chosenTaggDetails.map((tagg, i) => {
+            if (tagg.value) {
+              return (
+                <HorizontalTimelineRow
+                  key={tagg.value.id}
+                  tagg={tagg.value}
+                  startDate={startDate ?? moment()}
+                  endDate={endDate ?? moment()}
+                />
+              );
+            }
+            return (
+              <Box key={i} flex={1} textAlign="center">
+                <CircularProgress />
+              </Box>
+            );
+          })}
         </Grid>
       </Grid>
     </Paper>
