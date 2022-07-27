@@ -1,8 +1,8 @@
-import { PushPin } from "@mui/icons-material";
-import { Avatar, SxProps, Tooltip, Typography } from "@mui/material";
+import { Box, SxProps, Tooltip, Typography } from "@mui/material";
 import moment from "moment";
 import { FunctionComponent } from "react";
 import { InstanceModel, TaggModel } from "../../api/generated";
+import { stringToColour } from "../../util";
 
 export interface TimelineTaggInstanceProps {
   tagg: TaggModel;
@@ -24,9 +24,17 @@ export const TimelineTaggInstance: FunctionComponent<
         </>
       }
     >
-      <Avatar sx={{ transformOrigin: "center", ...sx }}>
-        <PushPin />
-      </Avatar>
+      <Box
+        sx={{
+          transformOrigin: "center",
+          transform: "translate(-50%, -50%)",
+          bgcolor: stringToColour(tagg.id),
+          borderRadius: "100000px",
+          width: "1rem",
+          height: "1rem",
+          ...sx,
+        }}
+      ></Box>
     </Tooltip>
   );
 };

@@ -15,6 +15,7 @@ import { DataWrapper } from "../../../store/reducers/api";
 import { SelectTaggsDropdown } from "../../io/custom/SelectTaggsDropdown";
 import { DateRangePicker } from "../../io/DateRangePicker";
 import { TimelineTaggInstance } from "../TimelineTaggInstance";
+import { stringToColour } from "../../../util";
 
 interface HorizontalTimelineRowProps {
   tagg: TaggModel;
@@ -36,19 +37,38 @@ const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
   const startTime = startDate.valueOf();
   const timeRange = endDate.valueOf() - startTime;
   return (
-    <Box sx={{ position: "relative", height: "3rem" }}>
-      {tagg.instances?.map((instance) => {
-        const occuranceTime = moment(instance.occuranceDate).valueOf();
-        const offset = (occuranceTime - startTime) / timeRange;
-        return (
-          <TimelineTaggInstance
-            key={instance.id}
-            tagg={tagg}
-            taggInstance={instance}
-            sx={{ position: "absolute", left: `${offset * 100}%` }}
-          />
-        );
-      })}
+    <Box
+      sx={{
+        position: "relative",
+        height: "1rem",
+        padding: "1rem",
+        "&::before": {
+          content: "''",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: "50%",
+          height: "1px",
+          bgcolor: stringToColour(tagg.id),
+        },
+      }}
+    >
+      <Box
+        sx={{ marginLeft: "1rem", marginRight: "1rem", position: "relative" }}
+      >
+        {tagg.instances?.map((instance) => {
+          const occuranceTime = moment(instance.occuranceDate).valueOf();
+          const offset = (occuranceTime - startTime) / timeRange;
+          return (
+            <TimelineTaggInstance
+              key={instance.id}
+              tagg={tagg}
+              taggInstance={instance}
+              sx={{ position: "absolute", left: `${offset * 100}%` }}
+            />
+          );
+        })}
+      </Box>
     </Box>
   );
 };
@@ -125,7 +145,6 @@ export const HorizontalTimeline: FunctionComponent = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          Main content
           {chosenTaggDetails.map((tagg, i) => {
             if (tagg.value) {
               return (
