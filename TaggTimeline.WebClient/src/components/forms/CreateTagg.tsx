@@ -1,5 +1,6 @@
 import { LoadingButton } from "@mui/lab";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -38,6 +39,9 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   };
 
   const tryCreateTagg = (name: string) => {
+    if (error.length > 0) {
+      return;
+    }
     setLoading(true);
     createTagg(name)
       .then((tagg) => {
@@ -70,6 +74,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
             label="Name"
             value={taggName}
             onChange={handleTaggNameChange}
+            onEnter={() => tryCreateTagg(taggName)}
             error={error.length > 0}
             helperText={error}
             disabled={loading}
@@ -77,16 +82,20 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
           />
         </FormControl>
       </CardContent>
-      <CardActions>
+      <CardActions
+        sx={{ display: "flex", flex: 1, flexSpacing: "space-between" }}
+      >
         {onCancel && <Button onClick={onCancel}>{cancelText}</Button>}
-        <LoadingButton
-          loading={loading}
-          disabled={error.length > 0}
-          onClick={() => tryCreateTagg(taggName)}
-          variant="outlined"
-        >
-          Create
-        </LoadingButton>
+        <Box sx={{ marginLeft: "auto" }}>
+          <LoadingButton
+            loading={loading}
+            disabled={error.length > 0}
+            onClick={() => tryCreateTagg(taggName)}
+            variant="contained"
+          >
+            Create
+          </LoadingButton>
+        </Box>
       </CardActions>
     </Card>
   );
