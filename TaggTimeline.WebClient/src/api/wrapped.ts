@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Moment } from "moment";
 import { Api, HttpResponse, RequestParams } from "./generated";
 
 const apiInstace = new Api();
@@ -60,7 +61,10 @@ export async function getAllTaggs() {
  * @param occuranceDate The occurance of the tag
  * @returns The created instance
  */
-export async function createTaggInstance(taggId: string, occuranceDate: Date) {
+export async function createTaggInstance(
+  taggId: string,
+  occuranceDate: Moment
+) {
   return handleResponse(
     await wrappedFetch((params) =>
       apiInstace.tagg.instanceCreate(

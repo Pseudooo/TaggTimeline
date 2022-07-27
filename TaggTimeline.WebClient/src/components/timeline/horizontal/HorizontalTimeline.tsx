@@ -1,4 +1,5 @@
-import { FormControlLabel, Grid, Paper, Switch } from "@mui/material";
+import moment from "moment";
+import { Moment } from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { TaggModel, TaggPreviewModel } from "../../../api/generated";
 import { useAPI } from "../../../contexts/API";
@@ -15,10 +16,10 @@ export const HorizontalTimeline: FunctionComponent = () => {
     DataWrapper<TaggModel>[]
   >([]);
   const [autoDate, setAutoDate] = useState(true);
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Moment | null>(moment());
+  const [endDate, setEndDate] = useState<Moment | null>(moment());
 
-  const handleDateChange = (newStart: Date | null, newEnd: Date | null) => {
+  const handleDateChange = (newStart: Moment | null, newEnd: Moment | null) => {
     setStartDate(newStart);
     setEndDate(newEnd);
   };
@@ -30,14 +31,14 @@ export const HorizontalTimeline: FunctionComponent = () => {
 
   useEffect(() => {
     if (autoDate) {
-      let newStartDate: Date | undefined = undefined;
-      let newEndDate: Date | undefined = undefined;
+      let newStartDate: Moment | undefined = undefined;
+      let newEndDate: Moment | undefined = undefined;
       chosenTaggDetails.forEach((taggDetails) => {
         if (!taggDetails.value || !taggDetails.value.instances) {
           return;
         }
         taggDetails.value.instances.forEach((instance) => {
-          const date = new Date(instance.occuranceDate);
+          const date = moment(instance.occuranceDate);
           if (!newStartDate || date < newStartDate) {
             newStartDate = date;
           }
@@ -46,8 +47,8 @@ export const HorizontalTimeline: FunctionComponent = () => {
           }
         });
       });
-      setStartDate(newStartDate ?? new Date());
-      setEndDate(newEndDate ?? new Date());
+      setStartDate(newStartDate ?? moment());
+      setEndDate(newEndDate ?? moment());
     }
   }, [autoDate, chosenTaggDetails]);
 

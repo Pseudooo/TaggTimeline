@@ -1,12 +1,13 @@
+import { Moment } from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import DatePicker from "./DatePicker";
 
 interface DateRangePickerProps {
   startLabel?: string;
   endLabel?: string;
-  startDate: Date | null;
-  endDate: Date | null;
-  onChange: (newStart: Date | null, newEnd: Date | null) => void;
+  startDate: Moment | null;
+  endDate: Moment | null;
+  onChange: (newStart: Moment | null, newEnd: Moment | null) => void;
   behaviour?: "none" | "limit" | "overwrite";
   disabled?: boolean;
 }
@@ -24,17 +25,17 @@ export const DateRangePicker: FunctionComponent<DateRangePickerProps> = ({
   behaviour = "none",
   disabled = false,
 }) => {
-  const [startDateMin] = useState<Date>(); // Unused currently
-  const [startDateMax, setStartDateMax] = useState<Date>();
-  const [endDateMin, setEndDateMin] = useState<Date>();
-  const [endDateMax] = useState<Date>(); // Unused currently
+  const [startDateMin] = useState<Moment>(); // Unused currently
+  const [startDateMax, setStartDateMax] = useState<Moment>();
+  const [endDateMin, setEndDateMin] = useState<Moment>();
+  const [endDateMax] = useState<Moment>(); // Unused currently
 
   /**
    * Handles what happens when a new date is selected by the user
    * @param newStart The new start date
    * @param newEnd The new end date
    */
-  const handleChange = (newStart: Date | null, newEnd: Date | null) => {
+  const handleChange = (newStart: Moment | null, newEnd: Moment | null) => {
     onChange(newStart, newEnd);
   };
 
