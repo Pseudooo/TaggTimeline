@@ -15,7 +15,7 @@ export const AuthLogoutPage: FunctionComponent = () => {
     logout().then(() => {
       navigate("/");
     });
-  });
+  }, []);
 
   return (
     <Card>
