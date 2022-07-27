@@ -3,7 +3,7 @@ using TaggTimeline.Domain.Context;
 
 namespace TaggTimeline.Domain.Interface;
 
-public interface ITransactionWrapper : IAsyncDisposable
+public interface ITransactionWrapper
 {
     Task<ITransactionWrapper> Begin();
     Task Commit();

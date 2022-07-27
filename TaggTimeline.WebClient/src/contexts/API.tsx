@@ -56,7 +56,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   children,
 }) => {
   const dispatch = useAppDispatch();
-  const { user } = useAuth();
+  const { token } = useAuth();
 
   const useTaggs = () => useAppSelector((state) => state.api.taggs);
   const useTaggDetails = () => useAppSelector((state) => state.api.taggDetails);
@@ -131,14 +131,14 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   };
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       getAllTaggs();
     } else {
       dispatch(updateTaggs(DataStatus.NOT_LOADED));
       // TODO: Remove when auth is complete
       getAllTaggs();
     }
-  }, [user]);
+  }, [token]);
 
   // Use Memo'd versions to prevent re-rendering unnecessarily
   const memoedValues = useMemo<APIContextType>(
