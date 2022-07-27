@@ -56,6 +56,9 @@ export const RegisterForm: FunctionComponent = () => {
   };
 
   const tryProcessUser = async () => {
+    if (errorsExist()) {
+      return;
+    }
     try {
       setLoading(true);
       await register(username, password);
@@ -96,6 +99,7 @@ export const RegisterForm: FunctionComponent = () => {
             label="Username"
             value={username}
             onChange={handleUsernameChange}
+            onEnter={() => tryProcessUser()}
             error={usernameErrors.length > 0}
             helperText={usernameErrors[0]}
             autoFocus
@@ -108,6 +112,7 @@ export const RegisterForm: FunctionComponent = () => {
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            onEnter={() => tryProcessUser()}
             error={passwordErrors.length > 0}
             helperText={passwordErrors[0]}
             disabled={loading}
@@ -120,6 +125,7 @@ export const RegisterForm: FunctionComponent = () => {
             type="password"
             value={confirmedPassword}
             onChange={handleConfirmedPasswordChange}
+            onEnter={() => tryProcessUser()}
             error={confirmedPasswordErrors.length > 0}
             helperText={confirmedPasswordErrors[0]}
             disabled={loading}
