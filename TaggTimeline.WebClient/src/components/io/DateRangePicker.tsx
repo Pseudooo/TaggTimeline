@@ -8,6 +8,7 @@ interface DateRangePickerProps {
   endDate: Date | null;
   onChange: (newStart: Date | null, newEnd: Date | null) => void;
   behaviour?: "none" | "limit" | "overwrite";
+  disabled?: boolean;
 }
 
 /**
@@ -21,6 +22,7 @@ export const DateRangePicker: FunctionComponent<DateRangePickerProps> = ({
   endDate,
   onChange,
   behaviour = "none",
+  disabled = false,
 }) => {
   const [startDateMin] = useState<Date>(); // Unused currently
   const [startDateMax, setStartDateMax] = useState<Date>();
@@ -52,6 +54,7 @@ export const DateRangePicker: FunctionComponent<DateRangePickerProps> = ({
         label={startLabel}
         minDate={startDateMin}
         maxDate={startDateMax}
+        disabled={disabled}
       ></DatePicker>
       <DatePicker
         value={endDate}
@@ -59,6 +62,7 @@ export const DateRangePicker: FunctionComponent<DateRangePickerProps> = ({
         label={endLabel}
         minDate={endDateMin}
         maxDate={endDateMax}
+        disabled={disabled}
       ></DatePicker>
     </>
   );
