@@ -32,8 +32,6 @@ const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
   startDate,
   endDate,
 }) => {
-  console.log(startDate);
-
   const startTime = startDate.valueOf();
   const timeRange = endDate.valueOf() - startTime;
   return (
