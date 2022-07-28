@@ -1,8 +1,8 @@
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaggTimeline.ClientModel.Taggs;
-using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Service.Commands;
 using TaggTimeline.Service.Queries;
 
@@ -42,9 +42,12 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
     {
+        command.UserId = HttpContext.GetUserId();
+        
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
     }
