@@ -1,5 +1,6 @@
 import { Circle } from "@mui/icons-material";
 import {
+  Box,
   Button,
   Card,
   CardActions,
@@ -91,14 +92,16 @@ export const CreateTaggInstanceForm: FunctionComponent<
       </CardContent>
       <CardActions>
         <Button onClick={() => setTagg(undefined)}>Back</Button>
-        <LoadingButton
-          loading={loading}
-          disabled={complete}
-          onClick={() => tryCreateTaggInstance(tagg)}
-          variant="outlined"
-        >
-          Create
-        </LoadingButton>
+        <Box sx={{ marginLeft: "auto" }}>
+          <LoadingButton
+            loading={loading}
+            disabled={complete}
+            onClick={() => tryCreateTaggInstance(tagg)}
+            variant="contained"
+          >
+            Create
+          </LoadingButton>
+        </Box>
       </CardActions>
     </Card>
   );
