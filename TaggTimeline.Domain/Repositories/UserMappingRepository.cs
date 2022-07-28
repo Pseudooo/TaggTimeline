@@ -15,4 +15,18 @@ public class UserMappingRepository : BaseRepository<UserMapping>, IUserMappingRe
     {
         return Context.UserMappings.SingleAsync(userMapping => userMapping.UserId == userId);
     }
+
+    public async Task<UserMapping> CreateUserMapping(string userId)
+    {
+        var toBeCreated = new UserMapping()
+        {
+            Id = Guid.NewGuid(),
+            UserId = userId,
+        };
+
+        await Context.UserMappings.AddAsync(toBeCreated);
+        await Context.SaveChangesAsync(CancellationToken.None);
+
+        return toBeCreated;
+    }
 }
