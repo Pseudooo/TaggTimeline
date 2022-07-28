@@ -13,6 +13,6 @@ public class UserMappingRepository : BaseRepository<UserMapping>, IUserMappingRe
 
     public Task<UserMapping> GetByKnownUserId(string userId)
     {
-        return Context.UserMappings.SingleOrDefaultAsync(userMapping => userMapping.UserId == userId)!;
+        return Context.UserMappings.SingleAsync(userMapping => userMapping.UserId == userId)!;
     }
 }
