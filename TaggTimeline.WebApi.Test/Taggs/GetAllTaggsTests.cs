@@ -34,6 +34,7 @@ public class GetAllTaggsTests
         var tagg = returnedTaggs!.First();
         Assert.IsNotNull(tagg);
         Assert.IsNotEmpty(tagg.Key);
+        Assert.IsNotEmpty(tagg.Colour);
     }
 
 }

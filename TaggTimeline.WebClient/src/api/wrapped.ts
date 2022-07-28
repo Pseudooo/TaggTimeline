@@ -35,12 +35,13 @@ function handleResponse<T = any, E = any>(response: HttpResponse<T, E>): T {
 /**
  * Creates a tagg
  * @param name The name to use for the tagg
+ * @param colour The colour of the tagg
  * @returns The Tagg, if created
  */
-export async function createTagg(name: string) {
+export async function createTagg(name: string, colour: string) {
   return handleResponse(
     await wrappedFetch((params) =>
-      apiInstance.tagg.taggCreate({ key: name }, params)
+      apiInstance.tagg.taggCreate({ key: name, colour }, params)
     )
   );
 }

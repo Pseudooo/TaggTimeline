@@ -15,7 +15,6 @@ import { DataWrapper } from "../../../store/reducers/api";
 import { SelectTaggsDropdown } from "../../io/custom/SelectTaggsDropdown";
 import { DateRangePicker } from "../../io/DateRangePicker";
 import { TimelineTaggInstance } from "../TimelineTaggInstance";
-import { stringToColour } from "../../../util";
 
 interface HorizontalTimelineRowProps {
   tagg: TaggModel;
@@ -61,7 +60,7 @@ const HorizontalTimelineRow: FunctionComponent<HorizontalTimelineRowProps> = ({
           right: 0,
           top: "50%",
           height: "1px",
-          bgcolor: stringToColour(tagg.id),
+          bgcolor: tagg.colour,
         },
       }}
     >

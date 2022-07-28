@@ -12,6 +12,7 @@ public class CreateTaggCommandValidator : AbstractValidator<CreateTaggCommand>
             .NotEmpty();
 
         RuleFor(x => x.Colour)
+            .NotEmpty()
             .Matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$");
     }
 }

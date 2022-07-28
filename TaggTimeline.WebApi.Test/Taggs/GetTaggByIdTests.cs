@@ -39,6 +39,7 @@ public class GetTaggByIdTests
         Assert.IsInstanceOf<TaggModel>(returnedTagg);
 
         Assert.AreEqual(taggToLookup.Key, returnedTagg!.Key);
+        Assert.AreEqual(taggToLookup.Colour, returnedTagg!.Colour);
         Assert.IsNotNull(returnedTagg.Instances);
         Assert.IsInstanceOf<IEnumerable<InstanceModel>>(returnedTagg.Instances);
         Assert.IsNotNull(returnedTagg.Categories);

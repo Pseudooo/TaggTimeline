@@ -1,5 +1,3 @@
-
-using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Service.Test.Mocks.Categories;
 
@@ -24,6 +22,7 @@ public static class TaggTestData
             {
                 Id = Guid.NewGuid(),
                 Key = "FOO",
+                Colour = "#CAE9F5",
                 CreatedDate = DateTime.Now,
                 ModifiedDate = null,
                 DeletedDate = null,
@@ -34,6 +33,7 @@ public static class TaggTestData
             {
                 Id = Guid.NewGuid(),
                 Key = "BAR",
+                Colour = "#CAE9F5",
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 DeletedDate = DateTime.Now,
@@ -44,6 +44,7 @@ public static class TaggTestData
             {
                 Id = Guid.NewGuid(),
                 Key = "KEK",
+                Colour = "#CAE9F5",
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 DeletedDate = DateTime.Now,

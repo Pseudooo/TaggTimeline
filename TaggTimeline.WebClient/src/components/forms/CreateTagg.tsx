@@ -7,9 +7,11 @@ import {
   CardContent,
   FormControl,
 } from "@mui/material";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import { TaggModel } from "../../api/generated";
 import { useAPI } from "../../contexts/API";
+import { required, ValidationResponse } from "../../validation/rules";
+import { ColourPicker } from "../io/ColourPicker";
 import TextField from "../io/TextField";
 
 export interface CreateTaggFormProps {
@@ -30,20 +32,26 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
   cancelText = "Cancel",
 }) => {
   const [taggName, setTaggName] = useState(placeholder);
-  const [error, setError] = useState("");
+  const [taggColour, setTaggColour] = useState("#000");
+  const [error, setError] = useState<ValidationResponse>([]);
   const [loading, setLoading] = useState(false);
   const { createTagg } = useAPI();
 
   const handleTaggNameChange = (value: string) => {
+    setError(required(value));
     setTaggName(value);
   };
 
-  const tryCreateTagg = (name: string) => {
+  const handleTaggColourChange = (value: string) => {
+    setTaggColour(value);
+  };
+
+  const tryCreateTagg = (name: string, colour: string) => {
     if (error.length > 0) {
       return;
     }
     setLoading(true);
-    createTagg(name)
+    createTagg(name, colour)
       .then((tagg) => {
         // Tagg was created successfully
         setLoading(false);
@@ -53,30 +61,25 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
       })
       .catch(() => {
         setLoading(false);
-        setError("An error occured");
+        setError(["An error occured"]);
       })
       .finally(() => setLoading(false));
   };
 
-  useEffect(() => {
-    if (taggName.length === 0) {
-      setError("Cannot be blank.");
-      return;
-    }
-    setError("");
-  }, [taggName]);
-
   return (
     <Card>
-      <CardContent>
-        <FormControl fullWidth>
+      <CardContent sx={{ display: "flex" }}>
+        <FormControl>
+          <ColourPicker value={taggColour} onChange={handleTaggColourChange} />
+        </FormControl>
+        <FormControl sx={{ flex: "1", marginLeft: "1rem" }}>
           <TextField
             label="Name"
             value={taggName}
             onChange={handleTaggNameChange}
-            onEnter={() => tryCreateTagg(taggName)}
+            onEnter={() => tryCreateTagg(taggName, taggColour)}
             error={error.length > 0}
-            helperText={error}
+            helperText={error[0]}
             disabled={loading}
             autoFocus
           />
@@ -90,7 +93,7 @@ export const CreateTaggForm: FunctionComponent<CreateTaggFormProps> = ({
           <LoadingButton
             loading={loading}
             disabled={error.length > 0}
-            onClick={() => tryCreateTagg(taggName)}
+            onClick={() => tryCreateTagg(taggName, taggColour)}
             variant="contained"
           >
             Create

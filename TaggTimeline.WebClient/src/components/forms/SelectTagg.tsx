@@ -17,7 +17,6 @@ import { Box } from "@mui/system";
 import { FunctionComponent, useEffect, useState } from "react";
 import { TaggPreviewModel } from "../../api/generated";
 import { DataStatus, useAPI } from "../../contexts/API";
-import { stringToColour } from "../../util";
 import TextField from "../io/TextField";
 import { CreateTaggForm } from "./CreateTagg";
 
@@ -34,7 +33,7 @@ const TaggListItem: FunctionComponent<TaggListItemProps> = ({
     <ListItem disablePadding dense>
       <ListItemButton onClick={() => onClick(tagg)}>
         <ListItemIcon>
-          <Circle sx={{ color: stringToColour(tagg.id) }} />
+          <Circle sx={{ color: tagg.colour }} />
         </ListItemIcon>
         <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItemButton>
