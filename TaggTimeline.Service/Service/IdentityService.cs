@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using TaggTimeline.ClientModel.Auth;
+using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Configuration;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Interface;
@@ -15,11 +16,13 @@ public class IdentityService : IIdentityService
 {
     private readonly JwtConfiguration _jwtConfiguration;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly IUserMappingRepository _userMappingRepository;
 
-    public IdentityService(JwtConfiguration jwtConfiguration, UserManager<IdentityUser> userManager)
+    public IdentityService(JwtConfiguration jwtConfiguration, UserManager<IdentityUser> userManager, IUserMappingRepository userMappingRepository)
     {
         _jwtConfiguration = jwtConfiguration;
         _userManager = userManager;
+        _userMappingRepository = userMappingRepository;
     }
 
     public async Task<AuthenticationResultModel> Login(string username, string password)
@@ -49,6 +52,8 @@ public class IdentityService : IIdentityService
         var userCreationResult = await _userManager.CreateAsync(createdUser, password);
         if(!userCreationResult.Succeeded)
             throw new UserRegistrationException(string.Join(", ", userCreationResult.Errors.Select(x => x.Description)));
+
+        await _userMappingRepository.CreateUserMapping(createdUser.Id);
 
         return GenerateAuthenticationResultForUser(createdUser);
     }
