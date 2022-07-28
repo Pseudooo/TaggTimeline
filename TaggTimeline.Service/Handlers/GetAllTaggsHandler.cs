@@ -21,7 +21,7 @@ public class GetAllTaggsHandler : IRequestHandler<GetAllTaggsQuery, IEnumerable<
 
     public async Task<IEnumerable<TaggPreviewModel>> Handle(GetAllTaggsQuery request, CancellationToken cancellationToken)
     {
-        var taggs = await _baseRepository.GetAll();
+        var taggs = await _baseRepository.GetAllFromUser<Tagg>(request.UserId);
 
         var taggPreviews = _mapper.Map<IEnumerable<TaggPreviewModel>>(taggs);
 
