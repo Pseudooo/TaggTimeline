@@ -11,8 +11,8 @@ public class UserMappingRepository : BaseRepository<UserMapping>, IUserMappingRe
     public UserMappingRepository(DataContext context) : base(context)
         { }
 
-    public Task<UserMapping?> GetByUserId(string userId)
+    public Task<UserMapping> GetByKnownUserId(string userId)
     {
-        return Context.UserMappings.SingleOrDefaultAsync(userMapping => userMapping.UserId == userId);
+        return Context.UserMappings.SingleOrDefaultAsync(userMapping => userMapping.UserId == userId)!;
     }
 }
