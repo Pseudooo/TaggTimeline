@@ -21,11 +21,12 @@ public class CreateTaggTests
     public async Task Create_Tagg_Should_Create_Tagg()
     {
         var taggKey = "Tagg";
+        var taggColour = "#CAE9F5";
         var request = new HttpRequestMessage()
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("/Tagg", UriKind.Relative),
-            Content = JsonContent.Create(new CreateTaggCommand() { Key = taggKey }),
+            Content = JsonContent.Create(new CreateTaggCommand() { Key = taggKey, Colour = taggColour }),
         };
         var response = await client.SendAsync(request);
         Assert.IsTrue(response.IsSuccessStatusCode);
@@ -38,6 +39,8 @@ public class CreateTaggTests
         Assert.IsNotNull(createdTagg.CreatedDate);
         Assert.IsNotNull(createdTagg.Key);
         Assert.AreEqual(taggKey, createdTagg.Key);
+        Assert.IsNotNull(createdTagg.Colour);
+        Assert.AreEqual(createdTagg.Colour, taggColour);
         Assert.IsNotNull(createdTagg.Instances);
         Assert.IsInstanceOf<IEnumerable<InstanceModel>>(createdTagg.Instances);
         Assert.IsNotNull(createdTagg.Categories);
