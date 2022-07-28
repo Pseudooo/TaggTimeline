@@ -1,6 +1,5 @@
 
 using MediatR;
-using TaggTimeline.Domain.Entities.Taggs;
 using System.ComponentModel.DataAnnotations;
 using TaggTimeline.ClientModel.Taggs;
 
@@ -10,4 +9,5 @@ public class CreateTaggCommand : IRequest<TaggModel>
 {
     [Required]
     public string Key { get; set; } = null!;
+    public string UserId { get; set; } = null!;
 }
