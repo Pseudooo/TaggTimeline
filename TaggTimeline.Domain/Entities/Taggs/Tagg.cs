@@ -4,13 +4,11 @@ using TaggTimeline.Domain.Entities.Users;
 
 namespace TaggTimeline.Domain.Entities.Taggs;
 
-public class Tagg : KeyedEntity
+public class Tagg : KeyedEntity, IUserOwnedEntity
 {
     public IEnumerable<Instance> Instances { get; set; } = null!;
     public IEnumerable<Category> Categories { get; set; } = null!;
     
-    [ForeignKey("UserMapping")]
-    public Guid UserMappingId { get; set; }
     [Required]
     public UserMapping UserMapping { get; set; } = null!;
 }
