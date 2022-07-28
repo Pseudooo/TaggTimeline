@@ -2,7 +2,8 @@
 CREATE TABLE IF NOT EXISTS "UserMappings" (
     "Id" uuid NOT NULL,
     "UserId" text NOT NULL,
-    CONSTRAINT "PK_UserMappings" PRIMARY KEY ("Id")
+    CONSTRAINT "PK_UserMappings" PRIMARY KEY ("Id"),
+    UNIQUE ("UserId")
 );
 
 -- Create a dummy user mapping to link existing user specific content too
