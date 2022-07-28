@@ -23,7 +23,7 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, TaggModel>
 
     public async Task<TaggModel> Handle(CreateTaggCommand request, CancellationToken cancellationToken)
     {
-        var userMapping = await _userMappingRepository.GetByKnownUserId(request.UserId);
+        var userMapping = await _userMappingRepository.GetByKnownUserId(request.UserId!);
 
         var toBeCreated = new Tagg()
         {
