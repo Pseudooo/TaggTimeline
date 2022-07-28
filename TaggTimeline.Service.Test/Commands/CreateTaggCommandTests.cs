@@ -28,7 +28,7 @@ public class CreateTaggCommandTests
     [Test]
     public async Task Create_Tagg_Should_Create_Tagg()
     {
-        var command = new CreateTaggCommand() { Key = "Tagg" };
+        var command = new CreateTaggCommand() { Key = "Tagg", Colour = "#CAE9F5" };
         var handler = new CreateTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 

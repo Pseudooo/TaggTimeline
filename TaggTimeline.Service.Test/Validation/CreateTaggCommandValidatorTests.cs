@@ -51,4 +51,43 @@ public class CreateTaggCommandValidatorTests
         result.ShouldNotHaveAnyValidationErrors();
     }
 
+    
+    [Test]
+    public void Should_Error_With_Invalid_Colour()
+    {
+        var model = new CreateTaggCommand()
+        {
+            Key = "Foo",
+            Colour = "#NotAColour"
+        };
+        var result = _validator.TestValidate(model);
+
+        result.ShouldHaveValidationErrorFor(cmd => cmd.Colour);
+    }
+
+        
+    [Test]
+    public void Should_Accept_Shorthand_Hex()
+    {
+        var model = new CreateTaggCommand()
+        {
+            Colour = "#FFF"
+        };
+        var result = _validator.TestValidate(model);
+
+        result.ShouldNotHaveValidationErrorFor(cmd => cmd.Colour);
+    }
+        
+    [Test]
+    public void Should_Accept_Longhand_Hex()
+    {
+        var model = new CreateTaggCommand()
+        {
+            Colour = "#CAE9F5"
+        };
+        var result = _validator.TestValidate(model);
+
+        result.ShouldNotHaveValidationErrorFor(cmd => cmd.Colour);
+    }
+
 }

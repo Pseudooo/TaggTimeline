@@ -24,6 +24,7 @@ public class TaggMappingTests
         Assert.AreEqual(tagg.CreatedDate, taggModel.CreatedDate);
         Assert.AreEqual(tagg.ModifiedDate, taggModel.ModifiedDate);
         Assert.AreEqual(tagg.DeletedDate, taggModel.DeletedDate);
+        Assert.AreEqual(tagg.Colour, taggModel.Colour);
     }
 
     [Test]
@@ -37,6 +38,7 @@ public class TaggMappingTests
         Assert.IsInstanceOf<TaggPreviewModel>(taggPreviewModel);
         Assert.AreEqual(tagg.Id, taggPreviewModel.Id);
         Assert.AreEqual(tagg.Key, taggPreviewModel.Key);
+        Assert.AreEqual(tagg.Colour, taggPreviewModel.Colour);
     }
 
     [Test]

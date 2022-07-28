@@ -23,6 +23,7 @@
     <EmbeddedResource Include="Scripts/00/01_CreateInstancesTable.sql"/>
     <EmbeddedResource Include="Scripts/00/02_InstanceDateInsertion.sql"/>
     <EmbeddedResource Include="Scripts/00/03_CreateCategoryTable.sql"/>
+    <EmbeddedResource Include="Scripts/00/04_TaggColour.sql"/>
     <EmbeddedResource Include="Scripts/01/00_AddIdentitySchema.sql"/>
   </ItemGroup>
 
