@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -10,11 +10,7 @@ import {
 } from "@mui/material";
 import TextField from "../io/TextField";
 import { LoadingButton } from "@mui/lab";
-import {
-  required,
-  validatePassword,
-  ValidationResponse,
-} from "../../validation/rules";
+import { required, ValidationResponse } from "../../validation/rules";
 import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
@@ -30,20 +26,22 @@ export const UserAccountForm: FunctionComponent = () => {
 
   // @TODO: Workout how to have a ValidationProvider manage these, they're awful here
   const [usernameErrors, setUsernameErrors] = useState<ValidationResponse>([]);
-  const [passwordErrors, setPasswordErrors] = useState<ValidationResponse>([]);
   const [generalError, setGeneralErrors] = useState<ValidationResponse>([]);
 
   const handleUsernameChange = (username: string) => {
-    setGeneralErrors([]);
     setUsernameErrors(required(username));
     setUsername(username);
   };
 
   const handlePasswordChange = (password: string) => {
-    setGeneralErrors([]);
-    setPasswordErrors(validatePassword(password));
     setPassword(password);
   };
+
+  // Reset our errors at the point of changing
+  useEffect(() => {
+    setGeneralErrors([]);
+    setUsernameErrors([]);
+  }, [username, password]);
 
   const tryProcessUser = async () => {
     if (errorsExist()) {
@@ -70,11 +68,7 @@ export const UserAccountForm: FunctionComponent = () => {
   };
 
   const errorsExist = () => {
-    return (
-      usernameErrors.length > 0 ||
-      passwordErrors.length > 0 ||
-      generalError.length > 0
-    );
+    return usernameErrors.length > 0 || generalError.length > 0;
   };
 
   return (
@@ -105,8 +99,6 @@ export const UserAccountForm: FunctionComponent = () => {
             value={password}
             onChange={handlePasswordChange}
             onEnter={() => tryProcessUser()}
-            error={passwordErrors.length > 0}
-            helperText={passwordErrors[0]}
             disabled={loading}
             required
           />
