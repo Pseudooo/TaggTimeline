@@ -9,5 +9,5 @@ public class CreateTaggCommand : IRequest<TaggModel>
 {
     [Required]
     public string Key { get; set; } = null!;
-    public string UserId { get; set; } = null!;
+    public string? UserId { get; set; } = null!;
 }
