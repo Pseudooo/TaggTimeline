@@ -15,6 +15,7 @@ public static class CategoryTestData
             ModifiedDate = null,
             DeletedDate = null,
             Taggs = Enumerable.Empty<Tagg>(),
+            UserId = "testuserid"
         },
         new Category()
         {
@@ -24,6 +25,7 @@ public static class CategoryTestData
             ModifiedDate = null,
             DeletedDate = null,
             Taggs = Enumerable.Empty<Tagg>(),
+            UserId = "testuserid"
         },
     };
 }

@@ -29,7 +29,7 @@ public class GetAllCategoriesQueryTests
     public async Task Get_All_Categories_Should_Return_Categories()
     {
         var handler = new GetAllCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
-        var result = await handler.Handle(new GetAllCategoriesQuery(), CancellationToken.None);
+        var result = await handler.Handle(new GetAllCategoriesQuery() { UserId = "testuserid" }, CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result);

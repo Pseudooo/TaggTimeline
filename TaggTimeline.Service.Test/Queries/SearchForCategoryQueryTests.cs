@@ -29,20 +29,20 @@ public class SearchForCategoryQueryTests
     public async Task Search_For_Categories_Should_Return_Categories()
     {
         var searchTerm = "ant";
-        var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm };
+        var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm, UserId = "testuserid" };
         var handler = new SearchForCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
         
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result);
-        Assert.AreEqual(result.Count(), 2);
+        Assert.AreEqual(2, result.Count());
     }
 
     [Test]
     public async Task Search_For_Categories_Should_Return_None()
     {
         var searchTerm = "astringthatwontcomeup";
-        var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm };
+        var query = new SearchForCategoriesQuery() { SearchTerm = searchTerm, UserId = "testuserid" };
         var handler = new SearchForCategoriesHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 

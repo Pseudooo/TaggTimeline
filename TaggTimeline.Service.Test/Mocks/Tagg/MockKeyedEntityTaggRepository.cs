@@ -15,9 +15,6 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
     {
         Taggs = TaggTestData.InitialTaggs.ToList();
 
-        this.Setup(repo => repo.GetAll())
-            .ReturnsAsync(Taggs);
-
         this.Setup(repo => repo.GetAllFromUser<Tagg>(It.IsAny<string>()))
             .ReturnsAsync((string userId) => Taggs.Where(tagg => tagg.UserId == userId).ToList());
 

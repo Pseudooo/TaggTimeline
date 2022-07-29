@@ -14,10 +14,7 @@ public class MockKeyedEntityCategoryRepository : Mock<IKeyedEntityRepository<Cat
     public MockKeyedEntityCategoryRepository()
     {
         Categories = CategoryTestData.InitCategories.ToList();
-
-        this.Setup(repo => repo.GetAll())
-            .ReturnsAsync(Categories);
-
+        
         this.Setup(repo => repo.GetAllFromUser<Category>(It.IsAny<string>()))
             .ReturnsAsync((string userId) => Categories.Where(category => category.UserId == userId).ToList());
 
