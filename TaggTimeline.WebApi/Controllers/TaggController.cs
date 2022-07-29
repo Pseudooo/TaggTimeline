@@ -40,10 +40,7 @@ public class TaggController : ControllerBase
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> GetAllTaggs()
     {
-        var query = new GetAllTaggsQuery()
-        {
-            UserId = HttpContext.GetUserId(),
-        };
+        var query = new GetAllTaggsQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
