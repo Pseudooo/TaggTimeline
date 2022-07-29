@@ -52,6 +52,7 @@ public class TaggController : ControllerBase
         return Created("GetOrder", result);
     }
 
+    [Authorize]
     [HttpPost("search")]
     public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> SearchForTagg([FromBody] SearchForTaggQuery query)
     {
