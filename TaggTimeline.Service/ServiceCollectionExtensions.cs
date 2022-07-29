@@ -22,7 +22,7 @@ public static class ServiceCollectionExtensions
 
         sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
-        sc.AddTransient(typeof(UserRequestBehaviour<,>), typeof(UserRequestBehaviour<,>));
+        sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(UserRequestBehaviour<,>));
 
         var mappingConfig = new TypeAdapterConfig();
         mappingConfig.NewConfig<Tagg, TaggModel>();
