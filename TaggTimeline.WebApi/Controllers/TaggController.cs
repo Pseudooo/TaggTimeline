@@ -23,12 +23,14 @@ public class TaggController : ControllerBase
         _logger = logger;
     }
 
+    [Authorize]
     [HttpGet("{id:Guid?}")]
     public async Task<ActionResult<TaggModel>> GetTagg(Guid id)
     {
         var query = new GetTaggByIdQuery()
         {
             Id = id,
+            UserId = HttpContext.GetUserId(),
         };
         var result = await _mediator.Send(query);
         return Ok(result);

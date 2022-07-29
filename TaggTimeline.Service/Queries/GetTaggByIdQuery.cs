@@ -9,4 +9,5 @@ public class GetTaggByIdQuery : IRequest<TaggModel>
 {
     [Required]
     public Guid Id { get; set; }
+    public string? UserId { get; set; }
 }
