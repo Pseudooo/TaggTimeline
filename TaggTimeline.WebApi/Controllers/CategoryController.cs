@@ -8,6 +8,7 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class CategoryController : ControllerBase
@@ -19,7 +20,6 @@ public class CategoryController : ControllerBase
         _mediator = mediator;
     }
 
-    [Authorize]
     [HttpGet("{id:Guid?}")]
     public async Task<ActionResult<CategoryModel>> GetCategory(Guid id)
     {
@@ -32,7 +32,6 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> GetAllCategories()
     {
@@ -42,7 +41,6 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<CategoryModel>> CreateCategory([FromBody] CreateCategoryCommand command)
     {
@@ -50,7 +48,6 @@ public class CategoryController : ControllerBase
         return Created("GetTagg", result);
     }
 
-    [Authorize]
     [HttpPost("search")]
     public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> SearchForCategory([FromBody] SearchForCategoriesQuery query)
     {
