@@ -3,11 +3,11 @@ using MapsterMapper;
 using Moq;
 using NUnit.Framework;
 using TaggTime.Service.Handlers;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Exceptions;
+using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Queries;

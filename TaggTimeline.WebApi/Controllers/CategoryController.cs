@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using TaggTime.Service.Commands;
 using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
-using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
@@ -20,6 +20,7 @@ public class CategoryController : ControllerBase
         _mediator = mediator;
     }
 
+    [Authorize]
     [HttpGet("{id:Guid?}")]
     public async Task<ActionResult<CategoryModel>> GetCategory(Guid id)
     {
