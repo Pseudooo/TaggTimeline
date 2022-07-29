@@ -33,6 +33,7 @@ public class CategoryController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> GetAllCategories()
     {

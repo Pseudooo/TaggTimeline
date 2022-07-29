@@ -1,10 +1,10 @@
 
 using MapsterMapper;
 using MediatR;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTime.Service.Handlers;
 
@@ -21,7 +21,7 @@ public class GetAllCategoriesHandler : IRequestHandler<GetAllCategoriesQuery, IE
 
     public async Task<IEnumerable<CategoryPreviewModel>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
-        var categories = await _baseRepository.GetAll();
+        var categories = await _baseRepository.GetAllFromUser<Category>(request.UserId);
 
         var categoryPreviews = _mapper.Map<IEnumerable<CategoryPreviewModel>>(categories);
 
