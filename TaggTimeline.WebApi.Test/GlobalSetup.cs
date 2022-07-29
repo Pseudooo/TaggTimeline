@@ -30,6 +30,8 @@ public class GlobalSetup
         var authResult = await SandboxApplication.IdentityService.Register("testuser", "Password123!");
         UserId = (await SandboxApplication.IdentityService.GetIdentityUser("testuser"))!.Id;
         Token = authResult.Token;
+
+        SandboxApplication.Context.SeedTestData();
     }
 
     [OneTimeTearDown]
