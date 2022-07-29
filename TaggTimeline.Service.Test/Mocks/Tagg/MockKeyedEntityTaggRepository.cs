@@ -18,6 +18,9 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
         this.Setup(repo => repo.GetAll())
             .ReturnsAsync(Taggs);
 
+        this.Setup(repo => repo.GetAllFromUser<Tagg>(It.IsAny<string>()))
+            .ReturnsAsync((string userId) => Taggs.Where(tagg => tagg.UserId == userId).ToList());
+
         this.Setup(repo => repo.GetByIdWithNavigationProperties(It.IsAny<Guid>(), It.IsAny<Expression<Func<Tagg, object>>[]>()))
             .ReturnsAsync((Guid id, Expression<Func<Tagg, object>>[] _) => Taggs.SingleOrDefault(tagg => tagg.Id == id));
 
