@@ -27,6 +27,9 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
         this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
             .ReturnsAsync((string searchTerm) => Taggs.Where(tagg => tagg.Key.Contains(searchTerm)));
 
+        this.Setup(repo => repo.SearchForKeyFromUser(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string searchTerm, string userId) => Taggs.Where(tagg => tagg.Key.Contains(searchTerm) && tagg.UserId == userId));
+
         this.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
             .ReturnsAsync((Tagg added) => {
                 added.Id = Guid.NewGuid();

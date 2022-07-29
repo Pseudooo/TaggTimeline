@@ -35,7 +35,7 @@ public class SearchForTaggQueryTests
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(result.Count(), 1);
+        Assert.AreEqual(1, result.Count());
         Assert.IsInstanceOf<IEnumerable<TaggPreviewModel>>(result);
     }
 
