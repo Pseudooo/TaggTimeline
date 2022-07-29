@@ -30,6 +30,9 @@ public class MockKeyedEntityCategoryRepository : Mock<IKeyedEntityRepository<Cat
         this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
             .ReturnsAsync((string searchTerm) => Categories.Where(category => category.Key.Contains(searchTerm)));
 
+        this.Setup(repo => repo.SearchForKeyFromUser(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string searchTerm, string userId) => Categories.Where(category => category.Key.Contains(searchTerm) && category.UserId == userId));
+
         this.Setup(repo => repo.AddItem(It.IsAny<Category>()))
             .ReturnsAsync((Category added) => {
                 added.Id = Guid.NewGuid();

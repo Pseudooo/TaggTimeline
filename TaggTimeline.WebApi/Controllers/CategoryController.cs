@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaggTime.Service.Commands;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Service.Queries;
 
@@ -51,6 +50,7 @@ public class CategoryController : ControllerBase
         return Created("GetTagg", result);
     }
 
+    [Authorize]
     [HttpPost("search")]
     public async Task<ActionResult<IEnumerable<CategoryPreviewModel>>> SearchForCategory([FromBody] SearchForCategoriesQuery query)
     {
