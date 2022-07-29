@@ -11,14 +11,6 @@ public class KeyedEntityRepository<TEntity> : BaseRepository<TEntity>, IKeyedEnt
     public KeyedEntityRepository(DataContext context) : base(context)
         { }
 
-    public async Task<IEnumerable<TEntity>> SearchForKey(string searchTerm)
-    {
-        var result = await Context.Set<TEntity>()
-                                  .Where(entity => EF.Functions.Like(entity.Key, $"%{searchTerm}%"))
-                                  .ToListAsync();
-        return result;
-    }
-
     public async Task<IEnumerable<TEntity>> SearchForKeyFromUser(string searchTerm, string userId)
     {
         var result = await Context.Set<TEntity>()

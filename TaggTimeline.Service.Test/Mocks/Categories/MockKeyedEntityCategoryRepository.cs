@@ -23,10 +23,7 @@ public class MockKeyedEntityCategoryRepository : Mock<IKeyedEntityRepository<Cat
 
         this.Setup(repo => repo.GetByIdWithNavigationProperties(It.IsAny<Guid>(), It.IsAny<Expression<Func<Category, object>>[]>()))
             .ReturnsAsync((Guid id, Expression<Func<Category, object>>[] _) => Categories.SingleOrDefault(category => category.Id == id));
-
-        this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
-            .ReturnsAsync((string searchTerm) => Categories.Where(category => category.Key.Contains(searchTerm)));
-
+            
         this.Setup(repo => repo.SearchForKeyFromUser(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync((string searchTerm, string userId) => Categories.Where(category => category.Key.Contains(searchTerm) && category.UserId == userId));
 
