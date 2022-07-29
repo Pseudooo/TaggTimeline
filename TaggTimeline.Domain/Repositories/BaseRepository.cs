@@ -16,11 +16,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         Context = context;
     }
 
-    public Task<List<TEntity>> GetAll()
-    {
-        return Context.Set<TEntity>().ToListAsync();
-    }
-
     public Task<List<TEntity_>> GetAllFromUser<TEntity_>(string userId) where TEntity_ : TEntity, IUserOwnedEntity
     {
         return Context.Set<TEntity_>()
