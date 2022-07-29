@@ -30,7 +30,6 @@ public class TaggController : ControllerBase
         var query = new GetTaggByIdQuery()
         {
             Id = id,
-            UserId = HttpContext.GetUserId(),
         };
         var result = await _mediator.Send(query);
         return Ok(result);
@@ -48,9 +47,7 @@ public class TaggController : ControllerBase
     [Authorize]
     [HttpPost]
     public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
-    {
-        command.UserId = HttpContext.GetUserId();
-        
+    {   
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
     }
