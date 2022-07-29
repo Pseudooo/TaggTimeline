@@ -5,7 +5,9 @@ using TaggTimeline.Service;
 
 namespace TaggTImeline.Service.PipelineBehaviours;
 
-public class UserRequestBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : UserCentricRequest<TResponse>
+public class UserRequestBehaviour<TRequest, TResponse> 
+    : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : UserCentricRequest<TResponse>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
