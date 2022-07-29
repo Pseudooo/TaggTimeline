@@ -68,6 +68,7 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
     public async Task<ActionResult<TaggModel>> AddCategory(Guid taggId, Guid categoryId)
     {
