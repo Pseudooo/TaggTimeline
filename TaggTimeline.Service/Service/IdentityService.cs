@@ -54,6 +54,11 @@ public class IdentityService : IIdentityService
         return GenerateAuthenticationResultForUser(createdUser);
     }
 
+    public Task<IdentityUser?> GetIdentityUser(string username)
+    {
+        return _userManager.FindByNameAsync(username)!;
+    }
+
     private AuthenticationResultModel GenerateAuthenticationResultForUser(IdentityUser user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
