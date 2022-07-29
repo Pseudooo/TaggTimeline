@@ -9,4 +9,5 @@ public class CreateCategoryCommand : IRequest<CategoryModel>
 {
     [Required]
     public string Key { get; set; } = null!;
+    public string? UserId { get; set; } = null!;
 }
