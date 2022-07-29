@@ -16,13 +16,11 @@ public class IdentityService : IIdentityService
 {
     private readonly JwtConfiguration _jwtConfiguration;
     private readonly UserManager<IdentityUser> _userManager;
-    private readonly IUserMappingRepository _userMappingRepository;
 
-    public IdentityService(JwtConfiguration jwtConfiguration, UserManager<IdentityUser> userManager, IUserMappingRepository userMappingRepository)
+    public IdentityService(JwtConfiguration jwtConfiguration, UserManager<IdentityUser> userManager)
     {
         _jwtConfiguration = jwtConfiguration;
         _userManager = userManager;
-        _userMappingRepository = userMappingRepository;
     }
 
     public async Task<AuthenticationResultModel> Login(string username, string password)
@@ -52,8 +50,6 @@ public class IdentityService : IIdentityService
         var userCreationResult = await _userManager.CreateAsync(createdUser, password);
         if(!userCreationResult.Succeeded)
             throw new UserRegistrationException(string.Join(", ", userCreationResult.Errors.Select(x => x.Description)));
-
-        await _userMappingRepository.CreateUserMapping(createdUser.Id);
 
         return GenerateAuthenticationResultForUser(createdUser);
     }

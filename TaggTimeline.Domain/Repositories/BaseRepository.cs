@@ -24,8 +24,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public Task<List<TEntity_>> GetAllFromUser<TEntity_>(string userId) where TEntity_ : TEntity, IUserOwnedEntity
     {
         return Context.Set<TEntity_>()
-                      .Include(x => x.UserMapping)
-                      .Where(entity => entity.UserMapping.UserId == userId)
+                      .Where(entity => entity.UserId == userId)
                       .ToListAsync();
     }
 

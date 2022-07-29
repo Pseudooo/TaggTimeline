@@ -1,7 +1,7 @@
 
-using TaggTimeline.Domain.Entities.Users;
+namespace TaggTimeline.Domain.Entities;
 
 public interface IUserOwnedEntity
 {
-    public UserMapping UserMapping { get; set; }
+    public string UserId { get; set; }
 }
