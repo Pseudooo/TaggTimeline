@@ -26,9 +26,9 @@ public class CreateInstanceHandler : IRequestHandler<CreateInstanceCommand, Inst
         {
             OccuranceDate = request.OccuranceDate,
         };
-
+    
         var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.TaggId, x => x.Instances);
-        if(tagg is null)
+        if(tagg is null || tagg.UserId != request.UserId)
             throw new EntityNotFoundException($"Couldn't find a Tagg with id:{request.TaggId}");
 
         tagg.Instances = tagg.Instances.Append(instance).ToList();

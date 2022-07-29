@@ -60,6 +60,7 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpPost("instance")]
     public async Task<ActionResult<InstanceModel>> CreateTaggInstance([FromBody] CreateInstanceCommand command)
     {
