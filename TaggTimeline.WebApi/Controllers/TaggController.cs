@@ -8,6 +8,7 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class TaggController : ControllerBase
@@ -23,7 +24,6 @@ public class TaggController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize]
     [HttpGet("{id:Guid?}")]
     public async Task<ActionResult<TaggModel>> GetTagg(Guid id)
     {
@@ -35,7 +35,6 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> GetAllTaggs()
     {
@@ -44,7 +43,6 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
     {   
@@ -52,7 +50,6 @@ public class TaggController : ControllerBase
         return Created("GetOrder", result);
     }
 
-    [Authorize]
     [HttpPost("search")]
     public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> SearchForTagg([FromBody] SearchForTaggQuery query)
     {
@@ -60,7 +57,6 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPost("instance")]
     public async Task<ActionResult<InstanceModel>> CreateTaggInstance([FromBody] CreateInstanceCommand command)
     {
@@ -68,7 +64,6 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPost("{taggId:Guid?}/categorise/{categoryId:Guid?}")]
     public async Task<ActionResult<TaggModel>> AddCategory(Guid taggId, Guid categoryId)
     {
