@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using TaggTimeline.Domain.Configuration;
 using TaggTimeline.Domain.Context;
+using TaggTimeline.Service.Interface;
 using TaggTimeline.WebApi.Test.Configuration;
 
 namespace TaggTimeline.WebApi.Test.WebApplicationFactory;
@@ -13,6 +14,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
     private readonly TestConfiguration _testConfiguration;
 
     public DataContext Context { get; private set; } = null!;
+    public IIdentityService IdentityService { get; private set; } = null!;
 
     public SandboxApplication(TestConfiguration testConfiguration)
     {
@@ -55,6 +57,7 @@ public class SandboxApplication : WebApplicationFactory<Program>
 
             var provider = sc.BuildServiceProvider().CreateScope().ServiceProvider;
             Context = provider.GetRequiredService<DataContext>();
+            IdentityService = provider.GetRequiredService<IIdentityService>();
         });
     }
 }

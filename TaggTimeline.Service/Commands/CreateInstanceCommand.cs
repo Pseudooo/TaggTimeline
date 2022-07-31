@@ -5,7 +5,7 @@ using TaggTimeline.ClientModel.Taggs;
 
 namespace TaggTimeline.Service.Commands;
 
-public class CreateInstanceCommand : IRequest<InstanceModel>
+public class CreateInstanceCommand : UserCentricRequest<InstanceModel>
 {
     [Required]
     public Guid TaggId { get; set; }

@@ -25,7 +25,7 @@ public class GetTaggByIdHandler : IRequestHandler<GetTaggByIdQuery, TaggModel>
     {
         var tagg = await _baseRepository.GetByIdWithNavigationProperties(request.Id, x => x.Instances, x => x.Categories);
         
-        if(tagg is null)
+        if(tagg is null || tagg.UserId != request.UserId)
             throw new EntityNotFoundException($"Couldn't find Tagg with id:{request.Id}");
 
         var taggModel = _mapper.Map<TaggModel>(tagg);

@@ -29,6 +29,7 @@ public static class TaggTestData
                 DeletedDate = null,
                 Instances = InitialInstances,
                 Categories = new[] { CategoryTestData.InitCategories[0] },
+                UserId = "testuserid"
             },
         new Tagg()
             {
@@ -39,6 +40,7 @@ public static class TaggTestData
                 DeletedDate = DateTime.Now,
                 Instances = Enumerable.Empty<Instance>(),
                 Categories = Enumerable.Empty<Category>(),
+                UserId = "testuserid"
             },
         new Tagg()
             {
@@ -49,6 +51,7 @@ public static class TaggTestData
                 DeletedDate = DateTime.Now,
                 Instances = Enumerable.Empty<Instance>(),
                 Categories = Enumerable.Empty<Category>(),
+                UserId = "testuserid"
             },
     };
 

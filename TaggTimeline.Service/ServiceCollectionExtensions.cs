@@ -9,6 +9,7 @@ using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Service.Interface;
 using TaggTimeline.Service.PipelineBehaviours;
 using TaggTimeline.Service.Service;
+using TaggTImeline.Service.PipelineBehaviours;
 
 namespace TaggTimeline.Service;
 
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtensions
 
         sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
+        sc.AddTransient(typeof(IPipelineBehavior<,>), typeof(UserRequestBehaviour<,>));
 
         var mappingConfig = new TypeAdapterConfig();
         mappingConfig.NewConfig<Tagg, TaggModel>();

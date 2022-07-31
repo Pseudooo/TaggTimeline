@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaggTimeline.Domain.Entities;
 using TaggTimeline.Domain.Entities.Taggs;
-using TaggTimeline.Domain.Entities.Users;
 
 namespace TaggTimeline.Domain.Context;
 
@@ -12,8 +11,6 @@ public class DataContext : IdentityDbContext<IdentityUser>
 {
     public DataContext(DbContextOptions<DataContext> opts) : base(opts)
         { }
-
-    public DbSet<UserMapping> UserMappings { get; set; } = null!;
 
     public DbSet<Tagg> Taggs { get; set; } = null!;
     public DbSet<Instance> Instances { get; set; } = null!;

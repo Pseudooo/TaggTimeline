@@ -8,6 +8,7 @@ using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class TaggController : ControllerBase
@@ -34,24 +35,17 @@ public class TaggController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize]
     [HttpGet("all")]
     public async Task<ActionResult<IEnumerable<TaggPreviewModel>>> GetAllTaggs()
     {
-        var query = new GetAllTaggsQuery()
-        {
-            UserId = HttpContext.GetUserId(),
-        };
+        var query = new GetAllTaggsQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
 
-    [Authorize]
     [HttpPost]
     public async Task<ActionResult<TaggModel>> CreateTagg([FromBody] CreateTaggCommand command)
-    {
-        command.UserId = HttpContext.GetUserId();
-        
+    {   
         var result = await _mediator.Send(command);
         return Created("GetOrder", result);
     }

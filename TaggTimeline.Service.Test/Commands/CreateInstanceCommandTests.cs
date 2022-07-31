@@ -30,7 +30,7 @@ public class CreateInstanceCommandTests
     [Test]
     public async Task Create_Instance_Should_Create_Instance()
     {
-        var command = new CreateInstanceCommand() { TaggId = TaggTestData.InitialTaggs[1].Id };
+        var command = new CreateInstanceCommand() { TaggId = TaggTestData.InitialTaggs[1].Id, UserId = "testuserid" };
         var handler = new CreateInstanceHandler(MockedRepository.Object, MockedMapper.Object);
 
         var result = await handler.Handle(command, CancellationToken.None);

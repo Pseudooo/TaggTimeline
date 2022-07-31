@@ -19,6 +19,7 @@ import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
 import { HttpResponse } from "../../api/generated";
+import { PasswordField } from "../io/custom/PasswordField";
 
 export const RegisterForm: FunctionComponent = () => {
   const { register } = useAuth();
@@ -107,9 +108,7 @@ export const RegisterForm: FunctionComponent = () => {
           />
         </FormControl>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
-          <TextField
-            label="Password"
-            type="password"
+          <PasswordField
             value={password}
             onChange={handlePasswordChange}
             onEnter={() => tryProcessUser()}
@@ -120,9 +119,8 @@ export const RegisterForm: FunctionComponent = () => {
           />
         </FormControl>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
-          <TextField
+          <PasswordField
             label="Confirm Password"
-            type="password"
             value={confirmedPassword}
             onChange={handleConfirmedPasswordChange}
             onEnter={() => tryProcessUser()}

@@ -29,13 +29,13 @@ public class CreateCategoryCommandTests
     [Test]
     public async Task Create_Category_Should_Create_Catgory()
     {
-        var command = new CreateCategoryCommand() { Key = "Category" };
+        var command = new CreateCategoryCommand() { Key = "Category", UserId = "testuserid" };
         var handler = new CreateCategoryHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
         Assert.IsNotNull(result);
         Assert.IsInstanceOf<CategoryModel>(result);
-        Assert.AreEqual((await MockedRepository.Object.GetAll()).Count(), 3);
+        Assert.AreEqual((await MockedRepository.Object.GetAllFromUser<Category>("testuserid")).Count(), 3);
     }
 
 }

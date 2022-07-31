@@ -1,13 +1,14 @@
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaggTime.Service.Commands;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
-using TaggTimeline.Domain.Entities.Taggs;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class CategoryController : ControllerBase
