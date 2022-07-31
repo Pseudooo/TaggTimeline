@@ -39,11 +39,11 @@ export interface DataWrapper<T> {
 interface APIContextType {
   useTaggs: () => DataWrapper<TaggPreviewModel[]>;
   useTaggDetails: () => { [key: string]: DataWrapper<TaggModel> };
-  createTagg: typeof createTaggFromApi;
-  createTaggInstance: typeof createTaggInstanceFromApi;
-  getAllTaggs: typeof getAllTaggsFromApi;
+  createTagg: OmitThisParameter<typeof createTaggFromApi>;
+  createTaggInstance: OmitThisParameter<typeof createTaggInstanceFromApi>;
+  getAllTaggs: OmitThisParameter<typeof getAllTaggsFromApi>;
   initTaggDetails: (taggId: string) => void;
-  getTaggDetails: typeof getTaggFromApi;
+  getTaggDetails: OmitThisParameter<typeof getTaggFromApi>;
 }
 
 const APIContext = createContext<APIContextType>({} as APIContextType);
@@ -67,7 +67,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
    * @returns The created tagg
    */
   const createTagg: APIContextType["createTagg"] = async (...args) => {
-    const tagg = await createTaggFromApi(...args);
+    const tagg = await createTaggFromApi.bind(token)(...args);
     dispatch(addTagg(tagg));
     return tagg;
   };
@@ -81,7 +81,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
     id,
     ...args
   ) => {
-    const instance = await createTaggInstanceFromApi(id, ...args);
+    const instance = await createTaggInstanceFromApi.bind(token)(id, ...args);
     dispatch(addTaggInstance(id, instance));
     return instance;
   };
@@ -93,7 +93,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   const getAllTaggs: APIContextType["getAllTaggs"] = async () => {
     try {
       dispatch(updateTaggs(DataStatus.LOADING));
-      const taggs = await getAllTaggsFromApi();
+      const taggs = await getAllTaggsFromApi.bind(token)();
       dispatch(updateTaggs(DataStatus.LOADED, taggs));
       return taggs;
     } catch (e) {
@@ -110,7 +110,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   const getTaggDetails: APIContextType["getTaggDetails"] = async (id) => {
     try {
       dispatch(updateTaggDetails(id, DataStatus.LOADING));
-      const tagg = await getTaggFromApi(id);
+      const tagg = await getTaggFromApi.bind(token)(id);
       dispatch(updateTaggDetails(id, DataStatus.LOADED, tagg));
       return tagg;
     } catch (e) {
@@ -126,7 +126,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
   const initTaggDetails = (taggId: string) => {
     const initialised = dispatch(initialiseTaggDetails(taggId));
     if (!initialised) {
-      getTaggDetails(taggId);
+      getTaggDetails.bind(token)(taggId);
     }
   };
 
@@ -135,8 +135,6 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       getAllTaggs();
     } else {
       dispatch(updateTaggs(DataStatus.NOT_LOADED));
-      // TODO: Remove when auth is complete
-      getAllTaggs();
     }
   }, [token]);
 
@@ -151,7 +149,7 @@ export const APIProvider: FunctionComponent<PropsWithChildren> = ({
       getTaggDetails,
       initTaggDetails,
     }),
-    []
+    [token]
   );
 
   return (
