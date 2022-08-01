@@ -111,4 +111,28 @@ public class CreateTaggCommandValidatorTests
         result.ShouldNotHaveValidationErrorFor(cmd => cmd.Colour);
     }
 
+    [Test]
+    public void Should_Reject_Partial_Hex()
+    {
+        var model = new CreateTaggCommand()
+        {
+        Colour = "#a0Fa"
+        };
+        var result = _validator.TestValidate(model);
+
+        result.ShouldHaveValidationErrorFor(cmd => cmd.Colour);
+    }
+
+    [Test]
+    public void Should_Reject_Hex_With_Alpha()
+    {
+        var model = new CreateTaggCommand()
+        {
+        Colour = "#aa00aacc"
+        };
+        var result = _validator.TestValidate(model);
+
+        result.ShouldHaveValidationErrorFor(cmd => cmd.Colour);
+    }
+
 }
