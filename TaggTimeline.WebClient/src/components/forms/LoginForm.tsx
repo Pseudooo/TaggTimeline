@@ -15,6 +15,7 @@ import { useAuth } from "../../contexts/Auth";
 import { Link, useNavigate } from "react-router-dom";
 import Person from "@mui/icons-material/Person";
 import { HttpResponse } from "../../api/generated";
+import { PasswordField } from "../io/custom/PasswordField";
 
 export const UserAccountForm: FunctionComponent = () => {
   const { login } = useAuth();
@@ -93,9 +94,7 @@ export const UserAccountForm: FunctionComponent = () => {
           />
         </FormControl>
         <FormControl fullWidth sx={{ paddingY: 1 }}>
-          <TextField
-            label="Password"
-            type="password"
+          <PasswordField
             value={password}
             onChange={handlePasswordChange}
             onEnter={() => tryProcessUser()}
