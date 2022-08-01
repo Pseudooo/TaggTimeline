@@ -35,6 +35,7 @@ public class GetAllTaggsTests
         Assert.IsNotNull(tagg);
         Assert.IsNotEmpty(tagg.Key);
         Assert.IsNotEmpty(tagg.Colour);
+        Assert.AreEqual(tagg.Colour.Length == 7 || tagg.Colour.Length == 4, true);
     }
 
 }
