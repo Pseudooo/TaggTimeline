@@ -21,7 +21,7 @@ public class SearchForTaggHandler : IRequestHandler<SearchForTaggQuery, IEnumera
 
     public async Task<IEnumerable<TaggPreviewModel>> Handle(SearchForTaggQuery request, CancellationToken cancellationToken)
     {
-        var taggs = await _taggRepository.SearchForKey(request.SearchTerm);
+        var taggs = await _taggRepository.SearchForKeyFromUser(request.SearchTerm, request.UserId);
 
         var taggPreviewModels = _mapper.Map<IEnumerable<TaggPreviewModel>>(taggs);
 

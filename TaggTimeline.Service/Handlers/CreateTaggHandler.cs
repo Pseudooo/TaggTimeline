@@ -20,12 +20,13 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, TaggModel>
     }
 
     public async Task<TaggModel> Handle(CreateTaggCommand request, CancellationToken cancellationToken)
-    { 
+    {
         var toBeCreated = new Tagg()
         {
             Key = request.Key,
             Instances = Enumerable.Empty<Instance>(),
             Categories = Enumerable.Empty<Category>(),
+            UserId = request.UserId!,
         };
 
         var createdTagg = await _baseRepository.AddItem(toBeCreated);

@@ -1,4 +1,5 @@
 
+using System.Net.Http.Headers;
 using NUnit.Framework;
 using TaggTime.Service.Commands;
 using TaggTimeline.ClientModel.Taggs;
@@ -15,6 +16,7 @@ public class CreateCategoryTests
     public void SetUp()
     {
         client = GlobalSetup.SandboxApplication.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GlobalSetup.Token);
     }
 
     [Test]

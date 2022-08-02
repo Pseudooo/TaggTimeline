@@ -15,14 +15,14 @@ public class MockKeyedEntityTaggRepository : Mock<IKeyedEntityRepository<Tagg>>
     {
         Taggs = TaggTestData.InitialTaggs.ToList();
 
-        this.Setup(repo => repo.GetAll())
-            .ReturnsAsync(Taggs);
+        this.Setup(repo => repo.GetAllFromUser<Tagg>(It.IsAny<string>()))
+            .ReturnsAsync((string userId) => Taggs.Where(tagg => tagg.UserId == userId).ToList());
 
         this.Setup(repo => repo.GetByIdWithNavigationProperties(It.IsAny<Guid>(), It.IsAny<Expression<Func<Tagg, object>>[]>()))
             .ReturnsAsync((Guid id, Expression<Func<Tagg, object>>[] _) => Taggs.SingleOrDefault(tagg => tagg.Id == id));
 
-        this.Setup(repo => repo.SearchForKey(It.IsAny<string>()))
-            .ReturnsAsync((string searchTerm) => Taggs.Where(tagg => tagg.Key.Contains(searchTerm)));
+        this.Setup(repo => repo.SearchForKeyFromUser(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync((string searchTerm, string userId) => Taggs.Where(tagg => tagg.Key.Contains(searchTerm) && tagg.UserId == userId));
 
         this.Setup(repo => repo.AddItem(It.IsAny<Tagg>()))
             .ReturnsAsync((Tagg added) => {

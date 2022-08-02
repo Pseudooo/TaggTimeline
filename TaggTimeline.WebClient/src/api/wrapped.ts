@@ -4,15 +4,23 @@ import { Api, HttpResponse, RequestParams } from "./generated";
 
 const apiInstance = new Api();
 
+export type UserToken = string | null;
+
 /**
  * Wrapper function for API calls. Handles injecting things like auth headers
  * @param fn The handler function, responsible for appending params to the API call
  * @returns The response from the API call, if successful
  */
 async function wrappedFetch<T extends (params: RequestParams) => any>(
-  fn: T
+  fn: T,
+  token?: UserToken
 ): Promise<ReturnType<T>> {
-  const params = {};
+  const params: RequestParams = {};
+  if (token) {
+    params.headers = {
+      Authorization: `Bearer ${token}`,
+    };
+  }
   const result = await fn(params);
   return result;
 }
@@ -37,10 +45,11 @@ function handleResponse<T = any, E = any>(response: HttpResponse<T, E>): T {
  * @param name The name to use for the tagg
  * @returns The Tagg, if created
  */
-export async function createTagg(name: string) {
+export async function createTagg(this: UserToken, name: string) {
   return handleResponse(
-    await wrappedFetch((params) =>
-      apiInstance.tagg.taggCreate({ key: name }, params)
+    await wrappedFetch(
+      (params) => apiInstance.tagg.taggCreate({ key: name }, params),
+      this
     )
   );
 }
@@ -49,9 +58,9 @@ export async function createTagg(name: string) {
  * Gets all the Taggs
  * @returns A list of Taggs
  */
-export async function getAllTaggs() {
+export async function getAllTaggs(this: UserToken) {
   return handleResponse(
-    await wrappedFetch((params) => apiInstance.tagg.getTagg(params))
+    await wrappedFetch((params) => apiInstance.tagg.getTagg(params), this)
   );
 }
 
@@ -62,15 +71,18 @@ export async function getAllTaggs() {
  * @returns The created instance
  */
 export async function createTaggInstance(
+  this: UserToken,
   taggId: string,
   occuranceDate: Moment
 ) {
   return handleResponse(
-    await wrappedFetch((params) =>
-      apiInstance.tagg.instanceCreate(
-        { taggId, occuranceDate: occuranceDate?.toJSON() },
-        params
-      )
+    await wrappedFetch(
+      (params) =>
+        apiInstance.tagg.instanceCreate(
+          { taggId, occuranceDate: occuranceDate?.toJSON() },
+          params
+        ),
+      this
     )
   );
 }
@@ -111,8 +123,11 @@ export async function loginUser(username: string, password: string) {
  * @param taggId The ID of the tagg
  * @returns The detailed Tagg
  */
-export async function getTagg(taggId: string) {
+export async function getTagg(this: UserToken, taggId: string) {
   return handleResponse(
-    await wrappedFetch((params) => apiInstance.tagg.taggDetail(taggId, params))
+    await wrappedFetch(
+      (params) => apiInstance.tagg.taggDetail(taggId, params),
+      this
+    )
   );
 }

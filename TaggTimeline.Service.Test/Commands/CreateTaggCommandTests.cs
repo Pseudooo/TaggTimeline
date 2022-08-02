@@ -28,7 +28,7 @@ public class CreateTaggCommandTests
     [Test]
     public async Task Create_Tagg_Should_Create_Tagg()
     {
-        var command = new CreateTaggCommand() { Key = "Tagg" };
+        var command = new CreateTaggCommand() { Key = "Tagg", UserId = "testuserid" };
         var handler = new CreateTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(command, CancellationToken.None);
 
@@ -38,7 +38,7 @@ public class CreateTaggCommandTests
         Assert.IsInstanceOf<IEnumerable<InstanceModel>>(result.Instances);
         Assert.IsNotNull(result.Categories);
         Assert.IsInstanceOf<IEnumerable<CategoryPreviewModel>>(result.Categories);
-        Assert.AreEqual((await MockedRepository.Object.GetAll()).Count(), 4);
+        Assert.AreEqual((await MockedRepository.Object.GetAllFromUser<Tagg>("testuserid")).Count(), 4);
     }
 
 }
