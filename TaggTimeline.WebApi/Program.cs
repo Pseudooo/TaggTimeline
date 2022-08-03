@@ -83,6 +83,10 @@ public class Program
         builder.Services.AddDefaultIdentity<IdentityUser>()
             .AddEntityFrameworkStores<DataContext>();
 
+        builder.Host.ConfigureLogging(logging => {
+            logging.AddLog4Net(log4NetConfigFile: "log4net.config");
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
