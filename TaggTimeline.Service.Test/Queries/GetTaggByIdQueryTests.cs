@@ -31,7 +31,7 @@ public class GetTaggByIdQueryTests
     [TestCaseSource(nameof(Tagg_Ids_To_Check))]
     public async Task Get_Tagg_By_Id_Should_Return_Tagg_With_Instances_And_Categories(Guid id)
     {
-        var query = new GetTaggByIdQuery() { Id = id };
+        var query = new GetTaggByIdQuery() { Id = id, UserId = "testuserid" };
         var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
@@ -50,7 +50,7 @@ public class GetTaggByIdQueryTests
     public void Get_Tagg_By_Id_Should_Throw_EntityNotFoundException()
     {
         var id = Guid.NewGuid();
-        var query = new GetTaggByIdQuery() { Id = id };
+        var query = new GetTaggByIdQuery() { Id = id, UserId = "testuserid" };
         var handler = new GetTaggByIdHandler(MockedRepository.Object, MockedMapper.Object);
         
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {

@@ -1,8 +1,6 @@
-
-using MediatR;
 using TaggTimeline.ClientModel.Taggs;
 
-namespace TaggTime.Service.Queries;
+namespace TaggTimeline.Service.Queries;
 
-public class GetAllCategoriesQuery : IRequest<IEnumerable<CategoryPreviewModel>>
+public class GetAllCategoriesQuery : UserCentricRequest<IEnumerable<CategoryPreviewModel>>
     { }

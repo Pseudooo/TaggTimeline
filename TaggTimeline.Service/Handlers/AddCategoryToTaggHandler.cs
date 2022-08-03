@@ -25,11 +25,11 @@ public class AddCategoryToTaggHandler : IRequestHandler<AddCategoryToTaggCommand
     public async Task<TaggModel> Handle(AddCategoryToTaggCommand request, CancellationToken cancellationToken)
     {
         var tagg = await _taggRepository.GetByIdWithNavigationProperties(request.TaggId, tagg => tagg.Instances, tagg => tagg.Categories);
-        if(tagg is null)
+        if(tagg is null || tagg.UserId != request.UserId)
             throw new EntityNotFoundException($"Couldn't find a Tagg with id:{request.TaggId}");
 
         var category = await _categoryRepository.GetById(request.CategoryId);
-        if(category is null)
+        if(category is null || category.UserId != request.UserId)
             throw new EntityNotFoundException($"Couldn't find a Category with id:{request.CategoryId}");
 
         tagg.Categories = tagg.Categories.Append(category).ToList();

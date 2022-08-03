@@ -44,6 +44,7 @@ public static class TestData
             Colour = "#CAE9F5",
             Instances = TestData.Instances,
             Categories = Enumerable.Empty<Category>(),
+            UserId = GlobalSetup.UserId,
         },
         new Tagg()
         {
@@ -51,6 +52,7 @@ public static class TestData
             Colour = "#CAE9F5",
             Instances = Enumerable.Empty<Instance>(),
             Categories = Enumerable.Empty<Category>(),
+            UserId = GlobalSetup.UserId,
         }
     };
 
@@ -60,11 +62,13 @@ public static class TestData
         {
             Key = "Sport",
             Taggs = Enumerable.Empty<Tagg>(),
+            UserId = GlobalSetup.UserId,
         },
         new Category()
         {
             Key = "Important",
             Taggs = Enumerable.Empty<Tagg>(),
+            UserId = GlobalSetup.UserId,
         },
     };
 

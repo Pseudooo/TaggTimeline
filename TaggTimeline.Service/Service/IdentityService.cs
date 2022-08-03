@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using TaggTimeline.ClientModel.Auth;
+using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Configuration;
 using TaggTimeline.Service.Exceptions;
 using TaggTimeline.Service.Interface;
@@ -51,6 +52,11 @@ public class IdentityService : IIdentityService
             throw new UserRegistrationException(string.Join(", ", userCreationResult.Errors.Select(x => x.Description)));
 
         return GenerateAuthenticationResultForUser(createdUser);
+    }
+
+    public Task<IdentityUser?> GetIdentityUser(string username)
+    {
+        return _userManager.FindByNameAsync(username)!;
     }
 
     private AuthenticationResultModel GenerateAuthenticationResultForUser(IdentityUser user)

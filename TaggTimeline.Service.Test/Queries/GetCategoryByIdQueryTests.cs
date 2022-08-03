@@ -3,11 +3,11 @@ using MapsterMapper;
 using Moq;
 using NUnit.Framework;
 using TaggTime.Service.Handlers;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
 using TaggTimeline.Domain.Entities.Taggs;
 using TaggTimeline.Domain.Interface;
 using TaggTimeline.Service.Exceptions;
+using TaggTimeline.Service.Queries;
 using TaggTimeline.Service.Test.Mocks.Categories;
 
 namespace TaggTimeline.Service.Test.Queries;
@@ -30,7 +30,7 @@ public class GetCategoryByIdQueryTests
     public async Task Get_Category_By_Id_Should_Return_Category()
     {
         var id = CategoryTestData.InitCategories[0].Id;
-        var query = new GetCategoryByIdQuery() { Id = id };
+        var query = new GetCategoryByIdQuery() { Id = id, UserId = "testuserid" };
         var handler = new GetCategoryByIdHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
@@ -43,7 +43,7 @@ public class GetCategoryByIdQueryTests
     public void Get_Category_By_Id_Should_Throw_EntityNotFoundException()
     {
         var id = Guid.NewGuid();
-        var query = new GetCategoryByIdQuery() { Id = id };
+        var query = new GetCategoryByIdQuery() { Id = id, UserId = "testuserid" };
         var handler = new GetCategoryByIdHandler(MockedRepository.Object, MockedMapper.Object);
         
         Assert.ThrowsAsync<EntityNotFoundException>(async () => {

@@ -1,8 +1,9 @@
 
 using System.Net;
+using System.Net.Http.Headers;
 using NUnit.Framework;
-using TaggTime.Service.Queries;
 using TaggTimeline.ClientModel.Taggs;
+using TaggTimeline.Service.Queries;
 
 namespace TaggTimeline.WebApi.Test.Categories;
 
@@ -15,6 +16,7 @@ public class SearchForCategoryTests
     public void SetUp()
     {
         client = GlobalSetup.SandboxApplication.CreateClient();
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GlobalSetup.Token);
     }
 
     [Test]

@@ -30,12 +30,12 @@ public class SearchForTaggQueryTests
     public async Task Search_For_Taggs_Should_Return_Taggs()
     {
         var searchTerm = "F";
-        var query = new SearchForTaggQuery() { SearchTerm = searchTerm };
+        var query = new SearchForTaggQuery() { SearchTerm = searchTerm, UserId = "testuserid" };
         var handler = new SearchForTaggHandler(MockedRepository.Object, MockedMapper.Object);
         var result = await handler.Handle(query, CancellationToken.None);
 
         Assert.IsNotNull(result);
-        Assert.AreEqual(result.Count(), 1);
+        Assert.AreEqual(1, result.Count());
         Assert.IsInstanceOf<IEnumerable<TaggPreviewModel>>(result);
     }
 

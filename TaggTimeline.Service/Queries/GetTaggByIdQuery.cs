@@ -5,7 +5,7 @@ using TaggTimeline.ClientModel.Taggs;
 
 namespace TaggTimeline.Service.Queries;
 
-public class GetTaggByIdQuery : IRequest<TaggModel>
+public class GetTaggByIdQuery : UserCentricRequest<TaggModel>
 {
     [Required]
     public Guid Id { get; set; }

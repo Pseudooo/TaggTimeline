@@ -1,12 +1,10 @@
 
 using System.ComponentModel.DataAnnotations;
-using MediatR;
 using TaggTimeline.ClientModel.Taggs;
-using TaggTimeline.Domain.Entities.Taggs;
 
-namespace TaggTime.Service.Queries;
+namespace TaggTimeline.Service.Queries;
 
-public class GetCategoryByIdQuery : IRequest<CategoryModel>
+public class GetCategoryByIdQuery : UserCentricRequest<CategoryModel>
 {
     [Required]
     public Guid Id { get; set; }
