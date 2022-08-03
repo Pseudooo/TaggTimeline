@@ -24,8 +24,8 @@
     <EmbeddedResource Include="Scripts/00/02_InstanceDateInsertion.sql"/>
     <EmbeddedResource Include="Scripts/00/03_CreateCategoryTable.sql"/>
     <EmbeddedResource Include="Scripts/01/00_AddIdentitySchema.sql"/>
-    <EmbeddedResource Include="Scripts/02/00_TaggColour.sql"/>
     <EmbeddedResource Include="Scripts/02/00_AddUserMappingIds.sql"/>
+    <EmbeddedResource Include="Scripts/02/01_TaggColour.sql"/>
   </ItemGroup>
 
 </Project>
