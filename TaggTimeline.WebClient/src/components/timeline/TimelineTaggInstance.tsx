@@ -2,7 +2,6 @@ import { Box, SxProps, Tooltip, Typography } from "@mui/material";
 import moment from "moment";
 import { FunctionComponent } from "react";
 import { InstanceModel, TaggModel } from "../../api/generated";
-import { stringToColour } from "../../util";
 
 export interface TimelineTaggInstanceProps {
   tagg: TaggModel;
@@ -28,7 +27,7 @@ export const TimelineTaggInstance: FunctionComponent<
         sx={{
           transformOrigin: "center",
           transform: "translate(-50%, -50%)",
-          bgcolor: stringToColour(tagg.id),
+          bgcolor: tagg.colour,
           borderRadius: "100000px",
           width: "1rem",
           height: "1rem",

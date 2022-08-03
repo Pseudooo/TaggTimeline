@@ -13,7 +13,6 @@ import {
 import { FunctionComponent, useState } from "react";
 import { InstanceModel, TaggPreviewModel } from "../../api/generated";
 import { SelectTaggForm } from "./SelectTagg";
-import { stringToColour } from "../../util";
 import DatePicker from "../io/DatePicker";
 import { LoadingButton } from "@mui/lab";
 import { useAPI } from "../../contexts/API";
@@ -81,7 +80,7 @@ export const CreateTaggInstanceForm: FunctionComponent<
     <Card>
       <ListItem dense>
         <ListItemIcon>
-          <Circle sx={{ color: stringToColour(tagg.id) }} />
+          <Circle sx={{ color: tagg.colour }} />
         </ListItemIcon>
         <ListItemText primary={tagg.key} secondary={tagg.id} />
       </ListItem>

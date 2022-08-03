@@ -9,4 +9,7 @@ public class CreateTaggCommand : UserCentricRequest<TaggModel>
 {
     [Required]
     public string Key { get; set; } = null!;
+
+    [Required]
+    public string Colour { get; set; } = null!;
 }

@@ -37,6 +37,8 @@ public class GetTaggByIdQueryTests
 
         Assert.IsNotNull(result);
         Assert.IsNotEmpty(result.Key);
+        Assert.IsNotEmpty(result.Colour);
+        Assert.AreEqual(result.Colour.Length == 7 || result.Colour.Length == 4, true);
         Assert.IsInstanceOf<TaggModel>(result);
         Assert.IsNotNull(result.Instances);
         Assert.IsInstanceOf<IEnumerable<InstanceModel>>(result.Instances);

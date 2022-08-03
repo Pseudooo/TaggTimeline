@@ -41,6 +41,7 @@ public static class TestData
         new Tagg()
         {
             Key = "Climbing",
+            Colour = "#CAE9F5",
             Instances = TestData.Instances,
             Categories = Enumerable.Empty<Category>(),
             UserId = GlobalSetup.UserId,
@@ -48,6 +49,7 @@ public static class TestData
         new Tagg()
         {
             Key = "Walking",
+            Colour = "#CAE9F5",
             Instances = Enumerable.Empty<Instance>(),
             Categories = Enumerable.Empty<Category>(),
             UserId = GlobalSetup.UserId,

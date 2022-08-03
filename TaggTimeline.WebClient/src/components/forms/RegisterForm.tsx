@@ -69,8 +69,9 @@ export const RegisterForm: FunctionComponent = () => {
         const { error } = e as HttpResponse<unknown, unknown>;
         if (error === "There is already a user with that username") {
           setUsernameErrors([error]);
+        } else {
+          setGeneralErrors([error as string]);
         }
-        setGeneralErrors([error as string]);
       }
     } finally {
       setLoading(false);

@@ -26,6 +26,7 @@ public class MockTaggMapper : Mock<IMapper>
                     DeletedDate = mappedFrom.DeletedDate,
                     Categories = categoryMapper.Map<IEnumerable<CategoryPreviewModel>>(mappedFrom.Categories),
                     Instances = instanceMapper.Map<IEnumerable<InstanceModel>>(mappedFrom.Instances),
+                    Colour = mappedFrom.Colour,
                 };
             });
         
@@ -35,6 +36,7 @@ public class MockTaggMapper : Mock<IMapper>
                 {
                     Id = mappedFrom.Id,
                     Key = mappedFrom.Key,
+                    Colour = mappedFrom.Colour,
                 };
             });
 

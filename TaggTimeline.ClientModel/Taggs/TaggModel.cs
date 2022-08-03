@@ -21,4 +21,7 @@ public class TaggModel
     public IEnumerable<InstanceModel> Instances { get; set; } = null!;
 
     public IEnumerable<CategoryPreviewModel> Categories { get; set; } = null!;
+
+    [Required]
+    public string Colour {get; set; } = null!;
 }

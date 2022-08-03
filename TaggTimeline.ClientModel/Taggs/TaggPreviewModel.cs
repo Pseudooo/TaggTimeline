@@ -11,5 +11,8 @@ public class TaggPreviewModel
     public string Key { get; set; } = null!;
 
     public IEnumerable<CategoryPreviewModel> Categories { get; set; } = null!;
+
+    [Required]
+    public string Colour { get; set; } = null!;
 }
 

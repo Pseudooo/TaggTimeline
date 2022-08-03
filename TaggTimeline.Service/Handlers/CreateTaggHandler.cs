@@ -26,6 +26,7 @@ public class CreateTaggHandler : IRequestHandler<CreateTaggCommand, TaggModel>
             Key = request.Key,
             Instances = Enumerable.Empty<Instance>(),
             Categories = Enumerable.Empty<Category>(),
+            Colour = request.Colour,
             UserId = request.UserId!,
         };
 
